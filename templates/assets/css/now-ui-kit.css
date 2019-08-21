@@ -3099,7 +3099,7 @@ a {
 
 a:hover,
 a:focus {
-    color: #f96332;
+    color: #7a6c63;
 }
 
 h1,
@@ -3672,7 +3672,7 @@ body {
 }
 
 .navbar.navbar-transparent {
-    background-color: transparent !important;
+    background-color: #7a6c63 !important;
     box-shadow: none;
     color: #FFFFFF;
     padding-top: 20px;
