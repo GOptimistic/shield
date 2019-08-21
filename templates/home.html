@@ -97,8 +97,8 @@
                 <!-- 模态框 -->
                 <div id="myModal" class="modal">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h2>登录</h2>
+                            <div class="login_modal-header">
+                                <h2 class="login_model_header login_model_header_text">登录</h2>
                                 <span id="closeBtn" class="close">×</span>
                             </div>
                             <div class="modal-body">
@@ -108,14 +108,22 @@
                                     </div>
                                     <ul>
                                         <li class="home_login_input">
-                                            <i class="icon IconPeople"></i>
-                                            <input type="text" tabindex="1" name="login_name" placeholder="用户名"
-                                                data-type="login_name" class="home_login_input home_login_input_left">
+                                            <!-- <i class="icon_people"></i> -->
+                                            <div class="home_login_name_combine">
+                                                <img class="icon_people" src="assets/img/home_login_people.png" alt="">
+                                                <input type="text" tabindex="1" name="login_name" placeholder="用户名"
+                                                    data-type="login_name" class="home_login_name home_login_name_left">
+                                            </div>
+
                                         </li>
                                         <li class="home_login_input noMargin">
-                                            <i class="icon IconPwd"></i>
-                                            <input type="password" tabindex="2" name="login_password" placehelder="密码"
-                                                class="home_login_input home_login_input_left home_login_inout_no input_text">
+                                            <!-- <i class="icon_Pwd"></i> -->
+                                            <div class="home_login_pwd_combine">
+                                                <img class="icon_pwd" src="assets/img/home_login_pwd.png" alt="">
+                                                <input type="password" tabindex="2" name="login_password" placehelder="Password"
+                                                data-type="login_pwd" class="home_login_pwd home_login_input_left">
+                                            </div>
+
                                         </li>
                                     </ul>
                                 </div>

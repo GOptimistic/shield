@@ -17,9 +17,9 @@
     position: relative;
     background-color: #fefefe;
     margin: 15% auto; /*距顶部15% 水平居中*/
-    padding: 20px;
+    padding: 0px;
     border: 1px solid #888;
-    width: 80%;
+    width: 60%;
     animation: topDown 0.4s; /*自定义动画，从模态框内容上到下出现*/
 }
 @keyframes topDown {
@@ -27,21 +27,98 @@
     to {top: 0; opacity: 1}
 }
 /*模态框头部*/
-.modal-header {
+.login_modal-header {
     display: flex; /*采用flexbox布局*/
     flex-direction: row; /*水平布局*/
     align-items: center; /*内容垂直居中*/
-    justify-content: space-between; 
+    justify-content: space-between;
+    background-color: #7a6c63
+
 }
+
+.login_model_header_text{
+    color: #ffffff;
+    padding: 20px;
+    font-size: 28px;
+    margin-left: 8px;
+    margin-top: 5px;
+    /* height: 30%; */
+}
+
 /*关闭X 样式*/
 .close {
-    color: #aaa;
+    color: white;
     float: right;
-    font-size: 28px;
-    font-weight: bold;
+    font-size: 30px;
+    font-weight: middle;
+    padding: 20px;
 }
 .close:hover {
-    color: black;
+    color:white;
     text-decoration: none;
     cursor: pointer;
+    transform: scale(1.3);
+    /* rotate:  */
+}
+
+.home_login_input{
+    width: 90%;
+    height: 40px;
+    border: 1px solid #ccc;
+}
+
+.home_login_input:hover{
+    border-color: #7a6c63;
+}
+
+.home_login_name_combine{
+    float:left;
+    margin-left: 5px;
+}
+
+.home_login_name{
+    border:transparent;
+    height: 40px;
+    background-color: transparent;
+    margin-left: 3px;
+}
+
+.home_login_name:focus{
+    border:transparent;
+    box-shadow: transparent;
+}
+
+.home_login_pwd_combine{
+    float:left;
+    margin-left: 5px;
+}
+
+.home_login_pwd{
+    border:transparent;
+    height: 40px;
+    background-color: transparent;
+    margin-left: 3px;
+}
+
+.home_login_pwd:focus{
+    border:transparent;
+    box-shadow: transparent;
+}
+
+.home_login_wrap{
+    margin-top:5px;
+    margin-bottom:5px;
+}
+
+.home_login_btn{
+    color: #7a6c63;
+    font-size: 18px;
+    margin: 5px;
+    margin-top:5px;
+    margin-bottom: 5px;
+    border: 5px;
+}
+
+.home_login_btn:hover{
+    text-shadow: #000000;
 }

@@ -1,3 +1,11 @@
+.icon_people{
+    max-width: 25px;
+}
+
+.icon_pwd{
+    max-width: 25px;
+}
+
 .tim-row {
     margin-bottom: 20px;
 }
@@ -442,6 +450,7 @@
     text-transform: uppercase;
     font-weight: 300;
     color: #7a6c63;
+    margin-top: 100px;
 }
 
 .brand .n-logo {
