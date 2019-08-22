@@ -87,30 +87,39 @@
     <!-- End Navbar -->
 
     <div class="wrapper query_first_layer">
-        <div class="main query_second_layer">
-            <div class="section section-basic">
-                <div class="container">
-                    <div id="inputs">
-                        <h1>查询</h1>
-                        <p class="category">请按需要输入查询条件（至少一个）</p>
-                        <div class="query_table">
-                            <div class="query_row">
+
+        <div class="page-header clear-filter" filter-color="black">
+            <div class="page-header-image" data-parallax="true" style="background-image: url('./assets/img/bg.jpg');">
+            </div>
+            <div class="main query_second_layer">
+
+                <div class="section section-basic query_section">
+
+                    <div class="container query_container">
+                        <div id="inputs query_inputs">
+                            <h1 class="query_title">查询</h1>
+                            <p class=" query_subtitle">请按需要输入查询条件（至少一个）</p>
+                            <div class="query_table">
+                                <div class="query_row">
                                     <h5 class="query_id query_id_text">身份证：</h5>
                                     <div class="form-group query_id query_id_input">
-                                            <input type="text" value="" placeholder="" class="form-control query_form" />
+                                        <input type="text" value="" placeholder="" class="form-control query_form" />
                                     </div>
-                            </div>    
-                            <div class="query_row">
-                                <h5 class="query_loanNumber query_loanNumber_text">贷款单号：</h5>
-                                <div class="query_loanNumber query_loanNumber_input">
-                                    <input type="text" value="" class="form-control form-control-success query_form" />
                                 </div>
-                            </div>
-                            <div class="query_row">
+                                <div class="query_row">
+                                    <h5 class="query_loanNumber query_loanNumber_text">贷款单号：</h5>
+                                    <div class="query_loanNumber query_loanNumber_input">
+                                        <input type="text" value=""
+                                            class="form-control form-control-success query_form" />
+                                    </div>
+                                </div>
+                                <div class="query_row">
                                     <h5 class="query_date query_date_text">贷款日期：</h5>
                                     <div class="query_date query_date_input">
-                                        <input type="text" value="" class="form-control date-picker query_form" data-datepicker-color="primary"/>
+                                        <input type="text" value="" class="form-control date-picker query_form"
+                                            data-datepicker-color="primary" />
                                     </div>
+                                </div>
                             </div>
                         </div>
                     </div>

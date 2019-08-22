@@ -2,20 +2,42 @@
     margin-left: auto;
     margin-right:auto;
     /* margin-top:13%; */
-    padding-top: 13%;
+    /* padding-top: 13%; */
+    background: transparent;
 }
 
-/* .query_second_layer{
-    width:200px;
-            height:200px;
-            margin: auto;  
-            position: absolute;  
-            top: 0; left: 0; bottom: 0; right: 0; 
-            background-color: red;
-} */
+.query_second_layer{
+    background: transparent;
+}
+
+.query_section{
+    background: transparent;
+    padding-top: 18%;
+}
+
+.query_inputs{
+    color: black;
+}
+
+.query_title{
+    color:black;
+    position: relative;
+    width: 100%;
+    float:left;
+    padding-right:800px;
+
+}
+
+.query_subtitle{
+    color:black;
+    font-weight: 700;
+    padding-right:670px;
+}
 
 .query_table{
-    margin-top:3%;
+    margin-top:5%;
+    margin-left:20px;
+    color: black;
 }
 
 .query_row{
@@ -41,7 +63,7 @@
 }
 
 .query_id_text{
-    max-width: 15%;
+    max-width: 20%;
     padding-left: 15px;
     margin-left: 8px;
 }
@@ -50,7 +72,7 @@
     float:right;
     width: 100px;
     flex: 0 0 75%;
-    border-color: #7a6c63; 
+    border-color: #7a6c63;
 }
 
 .query_loanNumber{
@@ -65,24 +87,24 @@
 }
 
 .query_loanNumber_text{
-    max-width: 15%;
+    max-width: 20%;
 }
 
 .query_loanNumber_input{
     float:right;
     width: 100px;
     flex: 0 0 75%;
-    border-color: #7a6c63; 
+    border-color: #7a6c63;
     margin-left:9px;
 }
 
 .query_form{
-    border:1px solid #cdcdcd; 
+    border:1px solid #cdcdcd;
     height: 36px;
     font:20px;
 }
 
-.query_dater{
+.query_date{
     -ms-flex: 0 0 25%;
     flex: 0 0 25%;
     /* max-width: 25%; */
@@ -94,7 +116,7 @@
 }
 
 .query_date_text{
-    max-width: 15%;
+    max-width: 20%;
 }
 
 .query_date_input{
