@@ -1,0 +1,22 @@
+.lending_input_center{
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-top: 10%;
+}
+
+.lending_input_text{
+    border-radius: 5px;
+}
+
+.lending_input_text:focus{
+    border: 1px solid #707070;
+}
+
+.lending_h3{
+    font-size: 3em;
+    font-weight: 600;
+    margin-bottom: 30px;
+    line-height: 1.4em;
+}

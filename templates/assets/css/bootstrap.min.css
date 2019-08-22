@@ -1655,7 +1655,7 @@ pre code {
     background-image: none;
     background-clip: padding-box;
     border: 1px solid rgba(0, 0, 0, .15);
-    border-radius: .25rem;
+    border-radius: .5rem;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
 }
 
