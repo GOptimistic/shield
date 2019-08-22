@@ -101,7 +101,7 @@
 .query_form{
     border:1px solid #cdcdcd;
     height: 36px;
-    font:20px;
+    font-size: 20px;
 }
 
 .query_date{
