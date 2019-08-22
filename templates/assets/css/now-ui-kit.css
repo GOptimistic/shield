@@ -7,6 +7,14 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
+ .our_nav_menu{
+    font-size:20px;
+ }
+
+ .our_nav_menu_container{
+    font-size:15px;
+ }
+
 .bootstrap-switch {
     display: inline-block;
     direction: ltr;
@@ -3591,7 +3599,7 @@ body {
 
 .navbar .navbar-nav .nav-link:not(.btn) {
     text-transform: uppercase;
-    font-size: 0.7142em;
+    /*font-size: 0.7142em;*/
     padding: 0.5rem 0.7rem;
     line-height: 1.625rem;
 }
@@ -3644,7 +3652,7 @@ body {
 
 .navbar .navbar-brand {
     text-transform: uppercase;
-    font-size: 0.8571em;
+    /*font-size: 0.8571em;*/
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     line-height: 1.625rem;
@@ -3784,8 +3792,8 @@ body {
 }
 
 .dropdown-menu .dropdown-header:not([href]):not([tabindex]) {
-    color: rgba(182, 182, 182, 0.6);
-    font-size: 0.7142em;
+    color: rgba(182, 182, 182, 0.8);
+    font-size: 1em;
     text-transform: uppercase;
     font-weight: 700;
 }
