@@ -7,12 +7,21 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
- .our_nav_menu{
+.our_nav_menu{
     font-size:20px;
  }
 
  .our_nav_menu_container{
     font-size:15px;
+ }
+
+ .top_dropdown_header{
+    font-size:10px;
+    display: block;
+    padding: .5rem 1.5rem;
+    margin-bottom: 0;
+    color: #868e96;
+    white-space: nowrap;
  }
 
 .bootstrap-switch {
