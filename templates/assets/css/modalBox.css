@@ -122,3 +122,9 @@
 .home_login_btn:hover{
     text-shadow: #000000;
 }
+
+.home_login_start{
+    cursor: pointer;
+    font-weight: bolder;
+    font-size: 25px;
+}

@@ -1,0 +1,106 @@
+.query_first_layer{
+    margin-left: auto;
+    margin-right:auto;
+    /* margin-top:13%; */
+    padding-top: 13%;
+}
+
+/* .query_second_layer{
+    width:200px;
+            height:200px;
+            margin: auto;  
+            position: absolute;  
+            top: 0; left: 0; bottom: 0; right: 0; 
+            background-color: red;
+} */
+
+.query_table{
+    margin-top:3%;
+}
+
+.query_row{
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    max-width: 80%;
+    margin-bottom: 10px;
+}
+
+.query_id{
+    -ms-flex: 0 0 25%;
+    flex: 0 0 25%;
+    /* max-width: 25%; */
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    /* padding-right: 10px; */
+    /* padding-left: 15px; */
+}
+
+.query_id_text{
+    max-width: 15%;
+    padding-left: 15px;
+    margin-left: 8px;
+}
+
+.query_id_input{
+    float:right;
+    width: 100px;
+    flex: 0 0 75%;
+    border-color: #7a6c63; 
+}
+
+.query_loanNumber{
+    -ms-flex: 0 0 25%;
+    flex: 0 0 25%;
+    /* max-width: 25%; */
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    /* padding-right: 10px; */
+    /* padding-left: 15px; */
+}
+
+.query_loanNumber_text{
+    max-width: 15%;
+}
+
+.query_loanNumber_input{
+    float:right;
+    width: 100px;
+    flex: 0 0 75%;
+    border-color: #7a6c63; 
+    margin-left:9px;
+}
+
+.query_form{
+    border:1px solid #cdcdcd; 
+    height: 36px;
+    font:20px;
+}
+
+.query_dater{
+    -ms-flex: 0 0 25%;
+    flex: 0 0 25%;
+    /* max-width: 25%; */
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    /* padding-right: 10px; */
+    /* padding-left: 15px; */
+}
+
+.query_date_text{
+    max-width: 15%;
+}
+
+.query_date_input{
+    float:right;
+    width: 100px;
+    flex: 0 0 75%;
+    border-color: #7a6c63; 
+    margin-left:9px;
+}

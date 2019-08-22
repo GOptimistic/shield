@@ -686,7 +686,7 @@
 }
 
 .datepicker.datepicker-primary {
-    background-color: #f96332;
+    background-color: #7a6c63;
 }
 
 .datepicker.datepicker-primary th,
@@ -696,11 +696,11 @@
 }
 
 .datepicker.datepicker-primary:after {
-    border-bottom-color: #f96332;
+    border-bottom-color: #7a6c63;
 }
 
 .datepicker.datepicker-primary.datepicker-orient-top:after {
-    border-top-color: #f96332;
+    border-top-color: #7a6c63;
 }
 
 .datepicker.datepicker-primary .dow {
@@ -731,7 +731,7 @@
 .datepicker.datepicker-primary table tr td.active.disabled div,
 .datepicker.datepicker-primary table tr td.active.disabled:hover div {
     background-color: #FFFFFF;
-    color: #f96332;
+    color: black;
 }
 
 .datepicker.datepicker-primary table tr td.day:hover div,
