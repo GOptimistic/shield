@@ -123,6 +123,30 @@
     float:right;
     width: 100px;
     flex: 0 0 75%;
-    border-color: #7a6c63; 
+    border-color: #7a6c63;
     margin-left:9px;
+}
+
+.query_button_submit{
+    background-color: #7a6c63;
+    font-size: 16px;
+    margin-left: 50%;
+}
+
+.query_button_submit:hover{
+    background-color:#7a6c63;
+    font-size: 16px;
+    margin-left: 50%;
+}
+
+.query_button_submit:active{
+    background-color:#7a6c63;
+    font-size: 16px;
+    margin-left: 50%;
+}
+
+.query_button_submit:focus{
+    background-color:#7a6c63;
+    font-size: 16px;
+    margin-left: 50%;
 }
