@@ -1,38 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/logo_title.png">
-    <link rel="icon" type="image/png" href="./assets/img/logo_title.png">
-    <title>Shield-还款</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>还款界面</title>
+	<meta name="keywords" content="index">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<link rel="icon" type="image/png" href="assets/img/favicon_repayment.png">
+	<link rel="apple-touch-icon-precomposed" href="assets/img/app-icon72x72@2x.png">
+	<meta name="apple-mobile-web-app-title" content="Amaze UI" />
+	<link rel="stylesheet" href="assets/css/amazeui.min.css" />
+	<link rel="stylesheet" href="assets/css/admin.css">
+	<link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body>
-<div>
-    <span class="repay-head">
-        <h1>还款界面</h1>
-    </span>
-</div>
-<div>
-        <div class="search">
-            <div class="search-methods-drop">
-                <select id="search-methods" name="search-methods">
-                    <option value="identity-num">身份证号</option>
-                    <option value="serial-num">流水单号</option>
-                </select>
-            </div>
-            <form>
-                号码：<input type="text" name="search-methods-num" value="">
-                <input type="submit" value="查询">
-            </form>
-        </div>
-        <div class="need-repay-info">
-        	<p>应该插入一个类似表格的东西，<br>
-        		可以在其中选中某项，<br>
-        	并且需要获取选中的条目</p>
-        </div>
-        <div class="repay-button">
-       		 <button id='repay-button' type="submit">还款</button>
-   		 </div>
-</div>
+	<div cladd="tpl-page-container tpl-page-header-fixed">
+		<div class="tpl-content-wrapper">
+			<div class="tpl-portlet-components">
+				<div class="portlet-title">
+					<div class="tpl-block">
+						<div class="am-g">
+							<div class="am-u-sm-12 am-u-md-3">
+								<div class="am-form-group">
+									<select data-am-selected="{btnSize: 'sm'}">
+										<option value="option1">身份证号</option>
+										<option value="option2">流水单号</option>
+									</select>
+								</div>
+							</div>
+							<div class="am-u-sm-12 am-u-md-3">
+								<div class="am-input-group am-input-group-sm">
+									<input type="text" class="am-form-field">
+									<span class="am-input-group-btn">
+										<button class="am-btn  am-btn-default am-btn-success tpl-am-btn-success am-icon-search" type="button" onclick="searchFunction()"></button>
+										<script type="text/javascript">
+											function searchFunction(){
+												var my_tbody = document.getElementById("need-repay-info");
+												my_tbody.innerHTML = "";
+
+												var context = ["赵一样","123456123456789123","11111111","1123.12","小额贷款","2013-03-03  7:28:47"];
+												var totalnum = 3;
+												var index = 1;
+												for(var i=0;i<totalnum;i++){
+													my_tbody.innerHTML = my_tbody.innerHTML+'<'+
+													'tr><td><input type="checkbox"></td><td>'+
+													index+'</td><td class="am-hide-sm-only">'+
+													context[0]+'</td><td>'+
+													context[1]+'</td><td>'+
+													context[2]+'</td><td>'+
+													context[3]+'</td><td>'+
+													context[4]+'</td><td class="am-hide-sm-only">'+
+													context[5]+'</td><td><div class="am-btn-toolbar">'+
+													'<div class="am-btn-groupam-btn-group-xs"><button '+
+													'class="am-btn am-btn-default am-btn-xs am-text-secondary">'+
+													'<span class="am-icon-pencil-square-o"></span>'+
+													'还款</button></div></div></td></tr>';
+
+													index+=1;
+												}
+											};
+										</script>
+									</span>
+
+								</div>
+							</div>
+						</div>
+						<div class="am-g">
+							<div class="am-u-sm-12">
+								<form class="am-form">
+									<table class="am-table am-table-striped am-table-hover table-main">
+										<thead>
+											<tr>
+												<th class="table-check"><input type="checkbox" class="tpl-table-fz-check"></th>
+												<th class="table-id">ID</th>
+												<th class="table-author am-hide-sm-only">姓名</th>
+												<th calss="table-title table-title-id">身份证号</th>
+												<th class="table-title">贷款单号</th>
+												<th class="table-type">贷款类别</th>
+												<th class="table-type">贷款金额</th>
+												<th class="table-date am-hide-sm-only">		贷款日期			</th>
+												<th class="table-set">操作</th>
+											</tr>
+										</thead>
+										<tbody id="need-repay-info">
+										</tbody>
+									</table>
+
+									<hr>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+<script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/amazeui.min.js"></script>
+        <script src="assets/js/app.js"></script>
 </body>
 </html>
