@@ -686,7 +686,7 @@
 }
 
 .datepicker.datepicker-primary {
-    background-color: #f96332;
+    background-color: #7a6c63;
 }
 
 .datepicker.datepicker-primary th,
@@ -696,11 +696,11 @@
 }
 
 .datepicker.datepicker-primary:after {
-    border-bottom-color: #f96332;
+    border-bottom-color: #7a6c63;
 }
 
 .datepicker.datepicker-primary.datepicker-orient-top:after {
-    border-top-color: #f96332;
+    border-top-color: #7a6c63;
 }
 
 .datepicker.datepicker-primary .dow {
@@ -731,7 +731,7 @@
 .datepicker.datepicker-primary table tr td.active.disabled div,
 .datepicker.datepicker-primary table tr td.active.disabled:hover div {
     background-color: #FFFFFF;
-    color: #f96332;
+    color: black;
 }
 
 .datepicker.datepicker-primary table tr td.day:hover div,
@@ -1582,7 +1582,7 @@ fieldset[disabled] .navbar .navbar-nav>a.btn.active {
 .show>.btn-primary.dropdown-toggle,
 .show>.btn-primary.dropdown-toggle:focus,
 .show>.btn-primary.dropdown-toggle:hover {
-    background-color: #fa7a50;
+    background-color: #7a6c63;
     color: #FFFFFF;
     box-shadow: none;
 }
@@ -2267,7 +2267,7 @@ fieldset[disabled] .btn-link.active {
 .form-control {
     background-color: transparent;
     border: 1px solid #E3E3E3;
-    border-radius: 30px;
+    border-radius: 5px;
     color: #2c2c2c;
     line-height: normal;
     font-size: 0.8571em;
