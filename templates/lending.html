@@ -83,56 +83,64 @@
         </div>
     </nav>
     <!-- End Navbar -->
-    <div class="lending_input_center" >
-        <div class="wrapper lending_wrapper">
-            <div class="page-header-image" data-parallax="true" style="background-image: url('./assets/img/bg.jpg');">
+    <div class="wrapper lending_wrapper">
+        <div class="page-header clear-filter" filter-color="black">
+         <div class="page-header-image" data-parallax="true" style="background-image: url('./assets/img/bg.jpg');">
+         </div>
+        <div class="lending_input_center" >
             <!--<div class="main lending_main">-->
-                <!--<div class="container lending_container">-->
+                <div class="container lending_container">
                     <div id="inputs">
-                        <h1>借贷</h1>
+                        <h1 class="lending_h">借贷</h1>
                         <div class="row lending_row">
                             <div class="col-sm-6 col-lg-3">
                                 <div class="form-group">
-                                    <h6>姓名</h6>
+                                    <h6 class="lending_h6">姓名</h6>
                                         <input type="text" id="lending_input_name" value="" placeholder="姓名" class="form-control lending_input_text" />
                                 </div>
                             </div>
                             <div class="col-sm-6 col-lg-3">
                                 <div class="form-group">
-                                    <h6>身份证号</h6>
+                                    <h6 class="lending_h6">身份证号</h6>
                                     <input type="text" id="lending_input_ID" value="" placeholder="身份证号" class="form-control lending_input_text" />
                                 </div>
                             </div>
                             <div class="col-sm-6 col-lg-3">
                                 <div class="form-group">
-                                    <h6>手机号码</h6>
+                                    <h6 class="lending_h6">手机号码</h6>
                                     <input type="text" id="lending_input_phonenum" value="" placeholder="手机号码" class="form-control lending_input_text" />
                                 </div>
                             </div>
                             <div class="col-sm-6 col-lg-3">
                                 <div class="form-group">
-                                        <h6>贷款类型</h6>
+                                        <h6 class="lending_h6">贷款类型</h6>
                                         <input type="text" id="lending_input_type" value="" placeholder="贷款类型" class="form-control lending_input_text" />
                                 </div>
                             </div>
                             <div class="col-sm-6 col-lg-3">
                                 <div class="form-group">
-                                        <h6>贷款金额</h6>
+                                        <h6 class="lending_h6">贷款金额</h6>
                                         <input type="text" id="lending_input_money" value="" placeholder="贷款金额" class="form-control lending_input_text" />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="datepicker-container">
                                     <div class="form-group">
-                                        <h6>还款期限</h6>
+                                        <h6 class="lending_h6">还款期限</h6>
                                         <input type="text" id="lending_input_date" class="form-control date-picker lending_input_text" value="10/05/2016"  data-datepicker-color="primary">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="lending_buttons">
+                    <button class="btn btn-primary lending_btn" type="button">
+                        分析
+                    </button>
+                    </div>
                </div>
-           <!-- </div>-->
+           </div>
+        </div>
         </div>
     </div>
 </body>

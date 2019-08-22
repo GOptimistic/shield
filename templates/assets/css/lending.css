@@ -8,17 +8,23 @@
 
 .lending_input_text{
     border-radius: 5px;
+    border-color: #7a6c63;
+    background: transparent;
 }
 
 .lending_input_text:focus{
     border: 1px solid #707070;
+    background: white;
 }
 
-.lending_h3{
-    font-size: 3em;
-    font-weight: 600;
-    margin-bottom: 30px;
-    line-height: 1.4em;
+.lending_h6{
+    color:black;
+    padding-right: 70%;
+}
+.lending_h{
+    color:black;
+    padding-right: 70%;
+    padding-top: 10%;
 }
 
 .lending_row{
@@ -37,4 +43,17 @@
 .lending_container{
     background: transparent;
 }
+
+.lending_btn{
+    background: #7a6c63;
+    padding-top: 15px;
+    padding-left: 48px;
+    padding-right: 48px;
+    font-size: 20px;
+}
+
+.lending_buttons{
+    padding-top: 7%;
+}
+
 
