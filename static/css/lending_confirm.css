@@ -1,0 +1,21 @@
+.lending_confirm_container{
+    padding-top: 17%;
+    padding-left: 20%;
+}
+
+.lending_confirm_h5{
+    color:black;
+    padding-left: 0%;
+}
+
+.lending_confirm_btndiv{
+    padding-left: 10%;
+}
+
+.lending_confirm_btn{
+    background: #7a6c63;
+    padding-top: 15px;
+    padding-left: 48px;
+    padding-right: 48px;
+    font-size: 20px;
+}
