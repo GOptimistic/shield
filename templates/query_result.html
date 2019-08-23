@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>查询结果</title>
+    <meta name="keywords" content="index">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <!-- css stylesheet -->
+    <link rel="stylesheet" href="../static/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="../static/css/admin.css"/>
+    <link rel="stylesheet" href="../static/css/app.css"/>
+    <link rel="stylesheet" herf="../static/css/query.css" />
+    <link rel="stylesheet" herf="../static/css/now-ui-kit.css"/>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css"/>
+
+    <!--下面试导航栏的样式表！！
+    不要动！！！！！！！！！！！！！！！！
+    ！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！-->
+    <link rel="apple-touch-icon" sizes="76x76" href="../static/img/logo_title.png">
+    <link rel="icon" type="image/png" href="../static/img/logo_title.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Shield-分析结果</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+        name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <!-- CSS Files -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../static/css/now-ui-kit.css?v=1.1.0" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="../static/css/demo.css" rel="stylesheet" />
+    <!-- Canonical SEO -->
+    <link rel="canonical" href="" />
+    <!--  Social tags      -->
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" type="text/css" href="../static/css/modalBox.css">
+    <link rel="stylesheet" href="../static/css/query.css">
+    <link rel="stylesheet" href="../static/css/results.css">
+    <!--导航栏样式表结束！！！！！！！！！！！！！！！！-->
+</head>
+<body>
+<!-- Navbar导航条 -->
+    <nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent " color-on-scroll="400">
+        <div class="container">
+            <div class="content-center brand">
+                <img class="n-logo" src="../static/img/home_logo_long.png" alt="">
+            </div>
+            <ul class="navbar-nav our_nav">
+                <a class="navbar-brand our_nav_menu">菜单</a>
+                <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#example-navbar" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-bar bar1"></span>
+                    <span class="navbar-toggler-bar bar2"></span>
+                    <span class="navbar-toggler-bar bar3"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="example-navbar"
+                    data-nav-image="../static/img/blurred-image-1.jpg">
+                    <ul class="navbar-nav our_nav_menu_contains">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                首页
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=".\lending.html">
+                                贷款
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href=".\repayment.html">
+                                还款
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=".\query.html">
+                                查询
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
+                                data-toggle="dropdown">
+                                <i class="now-ui-icons ui-1_settings-gear-63"
+                                    aria-hidden="true"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right"
+                                aria-labelledby="navbarDropdownMenuLink">
+                                <a class="top_dropdown_header dropdown-header">账户管理</a>
+                                <a class="dropdown-item" href="#">账户信息</a>
+                                <!-- <a class="dropdown-item" href="#">修改密码</a>
+                                <a class="dropdown-item" href="#">退出登录</a> -->
+                                <div class="divider"></div>
+                                <a class="dropdown-item" href="#">修改密码</a>
+                                <div class="divider"></div>
+                                <a class="dropdown-item" href="#">退出登录</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </ul>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+
+<!-- main context -->
+<div class="tpl-page-container tpl-page-header-fixed">
+    <div class="tpl-content-wrapper">
+        <!-- result-table -->
+        <div class="tpl-portlet-components">
+            <div class="portlet-title">
+                <div class="tpl-block">
+                    <div class="am-g">
+                        <div class="am-u-sm-12">
+                            <form class="am-form">
+                                <table class="am-table am-table-striped am-table-hover table-main">
+                                    <thead>
+                                    <tr>
+                                        <th class="table-author am-hide-sm-only">姓名</th>
+                                        <th calss="table-title table-title-id">身份证号</th>
+                                        <th class="table-title">贷款单号</th>
+                                        <th class="table-type">贷款类别</th>
+                                        <th class="table-type">贷款金额</th>
+                                        <th class="table-date am-hide-sm-only">贷款日期</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="need-repay-info">
+                                    <tr>
+                                        <td class="am-hide-sm-only">赵一样</td>
+                                        <td>123456123456789123</td>
+                                        <td>11111111</td>
+                                        <td>1123.12</td>
+                                        <td>小额贷款</td>
+                                        <td class="am-hide-sm-only">2013-03-03 7:28:47</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- finish result table -->
+
+        <!-- select analysis -->
+        <div>
+            <div class="wrapper">
+                <div class="main">
+                    <div class="section section-basic">
+                        <div class="container">
+                            <div class="row" id="checkRadios">
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="checkbox query_checkbox">
+                                        <input id="checkbox1" type="checkbox">
+                                        <label class="query-checkbox-label" for="checkbox1">
+                                            预测分析
+                                        </label>
+                                    </div>
+                                    <div class="checkbox query_checkbox">
+                                        <input id="checkbox2" type="checkbox">
+                                        <label class="query-checkbox-label" for="checkbox2">
+                                            行为图像
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <!-- blank for style -->
+                                </div>
+                                <div class="col-md-10 col-sm-6  col-lg-3 query_button">
+                                    <button class="btn btn-primary query-button-analysis">分析</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- finish select analysis -->
+    </div>
+</div>
+
+</body>
+</html>
