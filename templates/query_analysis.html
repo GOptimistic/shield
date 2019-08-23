@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
+     <meta charset="utf-8" />
     <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/logo_title.png">
     <link rel="icon" type="image/png" href="./assets/img/logo_title.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Shield</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-
+    <title>Shield-查询</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+        name='viewport' />
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
     <!-- CSS Files -->
     <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="./assets/css/now-ui-kit.css?v=1.1.0" rel="stylesheet" />
-    <link href="./assets/css/lending_confirm.css" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="./assets/css/demo.css" rel="stylesheet" />
     <!-- Canonical SEO -->
@@ -22,9 +21,11 @@
     <!--  Social tags      -->
     <meta name="keywords" content="">
     <meta name="description" content="">
+    <link rel="stylesheet" type="text/css" href="./assets/css/modalBox.css">
+     <link href="./assets/css/lending_analysis.css" rel="stylesheet" />
 </head>
-<body>
-   <!-- Navbar导航条 -->
+<body class="index-page sidebar-collapse">
+    <!-- Navbar导航条 -->
     <nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent " color-on-scroll="400">
         <div class="container">
             <div class="content-center brand">
@@ -47,7 +48,7 @@
                                 首页
                             </a>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href=".\lending.html">
                                 贷款
                             </a>
@@ -57,7 +58,7 @@
                                 还款
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" href=".\query.html">
                                 查询
                             </a>
@@ -90,49 +91,17 @@
         <div class="page-header clear-filter" filter-color="black">
             <div class="page-header-image" data-parallax="true" style="background-image: url('./assets/img/bg.jpg');">
             </div>
-            <div class="container lending_confirm_container">
-                <div class="row ">
-                    <h5 class="lending_confirm_h5">  姓名：</h5>
-                    <h5 class="lending_confirm_h5" id="lending_confirm_name">xxx</h5>
-                </div>
-                <div class="row ">
-                        <h5 class="lending_confirm_h5">身份证号：</h5>
-                        <h5 class="lending_confirm_h5" id="lending_confirm_name">xxxxxxxxxxxxxxxxxxxx</h5>
-                </div>
-                <div class="row ">
-                        <h5 class="lending_confirm_h5">手机号码：</h5>
-                        <h5 class="lending_confirm_h5" id="lending_confirm_name">12345678901</h5>
-                </div>
-                <div class="row ">
-                        <h5 class="lending_confirm_h5">贷款种类：</h5>
-                        <h5 class="lending_confirm_h5" id="lending_confirm_name">小额贷款</h5>
-                </div>
-                <div class="row ">
-                        <h5 class="lending_confirm_h5">贷款金额：</h5>
-                        <h5 class="lending_confirm_h5" id="lending_confirm_name">xxxxxxxxx</h5>
-                </div>
-                <div class="row ">
-                        <h5 class="lending_confirm_h5">贷款期限：</h5>
-                        <h5 class="lending_confirm_h5" id="lending_confirm_name">10/9/2020</h5>
-                </div>
-                <div class="lending_confirm_btnrow">
-                    <div class="row">
-                      <div class="lending_confirm_btndiv" >
-                    <button class="btn btn-primary lending_confirm_btn"  type="button">
-                        继续贷款
-                    </button>
-                </div>
-                <div class="lending_confirm_btndiv" >
-                    <button class="btn btn-primary lending_confirm_btn"  type="button">
-                        返回修改
-                    </button>
-                </div>
-                </div>
+            <div class="container lending_analysis_container">
+                <div align="center">
+                    <h1 class="lending_analysis_h" style="text-align:center">分析报告</h1>
+                    <div class="row ">
                     </div>
+                </div>
+                <div class="report">
+
                 </div>
             </div>
         </div>
     </div>
-
 </body>
 </html>

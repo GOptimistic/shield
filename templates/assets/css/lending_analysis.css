@@ -1,0 +1,44 @@
+.lending_analysis_h{
+    padding-top: 10%;
+    align-items: center;
+    color: black;
+}
+
+.report{
+     border:1px solid #00000000;
+    background: whitesmoke;
+    border-radius: 10px;
+    top: 25%;
+    left: 5%;
+    right:5%;
+    width: 100%;
+    min-height: 50%;
+    height: auto;
+}
+
+.lending_analysis_container{
+    background:transparent;
+}
+
+.lending_analysis_btnleftdiv{
+    width: 50%;
+    align-items: center;
+}
+
+.lending_analysis_btnrightdiv{
+    width: 50%;
+    align-items: center;
+}
+.lending_analysis_btn{
+    background: #7a6c63;
+    padding-top: 15px;
+    padding-left: 48px;
+    padding-right: 48px;
+    font-size: 20px;
+}
+
+.lending_analysis_btnrow{
+    left:5%;
+    right:5%;
+}
+
