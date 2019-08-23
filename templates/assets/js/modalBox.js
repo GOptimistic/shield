@@ -39,3 +39,22 @@
 	modalBox.init();
  
 })();
+
+
+/*按钮弹出模态框*/
+function lending_confirm_pop_box(){
+    var container = document.getElementById('div-container');
+    container.style.display="block";
+}
+
+/*取消事件*/
+function cancle(){
+    var container = document.getElementById('div-container');
+    container.style.display="none";
+}
+
+/*确认事件，因为现在没有确认事件，就将弹出框隐藏*/
+function confrim(){
+    var container = document.getElementById('div-container');
+    container.style.display="none";
+}

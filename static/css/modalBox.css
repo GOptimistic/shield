@@ -128,3 +128,66 @@
     font-weight: bolder;
     font-size: 25px;
 }
+
+#box{
+    width: 80px;
+    height: 40px;
+    background: #fd7430;
+    border:none;
+    border-radius: 5px;
+    outline: none;
+    color: #fff;
+}
+
+.div-container{
+    position: fixed;
+    top: 0%;
+    width: 100%;
+    height: 100%;
+    z-index:200;
+    background: rgba(0,0,0,0.5) !important;/* 兼容ie几不知道，好像ie5 */
+    background:#000;
+    filter:Alpha(opacity=60);
+}
+/*设置div-child的父元素主要是将要此元素的父元素透明特性继承过来，故div-child不会半透明，而是不透明，解决了父元素透明，子元素也透明的bug */
+.div-child-container{
+    position: relative;
+    width: 400px;
+    height: 200px;
+    margin: auto;
+    top: 30%;
+    background: #fff;
+    z-index: 250; /*z-index要放在父元素之上 */
+}
+
+.div-child{
+    width: 400px;
+    height: 200px;
+    margin:auto;
+    background: #fff;
+    z-index: 300; /*z-index要放在父元素之上 */
+    text-align: center;
+    margin-radius: 10px;
+}
+
+.div-child span{
+    position: relative;
+    top: 40px;
+}
+
+.div-child .my-btn{
+    margin-top: 80px;
+}
+.div-child .my-btn button{
+    width: 80px;
+    height: 40px;
+    background:#fd7430;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    outline: none;
+}
+
+.div-child.my-btn button:first-child(){
+    margin-right: 20px;
+}
