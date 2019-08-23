@@ -15,6 +15,7 @@
 	/*模态框关闭*/
 	modalBox.close = function() {
 		this.modal.style.display = "none";
+
 	}
 	/*当用户点击模态框内容之外的区域，模态框也会关闭*/
 	modalBox.outsideClick = function() {
