@@ -150,3 +150,31 @@
     font-size: 16px;
     margin-left: 50%;
 }
+
+.query-checkbox-label{
+    font-size: 20px;
+}
+
+.query-button-analysis{
+     background-color: #7a6c63;
+    font-size: 20px;
+    margin-left: 50%;
+}
+
+.query-button-analysis:hover{
+     background-color:#7a6c63;
+    font-size: 20px;
+    margin-left: 50%;
+}
+
+.query-button-analysis:active{
+     background-color:#7a6c63;
+    font-size: 20px;
+    margin-left: 50%;
+}
+
+.query-button-analysis:focus{
+     background-color:#7a6c63;
+    font-size: 20px;
+    margin-left: 50%;
+}
