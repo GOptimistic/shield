@@ -20,5 +20,7 @@ def others(request,file):
         return render(request, 'query.html')
     if (file == 'query_analysis'):
         return render(request, 'query_analysis.html')
+    if (file == 'query_result'):
+        return render(request, 'query_result.html')
     if (file == 'home'):
         return render(request, 'home.html')
