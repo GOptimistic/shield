@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from django.urls import re_path
+from shieldServer import views
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('index/', views.home),
+    re_path(r'^index/(\w+).html$',views.others)
 ]
