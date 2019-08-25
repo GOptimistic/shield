@@ -13,7 +13,7 @@ def others(request,file):
     if (file == 'lending_confirm'):
         return render(request, 'lending_confirm.html')
     if (file == 'lending_results'):
-        return render(request, 'lending_confirm.html')
+        return render(request, 'lending_results.html')
     if (file == 'login'):
         return render(request, 'login.html')
     if (file == 'query'):
