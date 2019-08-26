@@ -32,6 +32,11 @@
     background: transparent;
 }
 
+.lending_row_radio{
+    padding-top:0px;
+    background: transparent;
+}
+
 .lending_wrapper{
     background: transparent;
 }
@@ -54,6 +59,15 @@
 
 .lending_buttons{
     padding-top: 7%;
+}
+
+.lending_radio_label{
+    color:black;
+}
+
+.lending_radio{
+    padding-left:5%;
+    border-color: #7a6c63;
 }
 
 
