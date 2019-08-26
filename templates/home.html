@@ -123,24 +123,24 @@
                                     <li class="home_login_input">
                                         <div class="home_login_name_combine">
                                             <img class="icon_people" src="../static/img/home_login_people.png" alt="">
-                                            <input type="text" tabindex="1" name="login_name" placeholder="用户名"
-                                                   data-type="login_name" class="home_login_name home_login_name_left">
+                                            <input type="text" tabindex="1" id="login-name" placeholder="用户名"
+                                                    class="home_login_name home_login_name_left">
                                         </div>
                                     </li>
 
                                     <li class="home_login_input noMargin">
                                         <div class="home_login_pwd_combine">
                                             <img class="icon_pwd" src="../static/img/home_login_pwd.png" alt="">
-                                            <input type="password" tabindex="2" name="login_password" placehelder="Password"
-                                                   data-type="login_pwd" class="home_login_pwd home_login_input_left">
+                                            <input type="password" tabindex="2" id="login-password" placehelder="Password"
+                                                    class="home_login_pwd home_login_input_left">
                                         </div>
                                     </li>
                                 </ul>
                             </div>
                             <div class="home_login_wrap">
-                                <a href="javascript:;" class="home_login_btn" @click="login">
+                                <button id="login-button" class="home_login_btn" >
                                     登录
-                                </a>
+                                </button>
                         </div>
                     </div>
                 </div>
@@ -150,6 +150,8 @@
     </div>
 </body>
 
+<!-- my js file -->
+ <script src="../static/js/login.js" type="text/javascript"></script>
 <!--   Core JS Files   -->
 <script src="../static/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
 <script src="../static/js/core/popper.min.js" type="text/javascript"></script>

@@ -20,6 +20,6 @@ from shieldServer import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.home),
-    path('login/',views.login),
+    path('login/', views.login, name='login'),
     re_path(r'^index/(\w+).html$',views.others)
 ]
