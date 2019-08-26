@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -24,3 +24,6 @@ def others(request,file):
         return render(request, 'query_result.html')
     if (file == 'home'):
         return render(request, 'home.html')
+
+def login(request):
+    pass

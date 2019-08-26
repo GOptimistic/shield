@@ -76,6 +76,8 @@
                                 aria-labelledby="navbarDropdownMenuLink">
                                 <a class="top_dropdown_header dropdown-header">账户管理</a>
                                 <a class="dropdown-item" href="#">账户信息</a>
+                                <!-- <a class="dropdown-item" href="#">修改密码</a>
+                                <a class="dropdown-item" href="#">退出登录</a> -->
                                 <div class="divider"></div>
                                 <a class="dropdown-item" href="#">修改密码</a>
                                 <div class="divider"></div>
@@ -85,20 +87,18 @@
                     </ul>
                 </div>
             </ul>
-            <!--导航栏菜单结束-->
-
         </div>
     </nav>
     <!-- End Navbar -->
-
     <div class="wrapper">
         <div class="page-header clear-filter" filter-color="black"><!--遮罩的颜色-->
             <div class="page-header-image" data-parallax="true" style="background-image: url('../static/img/home.jpg');">
             </div>
             <div class="container">
                 <div class="content-center brand">
-
-                    <!-- 触发登录模态框 -->
+                    <!-- <img class="n-logo" src="../static/img/home_logo.png" alt=""> -->
+                    <!-- <h1 class="h1-seo">点击开始</h1> -->
+                    <!-- 触发按钮 href="./login.html" -->
                     <a id="triggerBtn" class="home_login_start" rel="tooltip" title="" data-placement="bottom">
                         <h1 class="h1-seo">点击开始</h1>
                     </a>
@@ -138,10 +138,9 @@
                                 </ul>
                             </div>
                             <div class="home_login_wrap">
-                                <a href="" class="home_login_btn">
+                                <a href="javascript:;" class="home_login_btn" @click="login">
                                     登录
                                 </a>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -162,7 +161,7 @@
 <!--  Plugin for the DatePicker, full documentation here: https://github.com/uxsolutions/bootstrap-datepicker -->
 <script src="../static/js/plugins/bootstrap-datepicker.js" type="text/javascript"></script>
 <!-- Share Library etc -->
-<script src=".../static/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
+<script src="../static/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
 <!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
 <script src="../static/js/now-ui-kit.js?v=1.1.0" type="text/javascript"></script>
 <script type="text/javascript" src="../static/js/modalBox_home.js"></script>
