@@ -24,5 +24,6 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path("mine/", clock.mine),
     path("show/", clock.show),
+    path('repayment/', views.repayment, name='repayment'),
     re_path(r'^index/(\w+).html$',views.others)
 ]

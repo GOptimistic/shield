@@ -61,6 +61,13 @@
     /* rotate:  */
 }
 
+.login_error{
+    background-color: #fdeff2;
+    border-color: #ee827c;
+    margin-left: 40px;
+    margin-right: 80px;
+}
+
 .home_login_input{
     width: 90%;
     height: 40px;

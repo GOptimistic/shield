@@ -7,7 +7,8 @@ function ajaxResponse(xhr,successFunction,falseFunction) {
                  //alert("成功");
                  successFunction();
              } else {
-                 alert("失败" + xhr.status);
+                 // alert("失败" + xhr.status);
+                 document.getElementById("login_name_j").innerHTML = "用户名或密码为空";
                  falseFunction();
              }
          }
@@ -23,7 +24,7 @@ subBt.onclick = function () {
     ajaxResponse(xhrRegister,
         function () {
             let respones = JSON.parse(xhrRegister.responseText);
-            alert(respones.msg);
+            document.getElementById("login_name_j").innerHTML = respones.msg;
         },function () {
             });
     let user = {

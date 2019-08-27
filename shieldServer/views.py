@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .models import User
+from .models import User, Borrower
 from django.http import HttpResponse, JsonResponse
 
 
@@ -10,7 +10,7 @@ def home(request):
     return render(request, 'home.html')
 
 
-def others(request,file):
+def others(request, file):
     if file == 'lending':
         return render(request, 'lending.html')
     if file == 'repayment':
@@ -37,9 +37,37 @@ def login(request):
         req = json.loads(request.body)
         userID = req['userID']
         pwd = req['pwd']
-        print('this is the print ', end="")
-        searchArray = User.objects.filter(username=userID, password=pwd)
-        if searchArray:
-            return JsonResponse({'result': 200, 'msg': 'login successfully'})
+        if userID == "":
+            return JsonResponse({'result': 200, 'msg': '用户名为空'})
+        elif pwd == "":
+            return JsonResponse({'result': 200, 'msg': '密码为空'})
+
+        searchName = User.objects.filter(username=userID)
+        if searchName:
+            searchUser = User.objects.filter(username=userID, password=pwd)
+            if searchUser:
+                return JsonResponse({'result': 200, 'msg': 'login successfully'})
+            else:
+                return JsonResponse({'result': 200, 'msg': '密码错误'})
         else:
-            return JsonResponse({'result': 200, 'msg': 'wrong user name or password'})
+            return JsonResponse({'result': 200, 'msg': '用户名不存在'})
+
+
+@csrf_exempt
+def repayment(request):
+    if request.method == 'POST':
+        req = json.loads(request.body)
+        search_context = req['search_context']
+        search_status = req['search_status']
+        if search_context == "":
+            return JsonResponse({'result': 200, 'msg': '输入为空'})
+
+        if search_status == "option1":
+            searchPhone = Borrower.objects.all()
+            print(searchPhone)
+            return JsonResponse({})
+            # return JsonResponse({'result': 200, 'msg': 'login successfully'})
+            #     else:
+            #         return JsonResponse({'result': 200, 'msg': '密码错误'})
+            # else:
+            #     return JsonResponse({'result': 200, 'msg': '用户名不存在'})
