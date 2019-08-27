@@ -1,0 +1,1 @@
+var chkdradio = document.getElementsByName("lending_radio")
