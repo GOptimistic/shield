@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import re_path
-from django.conf.urls import url
 from shieldServer import views
+from clockchain import clock
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.home),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
-    re_path(r'index/(\w+).html$', views.others)
+    path("mine/", clock.mine),
+    path("show/", clock.show),
+    re_path(r'^index/(\w+).html$',views.others)
 ]
