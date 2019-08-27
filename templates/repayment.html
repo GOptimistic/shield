@@ -160,6 +160,14 @@
 										<button class="am-btn  am-btn-default am-btn-success tpl-am-btn-success am-icon-search" type="button" onclick="searchFunction()"></button>
 										<script type="text/javascript">
 											function searchFunction(){
+											    var myselect = document.getElementById("select-method");
+											    var index = myselect.selectedIndex; //被选中的搜索条件的下标
+											    var value = myselect.options[index].value;
+											    console.log(value);
+											    if(value === 'option1'){
+											        search_context = document.getElementById('select-context').value;
+											        console.log(search_context);
+                                                }
 												var my_tbody = document.getElementById("need-repay-info");
 												my_tbody.innerHTML = "";
 
@@ -242,7 +250,6 @@
 <script src="../static/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
 <!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
 <script src="../static/js/now-ui-kit.js?v=1.1.0" type="text/javascript"></script>
-<script type="text/javascript" src="../static/js/modalBox.js"></script>
 <!--导航栏脚本结束-->
 </body>
 </html>
