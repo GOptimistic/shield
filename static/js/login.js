@@ -40,9 +40,9 @@ subBt.onclick = function () {
     xhrRegister.send(JSON.stringify(user));
 };
 
-function addCookie(userID){
-     let Days = 30;
-            var exp = new Date();
-            exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
-            document.cookie = 'username=' + userID + '; expires=' + exp.toUTCString() + '; path=/';
-};
+// function addCookie(userID){
+//      let Days = 30;
+//             var exp = new Date();
+//             exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+//             document.cookie = 'username=' + userID + '; expires=' + exp.toUTCString() + '; path=/';
+// };

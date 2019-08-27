@@ -47,11 +47,15 @@ def login(request):
             request.session['username'] = userID
             request.session['is_login'] = 'true'
             request.session.set_expiry(7 * 24 * 60 * 60)
+            # request.session.set_expiry(0)
             return JsonResponse({'status': 200, 'msg': 'login successfully'})
         else:
             return JsonResponse({'status': 200, 'msg': 'wrong user name or password'})
 
 
+@csrf_exempt
 def logout(request):
-    request.session.clear_expired()
-    request.session.flush()
+    if request.method == 'POST':
+        request.session.clear_expired()
+        request.session.flush()
+    return JsonResponse({'status': 200, 'msg': 'logout successfully'})

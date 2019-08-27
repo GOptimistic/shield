@@ -13,6 +13,10 @@
 	var exitcancel = document.getElementById("exit_btn_cancel");
 	exitconfirm.onclick=function(){
 		modalBox.close();
+		let xhrRegister = new XMLHttpRequest();
+		xhrRegister.open('POST', 'http://127.0.0.1:8000/logout/', false);
+		//xhrRegister.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
+		xhrRegister.send();
 		window.location.href = "./home.html";
 	}
 	exitcancel.onclick=function(){
