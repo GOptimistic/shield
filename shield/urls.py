@@ -17,9 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import re_path
 from shieldServer import views
+from clockchain import clock
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.home),
     path('login/', views.login, name='login'),
+    path("mine/", clock.mine),
+    path("show/", clock.show),
     re_path(r'^index/(\w+).html$',views.others)
 ]
