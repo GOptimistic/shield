@@ -7,7 +7,7 @@
     top: 0;
     width: 100%; /* 全宽 */
     height: 100%; /* 全高 */
-    overflow: auto; /* 允许滚动 */
+    overflow: hidden; /* 允许滚动 */
     background-color: rgba(0,0,0,0.4); /* 背景色 */
 }
 /*模态框内容*/
@@ -225,3 +225,26 @@
 /*.div-child.my-btn button:first-child(){*/
 /*    margin-right: 20px;*/
 /*}*/
+
+.exitaccount_btn{
+    background: #7a6c63;
+    padding-top: 10px;
+    padding-left: 48px;
+    padding-right: 48px;
+    font-size: 20px;
+}
+
+.exitaccount_div{
+    align-items: center;
+    /*max-width: 80px;*/
+    flex-direction: row; /*水平布局*/
+    /*margin-left: 40%;*/
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.exitaccount_ul{
+    padding-inline-start:0px;
+
+}
+
