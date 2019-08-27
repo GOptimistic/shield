@@ -10,24 +10,29 @@ def home(request):
     return render(request, 'home.html')
 
 
-def others(request,file):
-    if file == 'lending':
-        return render(request, 'lending.html')
-    if file == 'repayment':
-        return render(request, 'repayment.html')
-    if file == 'lending_confirm':
-        return render(request, 'lending_confirm.html')
-    if file == 'lending_results':
-        return render(request, 'lending_results.html')
-    if file == 'login':
-        return render(request, 'login.html')
-    if file == 'query':
-        return render(request, 'query.html')
-    if file == 'query_analysis':
-        return render(request, 'query_analysis.html')
-    if file == 'query_result':
-        return render(request, 'query_result.html')
-    if file == 'home':
+def others(request, file):
+    is_login = request.session.get('is_login', False)
+    if is_login:
+        print('have been login ')
+        if file == 'lending':
+            return render(request, 'lending.html')
+        if file == 'repayment':
+            return render(request, 'repayment.html')
+        if file == 'lending_confirm':
+            return render(request, 'lending_confirm.html')
+        if file == 'lending_results':
+            return render(request, 'lending_results.html')
+        if file == 'login':
+            return render(request, 'login.html')
+        if file == 'query':
+            return render(request, 'query.html')
+        if file == 'query_analysis':
+            return render(request, 'query_analysis.html')
+        if file == 'query_result':
+            return render(request, 'query_result.html')
+        if file == 'home':
+            return render(request, 'home.html')
+    else:
         return render(request, 'home.html')
 
 
@@ -37,9 +42,16 @@ def login(request):
         req = json.loads(request.body)
         userID = req['userID']
         pwd = req['pwd']
-        print('this is the print ', end="")
         searchArray = User.objects.filter(username=userID, password=pwd)
         if searchArray:
-            return JsonResponse({'result': 200, 'msg': 'login successfully'})
+            request.session['username'] = userID
+            request.session['is_login'] = 'true'
+            request.session.set_expiry(7 * 24 * 60 * 60)
+            return JsonResponse({'status': 200, 'msg': 'login successfully'})
         else:
-            return JsonResponse({'result': 200, 'msg': 'wrong user name or password'})
+            return JsonResponse({'status': 200, 'msg': 'wrong user name or password'})
+
+
+def logout(request):
+    request.session.clear_expired()
+    request.session.flush()
