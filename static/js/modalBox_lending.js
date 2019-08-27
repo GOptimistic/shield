@@ -6,7 +6,7 @@
     /*获得trigger按钮*/
 	modalBox.triggerBtn = document.getElementById("triggerBtn");
     /*获得关闭按钮*/
-	modalBox.closeBtn = document.getElementById("closeBtn");
+	modalBox.closeBtn = document.getElementById("lending_closeBtn");
 	/*模态框显示*/
 	modalBox.show = function() {
 		console.log(this.modal);
