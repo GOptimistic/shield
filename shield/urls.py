@@ -26,6 +26,7 @@ urlpatterns = [
     path("mine/", clock.mine),
     path("show/", clock.show),
     path('repayment/', views.repayment, name='repayment'),
+    re_path(r'index/query_result\.html\?idNumber=(\w*)&loanNumber=(\d*)&loanDate=(\S*)',views.query),
+    re_path(r'^index/(\w+).html$', views.others),
     path('accountinfo/', views.accountinfo, name= "accountinfo"),
-    re_path(r'^index/(\w+).html$',views.others)
 ]

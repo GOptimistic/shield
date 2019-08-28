@@ -29,12 +29,37 @@ def others(request, file):
             return render(request, 'query.html')
         if file == 'query_analysis':
             return render(request, 'query_analysis.html')
-        if file == 'query_result':
-            return render(request, 'query_result.html')
+        if file == 'accountinfo':
+                return render(request, 'accountinfo.html')
         if file == 'home':
             return render(request, 'home.html')
-        if file == 'accountinfo':
-            return render(request, 'accountinfo.html')
+        if file == 'query_result':
+            idNumber = request.GET.get('idNumber')
+            loanNumber = request.GET.get('loanNumber')
+            loanDate = request.GET.get('loanDate')
+            print('idNumber:',idNumber)
+            print('loanNumber:',loanNumber)
+            print('loanDate:',loanDate)
+            if idNumber=='' and loanNumber=='' and loanDate=='':
+                print('必须填入一个条件')
+                return render(request, 'query_result.html')
+            if idNumber:
+                query_person = Borrower.objects.filter(borrower_id=idNumber)
+            if loanNumber:
+                query_person = query_person.filter(trade_order=loanNumber)
+            if loanDate:
+                loanYear = loanDate.split('/',2)[2]     #获取年份
+                loanMonth = loanDate.split('/',2)[0]    #获取月份
+                loanDay = loanDate.split('/',2)[1]      #获取天数
+                print(loanYear,loanMonth,loanDay)
+                query_person = query_person.filter(borrower_time__year=loanYear,borrower_time__month=loanMonth,borrower_time__day=loanDay)
+            if query_person:
+                print('success')
+                print(len(query_person))
+            else:
+                print('false')
+            return render(request, 'query_result.html')
+
     else:
         return render(request, 'home.html')
 
@@ -170,3 +195,11 @@ def accountinfo(request):
         #     else:
         #         return JsonResponse({'result': 200, 'msg': '密码错误'})
         # else:
+
+
+def query(request, idNumber, loanNumber, loanDate):
+    print('aaa')
+    print(idNumber)
+    print(loanNumber)
+    print(loanDate)
+    return render(request, 'home.html')
