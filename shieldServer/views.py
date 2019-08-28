@@ -43,8 +43,9 @@ def others(request, file):
             if idNumber=='' and loanNumber=='' and loanDate=='':
                 print('必须填入一个条件')
                 return render(request, 'query_result.html')
+            query_person = Borrower.objects.all()
             if idNumber:
-                query_person = Borrower.objects.filter(borrower_id=idNumber)
+                query_person = query_person.filter(borrower_id=idNumber)
             if loanNumber:
                 query_person = query_person.filter(trade_order=loanNumber)
             if loanDate:
@@ -55,10 +56,12 @@ def others(request, file):
                 query_person = query_person.filter(borrower_time__year=loanYear,borrower_time__month=loanMonth,borrower_time__day=loanDay)
             if query_person:
                 print('success')
+                print(query_person[0].borrower_name)
                 print(len(query_person))
             else:
                 print('false')
-            return render(request, 'query_result.html')
+            context = {}
+            return render(request, 'query_result.html',context)
 
     else:
         return render(request, 'home.html')
