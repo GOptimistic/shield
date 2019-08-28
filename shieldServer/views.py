@@ -51,6 +51,9 @@ def login(request):
         if searchName:
             searchUser = User.objects.filter(username=userID, password=pwd)
             if searchUser:
+                request.session['username'] = userID
+                request.session['is_login'] = True
+                request.session.set_expiry(7 * 24 * 60 * 60)
                 return JsonResponse({'result': 200, 'msg': 'login successfully'})
             else:
                 return JsonResponse({'result': 200, 'msg': '密码错误'})
@@ -84,3 +87,43 @@ def repayment(request):
             #         return JsonResponse({'result': 200, 'msg': '密码错误'})
             # else:
             #     return JsonResponse({'result': 200, 'msg': '用户名不存在'})
+
+
+@csrf_exempt
+def order_count(request):
+    if request.method == 'POST':
+        count = Borrower.objects.count()
+    return JsonResponse({'result': 200, 'msg': count})
+
+
+@csrf_exempt
+def add_lending(request):
+    if request.method == 'POST':
+        req = json.loads(request.body)
+        borrower_Name = req['borrowerName']
+        borrower_ID = req['borrowerID']
+        borrower_Time = req['borrowerTime']
+        borrower_Sum = req['borrowedSum']
+        borrower_Phone = req['borrowerPhone']
+        borrow_Type = req['borrowType']
+        payback = req['payback']
+        shouldPaybackTime = req['shouldPaybackTime']
+        paybackTime = req['paybackTime']
+        tradeOrder = req['tradeOrder']
+        tradePlace = req['tradePlace']
+        need_add_loan = Borrower.objects.get_or_create(
+            borrower_name=borrower_Name,
+            borrower_id=borrower_ID,
+            borrower_time=borrower_Time,
+            borrower_sum=borrower_Sum,
+            borrow_type=borrow_Type,
+            borrower_phone=borrower_Phone,
+            payback=payback,
+            should_payback_time=shouldPaybackTime,
+            payback_time=paybackTime,
+            trade_order=tradeOrder,
+            trade_place=tradePlace)
+        if need_add_loan:
+            return JsonResponse({'result': 200, 'msg': 'lending succeed'})
+        return JsonResponse({'result': 200, 'msg': 'lending failed'})
+
