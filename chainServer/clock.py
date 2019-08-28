@@ -4,6 +4,8 @@ import hashlib as hasher
 import datetime as date
 from django.http import HttpResponse
 from django.http import JsonResponse
+from chainServer.models import Recordnodes
+
 
 class Block:
     def __init__(self, index, timestamp, data, previous_hash):
@@ -33,15 +35,20 @@ class Block:
         temp = str(self._index) + str(self._timestamp) + str(self._data) + str(self._previous_hash)
         sha.update(temp.encode("utf8"))
         return sha.hexdigest()
-
-
-# def create_genesis_block():
+# get data from Recordnodes to chain
 def create_genesis_block():
   # Manually construct a block with
   # index zero and arbitrary previous hash
   return Block(0, date.datetime.now(), {
     "record": None
   }, "0")
+chain = [create_genesis_block()]
+def getchain():
+    recordlist=Recordnodes.objects.all()
+    print(len(recordlist))
+    for var in recordlist:
+        chain.append(Block(var.id,var.default_date,{ 'name': var.name, 'ID':var.ID_card , 'money': var.money,'funding_terms':var.funding_terms},var.hash_previous))
+getchain()
 def next_block(last_block):
     this_index = last_block.index + 1
     this_timestamp = date.datetime.now()
@@ -62,17 +69,21 @@ this_nodes_records = []
 peer_nodes = []
 # A variable to deciding if we're mining or not
 mining = False
-chain = [create_genesis_block()]
-previous_block =chain[0]
-num_of_blocks_to_add = 10
-for i in range(0, num_of_blocks_to_add):
-    block_to_add = next_block(previous_block)
-    chain.append(block_to_add)
-    previous_block = block_to_add
-    print("Block #{} 已经加入区块链!".format(block_to_add.index))
-    print("Hash: {}".format(block_to_add.hash))
-    print("Data: {}\n".format(block_to_add.data))
-
+# chain = [create_genesis_block()]
+# previous_block =chain[0]
+# num_of_blocks_to_add = 10
+# for i in range(0, num_of_blocks_to_add):
+#     block_to_add = next_block(previous_block)
+#     chain.append(block_to_add)
+#     previous_block = block_to_add
+    # print("Block #{} 已经加入区块链!".format(block_to_add.index))
+    # print("Hash: {}".format(block_to_add.hash))
+    # print("Data: {}\n".format(block_to_add.data))
+for i in range(len(chain)):
+    print("Block #{} 已经加入区块链!".format(chain[i].index))
+    print("Hash: {}".format(chain[i].hash))
+    print("Data: {}\n".format(chain[i].data))
+print(len(chain))
     # @node.route('/txion', methods=['POST'])
 def record(request):
   # On each new POST request,
@@ -162,7 +173,7 @@ def mine(request):
   # the current block being mined
   # we reward the miner by adding a record
   this_nodes_records.append(
-    { "name": "lww", "ID": 142328, "money": 1,"funding_terms":10}
+    { 'name': 'lww', 'ID': 142328, 'money': 1,'funding_terms':10}
   )
   # Now we can gather the data needed
   # to create the new block
