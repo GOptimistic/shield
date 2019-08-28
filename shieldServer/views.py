@@ -32,6 +32,8 @@ def others(request, file):
             return render(request, 'query_result.html')
         if file == 'home':
             return render(request, 'home.html')
+        if file == 'accountinfo':
+            return render(request, 'accountinfo.html')
     else:
         return render(request, 'home.html')
 
@@ -51,6 +53,9 @@ def login(request):
         if searchName:
             searchUser = User.objects.filter(username=userID, password=pwd)
             if searchUser:
+                request.session['username'] = userID
+                request.session['is_login'] = True
+                request.session.set_expiry(0)
                 return JsonResponse({'result': 200, 'msg': 'login successfully'})
             else:
                 return JsonResponse({'result': 200, 'msg': '密码错误'})
@@ -84,3 +89,32 @@ def repayment(request):
             #         return JsonResponse({'result': 200, 'msg': '密码错误'})
             # else:
             #     return JsonResponse({'result': 200, 'msg': '用户名不存在'})
+
+
+@csrf_exempt
+def accountinfo(request):
+    if request.method == 'POST':
+        req = json.loads(request.body)
+        worker = ''
+        worker = User.objects.get(username=request.session['username'])
+        return JsonResponse(json.dump(worker))
+
+        # userID = req['userID']
+        # pwd = req['pwd']
+        # if userID == "":
+        #     return JsonResponse({'result': 200, 'msg': '用户名为空'})
+        # elif pwd == "":
+        #     return JsonResponse({'result': 200, 'msg': '密码为空'})
+        #
+        # searchName = User.objects.filter(username=userID)
+        # if searchName:
+        #     searchUser = User.objects.filter(username=userID, password=pwd)
+        #     if searchUser:
+        #         request.session['username'] = userID
+        #         request.session['is_login'] = True
+        #         request.session.set_expiry(0)
+        #         return JsonResponse({'result': 200, 'msg': 'login successfully'})
+        #     else:
+        #         return JsonResponse({'result': 200, 'msg': '密码错误'})
+        # else:
+        #     return JsonResponse({'status': 200, 'msg': 'wrong user name or password'})
