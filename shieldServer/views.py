@@ -1,6 +1,11 @@
+# from django.contrib.sessions import serializers
+# from django.contrib.postgres import serializers
+from django.core import serializers
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 import json
+
+from shieldServer import models
 from .models import User, Borrower
 from django.http import HttpResponse, JsonResponse
 
@@ -92,12 +97,40 @@ def repayment(request):
 
 
 @csrf_exempt
-def accountinfo(request):
+def order_count(request):
+    if request.method == 'POST':
+        count = Borrower.objects.count()
+    return JsonResponse({'result': 200, 'msg': count})
+
+
+@csrf_exempt
+def add_lending(request):
     if request.method == 'POST':
         req = json.loads(request.body)
-        worker = ''
-        worker = User.objects.get(username=request.session['username'])
-        return JsonResponse(json.dump(worker))
+        borrower_Name = req['borrowerName']
+        borrower_ID = req['borrowerID']
+        borrower_Time = req['borrowerTime']
+        borrower_Sum = req['borrowedSum']
+        borrower_Phone = req['borrowerPhone']
+        borrow_Type = req['borrowType']
+        payback = req['payback']
+        shouldPaybackTime = req['shouldPaybackTime']
+        paybackTime = req['paybackTime']
+        tradeOrder = req['tradeOrder']
+        tradePlace = req['tradePlace']
+        need_add_loan = Borrower.objects.get_or_create(
+            borrower_name=borrower_Name,
+            borrower_id=borrower_ID,
+            borrower_time=borrower_Time,
+            borrower_sum=borrower_Sum,
+            borrow_type=borrow_Type,
+            borrower_phone=borrower_Phone,
+            payback=payback,
+            should_payback_time=shouldPaybackTime,
+            payback_time=paybackTime,
+            trade_order=tradeOrder,
+            trade_place=tradePlace)
+        # if need_add_loan:
 
         # userID = req['userID']
         # pwd = req['pwd']
@@ -117,3 +150,19 @@ def accountinfo(request):
         #     else:
         #         return JsonResponse({'result': 200, 'msg': '密码错误'})
         # else:
+
+
+@csrf_exempt
+def accountinfo(request):
+    if request.method == 'POST':
+        # req = json.loads(request.body)
+        print(request.session['username'])
+        worker = User.objects.filter(username=request.session['username'])
+        if worker:
+            ajax_data = serializers.serialize("json", worker)
+            print(ajax_data)
+            # sta_str = {'status': 200, 'msg': 'get the person'}
+            return JsonResponse(ajax_data, safe=False)
+            # return JsonResponse({'status': 200, 'msg': 'con not get the person'})
+        return JsonResponse({'status': 200, 'msg': 'con not get the person'})
+

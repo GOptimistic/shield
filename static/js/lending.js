@@ -7,7 +7,6 @@ let borrowerPhone = document.getElementById('lending_input_phonenum').value;
 let borrowedMoney = document.getElementById('lending_input_money').value;
 let temp = document.getElementById('lending_input_date').value;
 
-alert(timeString(temp));
 let shouldPaybackTime = new Date(timeString(temp)).Format("yyyy-MM-dd HH:mm:ss");
 alert('reach here');
 let loanType;

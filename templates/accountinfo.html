@@ -1,154 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <link rel="apple-touch-icon" sizes="76x76" href="../static/img/logo_title.png">
     <link rel="icon" type="image/png" href="../static/img/logo_title.png">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>Shield-账户信息</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+          name='viewport'/>
 
     <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
     <!-- CSS Files -->
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../static/css/now-ui-kit.css?v=1.1.0" rel="stylesheet" />
-    <link href="../static/css/changingPsw.css" rel="stylesheet" />
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../static/css/now-ui-kit.css?v=1.1.0" rel="stylesheet"/>
+    <link href="../static/css/changingPsw.css" rel="stylesheet"/>
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="../static/css/demo.css" rel="stylesheet" />
-    <link href="../static/css/modalBox.css" rel="stylesheet" />
+    <link href="../static/css/demo.css" rel="stylesheet"/>
+    <link href="../static/css/modalBox.css" rel="stylesheet"/>
     <!-- Canonical SEO -->
-    <link rel="canonical" href="" />
+    <link rel="canonical" href=""/>
     <!--  Social tags      -->
     <meta name="keywords" content="">
     <meta name="description" content="">
 </head>
 <body class="index-page sidebar-collapse">
 <!-- Navbar导航条 -->
-    <nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent " color-on-scroll="400">
-        <div class="container">
-            <!--左上角团队logo-->
-            <div class="content-center brand">
-                <img class="n-logo" src="../static/img/home_logo_long.png" alt="">
-            </div>
+<nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent " color-on-scroll="400">
+    <div class="container">
+        <!--左上角团队logo-->
+        <div class="content-center brand">
+            <img class="n-logo" src="../static/img/home_logo_long.png" alt="">
+        </div>
 
-            <!--导航栏菜单-->
-            <ul class="navbar-nav our_nav">
-                <a class="navbar-brand our_nav_menu">菜单</a>
-                <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse"
+        <!--导航栏菜单-->
+        <ul class="navbar-nav our_nav">
+            <a class="navbar-brand our_nav_menu">菜单</a>
+            <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#example-navbar" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
-                    <span class="navbar-toggler-bar bar1"></span>
-                    <span class="navbar-toggler-bar bar2"></span>
-                    <span class="navbar-toggler-bar bar3"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="example-navbar"
-                    data-nav-image="../static/img/blurred-image-1.jpg">
-                    <ul class="navbar-nav our_nav_menu_contains">
-                        <li class="nav-item">
-                            <a class="nav-link" href="./home.html">
-                                首页
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link" href="./lending.html">
-                                贷款
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./repayment.html">
-                                还款
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./query.html">
-                                查询
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
-                                data-toggle="dropdown">
-                                <i class="now-ui-icons ui-1_settings-gear-63"
-                                    aria-hidden="true"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right"
-                                aria-labelledby="navbarDropdownMenuLink">
-                                <a class="top_dropdown_header dropdown-header">账户管理</a>
-                                <a class="dropdown-item" href="#">账户信息</a>
-                                <div class="divider"></div>
-                                <a class="dropdown-item" href="./changePsw.html">修改密码</a>
-                                <div class="divider"></div>
-                                <a class="dropdown-item" id="exitaccount" href="#">退出登录</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </ul>
-        </div>
-    </nav>
-        <!-- End Navbar -->
-    <div class="wrapper lending_wrapper">
-        <div class="page-header clear-filter" filter-color="grey">
-            <div class="page-header-image" data-parallax="true" style="background-image: url('../static/img/bg.jpg');">
-            </div>
-            <div class="container changingPsw_container">
-                 <!-- 注销模态框 -->
-                <div id="ExitModal" class="modal">
-                    <div class="modal-content">
-                        <div class="login_modal-header">
-                            <h2 class="success_model_header success_model_header_text">注销</h2>
-                            <p id="closeBtn" class="close" >×</p>
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="example-navbar"
+                 data-nav-image="../static/img/blurred-image-1.jpg">
+                <ul class="navbar-nav our_nav_menu_contains">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./home.html">
+                            首页
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="./lending.html">
+                            贷款
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./repayment.html">
+                            还款
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./query.html">
+                            查询
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
+                           data-toggle="dropdown">
+                            <i class="now-ui-icons ui-1_settings-gear-63"
+                               aria-hidden="true"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right"
+                             aria-labelledby="navbarDropdownMenuLink">
+                            <a class="top_dropdown_header dropdown-header">账户管理</a>
+                            <a class="dropdown-item" href="#">账户信息</a>
+                            <div class="divider"></div>
+                            <a class="dropdown-item" href="./changePsw.html">修改密码</a>
+                            <div class="divider"></div>
+                            <a class="dropdown-item" id="exitaccount" href="#">退出登录</a>
                         </div>
-                        <div class="modal-body">
-                            <div class="confirm=tips">
-                                <ul class="exitaccount_ul">
-                                    <li class="noMargin">
-                                        <!-- <i class="icon_Pwd"></i> -->
-                                        <div class="success_text">
-                                            <h3 class="successful">确定退出？</h3>
-                                        </div>
-                                    </li>
-                                     <li class="noMargin">
-                                        <!-- <i class="icon_people"></i> -->
-                                        <div class="exitaccount_div">
-                                            <button class="btn btn-primary exitaccount_btn"  type="button" rel="tooltip" id="exit_btn_confirm">
-                                                确定
-                                            </button>
-                                            <button class="btn btn-primary exitaccount_btn" type="button"   rel="tooltip" id="exit_btn_cancel">
-                                                取消
-                                            </button>
-                                        </div>
+                    </li>
+                </ul>
+            </div>
+        </ul>
+    </div>
+</nav>
+<!-- End Navbar -->
+<div class="wrapper lending_wrapper">
+    <div class="page-header clear-filter" filter-color="grey">
+        <div class="page-header-image" data-parallax="true" style="background-image: url('../static/img/bg.jpg');">
+        </div>
+        <div class="container changingPsw_container">
+            <!-- 注销模态框 -->
+            <div id="ExitModal" class="modal">
+                <div class="modal-content">
+                    <div class="login_modal-header">
+                        <h2 class="success_model_header success_model_header_text">注销</h2>
+                        <p id="closeBtn" class="close">×</p>
+                    </div>
+                    <div class="modal-body">
+                        <div class="confirm=tips">
+                            <ul class="exitaccount_ul">
+                                <li class="noMargin">
+                                    <!-- <i class="icon_Pwd"></i> -->
+                                    <div class="success_text">
+                                        <h3 class="successful">确定退出？</h3>
+                                    </div>
+                                </li>
+                                <li class="noMargin">
+                                    <!-- <i class="icon_people"></i> -->
+                                    <div class="exitaccount_div">
+                                        <button class="btn btn-primary exitaccount_btn" type="button" rel="tooltip"
+                                                id="exit_btn_confirm">
+                                            确定
+                                        </button>
+                                        <button class="btn btn-primary exitaccount_btn" type="button" rel="tooltip"
+                                                id="exit_btn_cancel">
+                                            取消
+                                        </button>
+                                    </div>
 
-                                    </li>
-                                </ul>
-                            </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-                <!--end modelBox-->
+            </div>
+            <!--end modelBox-->
 
-                <div class="temp">
-                </div>
-                <!--账户信息-->
-                <div class="row ">
-                    <h5 class="changingPsw_h5">姓名：</h5>
-                    <h5 class="changingPsw_h5" id="accountinfo_name"></h5>
-                </div>
-                <div class="row ">
-                    <h5 class="changingPsw_h5">工号：</h5>
-                    <h5 class="changingPsw_h5" id="accountinfo_id">xxxxxxxxxxxxxxxxxxxx</h5>
-                </div>
-                <div class="row ">
-                    <h5 class="changingPsw_h5">手机号码：</h5>
-                    <h5 class="changingPsw_h5" id="accountinfo_phone">12345678901</h5>
-                </div>
+            <div class="temp">
+            </div>
+            <!--账户信息-->
 
+            <div class="row ">
+                <h5 class="changingPsw_h5">姓名：</h5>
+                <h5 class="changingPsw_h5" id="accountinfo_name"></h5>
+            </div>
+            <div class="row ">
+                <h5 class="changingPsw_h5">工号：</h5>
+                <h5 class="changingPsw_h5" id="accountinfo_id"></h5>
+            </div>
+            <div class="row ">
+                <h5 class="changingPsw_h5">手机号码：</h5>
+                <h5 class="changingPsw_h5" id="accountinfo_phonenum"></h5>
             </div>
         </div>
     </div>
+</div>
 
 </body>
+<!-- loading js -->
+<script src="../static/js/accountinfo.js" type="text/javascript"></script>
 <!--   Core JS Files   -->
 <script src="../static/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
 <script src="../static/js/core/popper.min.js" type="text/javascript"></script>
@@ -165,7 +170,7 @@
 <script src="../static/js/now-ui-kit.js?v=1.1.0" type="text/javascript"></script>
 <script type="text/javascript" src="../static/js/ExitModal.js"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         // the body of this function is in ../static/js/now-ui-kit.js
         nowuiKit.initSliders();
     });

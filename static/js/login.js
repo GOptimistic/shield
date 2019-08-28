@@ -25,7 +25,7 @@ subBt.onclick = function () {
         function () {
             let response = JSON.parse(xhrRegister.responseText);
             document.getElementById("login_name_j").innerHTML = response.msg;
-            location.assign('http://127.0.0.1:8000/index/home_after.html');
+            location.assign('http://127.0.0.1:8000/index/lending.html');
         },function () {
             });
     let user = {
