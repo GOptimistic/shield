@@ -85,10 +85,10 @@ DATABASES = {
     },
     'chain_db': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'blockchain',
+        'NAME': 'block_chain',
         'USER': 'root',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
+        'PASSWORD': 'LgHmL_SHIELD!0827.',
+        'HOST': '49.232.23.19',
         'PORT': '3306',
     }
 }
@@ -134,5 +134,5 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR), 'shieldServer/../static')
 DATABASE_ROUTERS = ['shield.database_router.DatabaseAppsRouter']
 DATABASE_APPS_MAPPING = {
     'shieldServer': 'default',
-    # 'chainServer': 'chain_db',
+    'chainServer': 'chain_db',
 }

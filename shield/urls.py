@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.urls import re_path
 from shieldServer import views
-from clockchain import clock
+from chainServer import clock
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.home),

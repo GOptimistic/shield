@@ -32,3 +32,5 @@ class Borrower(models.Model):
         # return borrow_list
         return self.borrower_name
 
+class Meta:
+         app_label = 'shieldServer'
