@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .models import User
+from .models import User, Borrower
 from django.http import HttpResponse, JsonResponse
 
 
@@ -64,7 +64,6 @@ def logout(request):
         request.session.clear_expired()
         request.session.flush()
     return JsonResponse({'status': 200, 'msg': 'logout successfully'})
-            return JsonResponse({'result': 200, 'msg': '用户名不存在'})
 
 
 @csrf_exempt
