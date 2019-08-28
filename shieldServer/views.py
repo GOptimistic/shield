@@ -33,6 +33,8 @@ def others(request, file):
                 return render(request, 'accountinfo.html')
         if file == 'home':
             return render(request, 'home.html')
+        if file == 'home_after':
+            return render(request, 'home_after.html')
         if file == 'query_result':
             idNumber = request.GET.get('idNumber')
             loanNumber = request.GET.get('loanNumber')

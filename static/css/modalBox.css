@@ -126,6 +126,10 @@
     border: 5px;
 }
 
+.login_btn:hover{
+    cursor: pointer;
+}
+
 .home_login_btn:hover{
     text-shadow: #000000;
 }
