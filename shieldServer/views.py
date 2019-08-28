@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import User, Borrower
 from django.http import HttpResponse, JsonResponse
+from django.core import serializers
 
 
 # Create your views here.
@@ -73,22 +74,74 @@ def logout(request):
 
 @csrf_exempt
 def repayment(request):
+    pid = []
+    borrower_name = []
+    borrower_id = []
+    trade_order = []
+    trade_type = []
+    trade_money = []
+    trade_date = []
+    end_date = []
+
     if request.method == 'POST':
         req = json.loads(request.body)
         search_context = req['search_context']
         search_status = req['search_status']
-        if search_context == "":
-            return JsonResponse({'result': 200, 'msg': '输入为空'})
+        # if search_context == "":
+        #     return JsonResponse({'result': 200, 'msg': '输入为空'})
 
         if search_status == "option1":
-            searchPhone = Borrower.objects.all()
-            print(searchPhone)
-            return JsonResponse({})
-            # return JsonResponse({'result': 200, 'msg': 'login successfully'})
-            #     else:
-            #         return JsonResponse({'result': 200, 'msg': '密码错误'})
-            # else:
-            #     return JsonResponse({'result': 200, 'msg': '用户名不存在'})
+            search = Borrower.objects.all()
+
+            for e in search:
+                if e.borrower_id == search_context:
+                    if ~e.payback:
+                        pid.append(e.pid)
+                        borrower_name.append(e.borrower_name)
+                        borrower_id.append(e.borrower_id)
+                        trade_order.append(e.trade_order)
+                        trade_type.append(e.borrow_type)
+                        trade_money.append(e.borrower_sum)
+                        trade_date.append(e.borrower_time)
+                        end_date.append(e.payback_time)
+        else:
+            search = Borrower.objects.all()
+            for e in search:
+                if e.trade_order == search_context:
+                    if ~e.payback:
+                        pid.append(e.pid)
+                        borrower_name.append(e.borrower_name)
+                        borrower_id.append(e.borrower_id)
+                        trade_order.append(e.trade_order)
+                        trade_type.append(e.borrow_type)
+                        trade_money.append(e.borrower_sum)
+                        trade_date.append(e.borrower_time)
+                        end_date.append(e.payback_time)
+        data = ""
+        for i in range(len(pid)):
+            if i == len(pid) - 1:
+                data = data + "{\"p_index\": " + str(pid[i]) + ", \"borrower_name\": \"" + str(borrower_name[i]) \
+                       + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(trade_order[i]) \
+                       + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
+                       + "\",\"trade_date\": \"" + str(trade_date[i]) + "\", \"end_date\":\"" + str(end_date[i]) + "\"}"
+            else:
+                data = data + "{\"p_index\": " + str(pid[i]) + ", \"borrower_name\": \"" + str(borrower_name[i]) \
+                       + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(trade_order[i]) \
+                       + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
+                       + "\",\"trade_date\": \"" + str(trade_date[i]) + "\", \"end_date\":\"" + str(
+                    end_date[i]) + "\"}, "
+
+        jsonArr = "[" + data + "]"
+        print(jsonArr)
+        print(type(jsonArr))
+        json_data = json.loads(jsonArr)
+        print(type(json_data))
+        print(json_data)
+    return JsonResponse(json_data, safe=False)
+
+
+def repaymentPage(request):
+    return render_to_response("repayment.html")
 
 
 @csrf_exempt
