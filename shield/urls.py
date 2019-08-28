@@ -28,5 +28,6 @@ urlpatterns = [
     path("mine/", clock.mine),
     path("show/", clock.show),
     path('repayment/', views.repayment, name='repayment'),
+    path('accountinfo/', views.accountinfo, name= "accountinfo"),
     re_path(r'^index/(\w+).html$',views.others)
 ]
