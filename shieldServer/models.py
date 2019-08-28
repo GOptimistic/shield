@@ -28,5 +28,7 @@ class Borrower(models.Model):
     trade_place = models.CharField(max_length=255,default='')
 
     def __str__(self):
+        borrow_list = {self.pid,self.borrower_name,self.borrower_id,self.trade_order,self.borrow_type,self.borrower_sum,self.borrower_time}
+        # return borrow_list
         return self.borrower_name
 

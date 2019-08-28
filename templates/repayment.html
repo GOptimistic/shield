@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>还款界面</title>
-	<meta name="keywords" content="index">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="renderer" content="webkit">
-	<meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>还款界面</title>
+    <meta name="keywords" content="index">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
 
-    <!-- css stylesheet for table-->
-	<link rel="stylesheet" href="../static/css/amazeui.min.css" />
-	<link rel="stylesheet" href="../static/css/admin.css">
-	<link rel="stylesheet" href="../static/css/app.css">
+    <!-- css stylesheet -->
+    <link rel="stylesheet" href="../static/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="../static/css/admin.css">
+    <link rel="stylesheet" href="../static/css/app.css">
 
     <!--下面是导航栏需要哦的样式表！！！-->
     <link rel="apple-touch-icon" sizes="76x76" href="../static/img/logo_title.png">
     <link rel="icon" type="image/png" href="../static/img/logo_title.png">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>Shield-分析结果</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
-        name='viewport' />
+          name='viewport'/>
     <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
     <!-- CSS Files -->
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../static/css/now-ui-kit.css?v=1.1.0" rel="stylesheet" />
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../static/css/now-ui-kit.css?v=1.1.0" rel="stylesheet"/>
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="../static/css/demo.css" rel="stylesheet" />
+    <link href="../static/css/demo.css" rel="stylesheet"/>
     <!-- Canonical SEO -->
-    <link rel="canonical" href="" />
+    <link rel="canonical" href=""/>
     <!--  Social tags      -->
     <meta name="keywords" content="">
     <meta name="description" content="">
@@ -40,201 +40,169 @@
     <!--导航栏样式表结！！！-->
 </head>
 <body>
-    <!-- Navbar导航条 -->
-    <nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent " color-on-scroll="400">
-        <div class="container">
-            <!--左上角团队logo-->
-            <div class="content-center brand">
-                <img class="n-logo" src="../static/img/home_logo_long.png" alt="">
-            </div>
+<!-- Navbar导航条 -->
+<nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent " color-on-scroll="400">
+    <div class="container">
+        <!--左上角团队logo-->
+        <div class="content-center brand">
+            <img class="n-logo" src="../static/img/home_logo_long.png" alt="">
+        </div>
 
-            <!--导航栏菜单-->
-            <ul class="navbar-nav our_nav">
-                <a class="navbar-brand our_nav_menu">菜单</a>
-                <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse"
+        <!--导航栏菜单-->
+        <ul class="navbar-nav our_nav">
+            <a class="navbar-brand our_nav_menu">菜单</a>
+            <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#example-navbar" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
-                    <span class="navbar-toggler-bar bar1"></span>
-                    <span class="navbar-toggler-bar bar2"></span>
-                    <span class="navbar-toggler-bar bar3"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="example-navbar"
-                    data-nav-image="../static/img/blurred-image-1.jpg">
-                    <ul class="navbar-nav our_nav_menu_contains">
-                        <li class="nav-item">
-                            <a class="nav-link" href="./home.html">
-                                首页
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./lending.html">
-                                贷款
-                            </a>
-                        </li>
-                        <li class="nav-item active" >
-                            <a class="nav-link active" href="./repayment.html">
-                                还款
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./query.html">
-                                查询
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
-                                data-toggle="dropdown">
-                                <i class="now-ui-icons ui-1_settings-gear-63"
-                                    aria-hidden="true"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right"
-                                aria-labelledby="navbarDropdownMenuLink">
-                                <a class="top_dropdown_header dropdown-header">账户管理</a>
-                                <a class="dropdown-item" href="./accountinfo.html">账户信息</a>
-                                <div class="divider"></div>
-                                <a class="dropdown-item" href="./changePsw.html">修改密码</a>
-                                <div class="divider"></div>
-                                <a class="dropdown-item" id="exitaccount" href="#">退出登录</a>
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="example-navbar"
+                 data-nav-image="../static/img/blurred-image-1.jpg">
+                <ul class="navbar-nav our_nav_menu_contains">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./home.html">
+                            首页
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./lending.html">
+                            贷款
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link active" href="./repayment.html">
+                            还款
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./query.html">
+                            查询
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
+                           data-toggle="dropdown">
+                            <i class="now-ui-icons ui-1_settings-gear-63"
+                               aria-hidden="true"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right"
+                             aria-labelledby="navbarDropdownMenuLink">
+                            <a class="top_dropdown_header dropdown-header">账户管理</a>
+                            <a class="dropdown-item" href="./accountinfo.html">账户信息</a>
+                            <div class="divider"></div>
+                            <a class="dropdown-item" href="./changePsw.html">修改密码</a>
+                            <div class="divider"></div>
+                            <a class="dropdown-item" id="exitaccount" href="#">退出登录</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </ul>
+    </div>
+</nav>
+<!-- End Navbar -->
+
+
+<div cladd="tpl-page-container tpl-page-header-fixed">
+    <!-- 注销模态框 -->
+    <div id="ExitModal" class="modal">
+        <div class="modal-content">
+            <div class="login_modal-header">
+                <h2 class="success_model_header success_model_header_text">注销</h2>
+                <p id="closeBtn" class="close">×</p>
+            </div>
+            <div class="modal-body">
+                <div class="confirm=tips">
+                    <ul class="exitaccount_ul">
+                        <li class="noMargin">
+                            <!-- <i class="icon_Pwd"></i> -->
+                            <div class="success_text">
+                                <h3 class="successful">确定退出？</h3>
                             </div>
+                        </li>
+                        <li class="noMargin">
+                            <!-- <i class="icon_people"></i> -->
+                            <div class="exitaccount_div">
+                                <button class="btn btn-primary exitaccount_btn" type="button" rel="tooltip"
+                                        id="exit_btn_confirm">
+                                    确定
+                                </button>
+                                <button class="btn btn-primary exitaccount_btn" type="button" rel="tooltip"
+                                        id="exit_btn_cancel">
+                                    取消
+                                </button>
+                            </div>
+
                         </li>
                     </ul>
                 </div>
-            </ul>
+            </div>
         </div>
-    </nav>
-    <!-- End Navbar -->
+    </div>
+    <!--end modelBox-->
+    <div class="tpl-content-wrapper">
+        <div class="tpl-portlet-components">
+            <div class="portlet-title">
+                <div class="tpl-block">
+                    <div class="am-g">
+                        <div class="am-u-sm-12 am-u-md-3">
+                            <div class="am-form-group">
+                                <select id="select-method" data-am-selected="{btnSize: 'sm'}">
+                                    <option value="option1">身份证号</option>
+                                    <option value="option2">流水单号</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-3">
+                            <div class="am-input-group am-input-group-sm">
+                                <input type="text" id="select-context" value="" class="am-form-field">
+                                <span class="am-input-group-btn">
+										<button class="am-btn  am-btn-default am-btn-success tpl-am-btn-success am-icon-search"
+                                                type="button" onclick="searchFunction()"></button>
+									</span>
 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="am-g">
+                        <div class="am-u-sm-12">
+                            <form class="am-form">
+                                <table class="am-table am-table-striped am-table-hover table-main">
+                                    <thead>
+                                    <tr>
+                                        <th class="table-check"><input type="checkbox" class="tpl-table-fz-check"></th>
+                                        <th class="table-id">ID</th>
+                                        <th class="table-author am-hide-sm-only">姓名</th>
+                                        <th calss="table-title table-title-id">身份证号</th>
+                                        <th class="table-title">贷款单号</th>
+                                        <th class="table-type">贷款类别</th>
+                                        <th class="table-type">贷款金额</th>
+                                        <th class="table-date am-hide-sm-only"> 贷款日期</th>
+                                        <th class="table-set">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="need-repay-info">
+                                    </tbody>
+                                </table>
 
-	<div cladd="tpl-page-container tpl-page-header-fixed">
-        <!-- 注销模态框 -->
-        <div id="ExitModal" class="modal">
-            <div class="modal-content">
-                <div class="login_modal-header">
-                    <h2 class="success_model_header success_model_header_text">注销</h2>
-                    <p id="closeBtn" class="close" >×</p>
-                </div>
-                <div class="modal-body">
-                    <div class="confirm=tips">
-                        <ul class="exitaccount_ul">
-                            <li class="noMargin">
-                                <!-- <i class="icon_Pwd"></i> -->
-                                <div class="success_text">
-                                    <h3 class="successful">确定退出？</h3>
-                                </div>
-                            </li>
-                             <li class="noMargin">
-                                <!-- <i class="icon_people"></i> -->
-                                <div class="exitaccount_div">
-                                    <button class="btn btn-primary exitaccount_btn"  type="button" rel="tooltip" id="exit_btn_confirm">
-                                        确定
-                                    </button>
-                                    <button class="btn btn-primary exitaccount_btn" type="button"   rel="tooltip" id="exit_btn_cancel">
-                                        取消
-                                    </button>
-                                </div>
-
-                            </li>
-                        </ul>
+                                <hr>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--end modelBox-->
-		<div class="tpl-content-wrapper">
-			<div class="tpl-portlet-components">
-				<div class="portlet-title">
-					<div class="tpl-block">
-						<div class="am-g">
-							<div class="am-u-sm-12 am-u-md-3">
-								<div class="am-form-group">
-									<select id="select-method" data-am-selected="{btnSize: 'sm'}">
-										<option value="option1">身份证号</option>
-										<option value="option2">流水单号</option>
-									</select>
-								</div>
-							</div>
-							<div class="am-u-sm-12 am-u-md-3">
-								<div class="am-input-group am-input-group-sm">
-									<input type="text" id="select-context" value="" class="am-form-field">
-									<span class="am-input-group-btn">
-										<button class="am-btn  am-btn-default am-btn-success tpl-am-btn-success am-icon-search" type="button" onclick="searchFunction()"></button>
-										<script type="text/javascript">
-											function searchFunction(){
-											    var myselect = document.getElementById("select-method");
-											    var index = myselect.selectedIndex; //被选中的搜索条件的下标
-											    var value = myselect.options[index].value;
-											    console.log(value);
-											    if(value === 'option1'){
-											        search_context = document.getElementById('select-context').value;
-											        console.log(search_context);
-                                                }
-												var my_tbody = document.getElementById("need-repay-info");
-												my_tbody.innerHTML = "";
 
-												var context = ["赵一样","123456123456789123","11111111","1123.12","小额贷款","2013-03-03  7:28:47"];
-												var totalnum = 3;
-												var index = 1;
-												for(var i=0;i<totalnum;i++){
-													my_tbody.innerHTML = my_tbody.innerHTML+'<'+
-													'tr><td><input type="checkbox"></td><td>'+
-													index+'</td><td class="am-hide-sm-only">'+
-													context[0]+'</td><td>'+
-													context[1]+'</td><td>'+
-													context[2]+'</td><td>'+
-													context[3]+'</td><td>'+
-													context[4]+'</td><td class="am-hide-sm-only">'+
-													context[5]+'</td><td><div class="am-btn-toolbar">'+
-													'<div class="am-btn-groupam-btn-group-xs"><button '+
-													'class="am-btn am-btn-default am-btn-xs am-text-secondary">'+
-													'<span class="am-icon-pencil-square-o"></span>'+
-													'还款</button></div></div></td></tr>';
+    </div>
 
-													index+=1;
-												}
-											};
-										</script>
-									</span>
-
-								</div>
-							</div>
-						</div>
-						<div class="am-g">
-							<div class="am-u-sm-12">
-								<form class="am-form">
-									<table class="am-table am-table-striped am-table-hover table-main">
-										<thead>
-											<tr>
-												<th class="table-check"><input type="checkbox" class="tpl-table-fz-check"></th>
-												<th class="table-id">ID</th>
-												<th class="table-author am-hide-sm-only">姓名</th>
-												<th calss="table-title table-title-id">身份证号</th>
-												<th class="table-title">贷款单号</th>
-												<th class="table-type">贷款类别</th>
-												<th class="table-type">贷款金额</th>
-												<th class="table-date am-hide-sm-only">		贷款日期			</th>
-												<th class="table-set">操作</th>
-											</tr>
-										</thead>
-										<tbody id="need-repay-info">
-										</tbody>
-									</table>
-
-									<hr>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-
-	</div>
+</div>
 <script src="../static/js/jquery.min.js"></script>
-        <script src="../static/js/amazeui.min.js"></script>
-        <script src="../static/js/app.js"></script>
-    <script src="../static/js/ExitModal.js"></script>
-
+<script src="../static/js/amazeui.min.js"></script>
+<script src="../static/js/app.js"></script>
+<script src="../static/js/ExitModal.js"></script>
+<script type="text/javascript" src="../static/js/repayment.js"></script>
 
 <!--下面是导航栏需要的脚本！！！-->
 <script src="../static/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>

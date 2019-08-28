@@ -3,6 +3,8 @@
 import os
 import sys
 
+import chainServer
+
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'shield.settings')

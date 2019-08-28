@@ -52,17 +52,17 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href=".\lending.html">
+                            <a class="nav-link" id="triggerBtn1" data-whatever="lend">
                                 贷款
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href=".\repayment.html">
+                            <a class="nav-link" id="triggerBtn2" data-whatever="repay">
                                 还款
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href=".\query.html">
+                            <a class="nav-link" id="triggerBtn3>
                                 查询
                             </a>
                         </li>
@@ -75,13 +75,9 @@
                             <div class="dropdown-menu dropdown-menu-right"
                                 aria-labelledby="navbarDropdownMenuLink">
                                 <a class="top_dropdown_header dropdown-header">账户管理</a>
-                                <a class="dropdown-item" href="#">账户信息</a>
+                                <a class="dropdown-item" >账户信息</a>
                                 <!-- <a class="dropdown-item" href="#">修改密码</a>
                                 <a class="dropdown-item" href="#">退出登录</a> -->
-                                <div class="divider"></div>
-                                <a class="dropdown-item" href="#">修改密码</a>
-                                <div class="divider"></div>
-                                <a class="dropdown-item" href="#">退出登录</a>
                             </div>
                         </li>
                     </ul>
@@ -90,16 +86,14 @@
         </div>
     </nav>
     <!-- End Navbar -->
+
     <div class="wrapper">
         <div class="page-header clear-filter" filter-color="black"><!--遮罩的颜色-->
             <div class="page-header-image" data-parallax="true" style="background-image: url('../static/img/home.jpg');">
             </div>
             <div class="container">
                 <div class="content-center brand">
-                    <!-- <img class="n-logo" src="../static/img/home_logo.png" alt=""> -->
-                    <!-- <h1 class="h1-seo">点击开始</h1> -->
-                    <!-- 触发按钮 href="./login.html" -->
-                    <a id="triggerBtn" class="home_login_start" rel="tooltip" title="" data-placement="bottom">
+                    <a id="triggerBtn" class="home_login_start" rel="tooltip" data-whatever="add" title="" data-placement="bottom">
                         <h1 class="h1-seo">点击开始</h1>
                     </a>
 

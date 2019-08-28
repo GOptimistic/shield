@@ -42,13 +42,18 @@ def login(request):
         req = json.loads(request.body)
         userID = req['userID']
         pwd = req['pwd']
-        searchArray = User.objects.filter(username=userID, password=pwd)
-        if searchArray:
-            request.session['username'] = userID
-            request.session['is_login'] = 'true'
-            request.session.set_expiry(7 * 24 * 60 * 60)
-            # request.session.set_expiry(0)
-            return JsonResponse({'status': 200, 'msg': 'login successfully'})
+        if userID == "":
+            return JsonResponse({'result': 200, 'msg': '用户名为空'})
+        elif pwd == "":
+            return JsonResponse({'result': 200, 'msg': '密码为空'})
+
+        searchName = User.objects.filter(username=userID)
+        if searchName:
+            searchUser = User.objects.filter(username=userID, password=pwd)
+            if searchUser:
+                return JsonResponse({'result': 200, 'msg': 'login successfully'})
+            else:
+                return JsonResponse({'result': 200, 'msg': '密码错误'})
         else:
             return JsonResponse({'status': 200, 'msg': 'wrong user name or password'})
 
@@ -59,3 +64,24 @@ def logout(request):
         request.session.clear_expired()
         request.session.flush()
     return JsonResponse({'status': 200, 'msg': 'logout successfully'})
+            return JsonResponse({'result': 200, 'msg': '用户名不存在'})
+
+
+@csrf_exempt
+def repayment(request):
+    if request.method == 'POST':
+        req = json.loads(request.body)
+        search_context = req['search_context']
+        search_status = req['search_status']
+        if search_context == "":
+            return JsonResponse({'result': 200, 'msg': '输入为空'})
+
+        if search_status == "option1":
+            searchPhone = Borrower.objects.all()
+            print(searchPhone)
+            return JsonResponse({})
+            # return JsonResponse({'result': 200, 'msg': 'login successfully'})
+            #     else:
+            #         return JsonResponse({'result': 200, 'msg': '密码错误'})
+            # else:
+            #     return JsonResponse({'result': 200, 'msg': '用户名不存在'})
