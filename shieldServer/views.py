@@ -117,4 +117,3 @@ def accountinfo(request):
         #     else:
         #         return JsonResponse({'result': 200, 'msg': '密码错误'})
         # else:
-        #     return JsonResponse({'status': 200, 'msg': 'wrong user name or password'})
