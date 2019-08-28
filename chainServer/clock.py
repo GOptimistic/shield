@@ -18,6 +18,9 @@ class Block:
         return self._hash
 
     @property
+    def timestamp(self):
+        return self._timestamp
+    @property
     def index(self):
         return self._index
 
@@ -88,31 +91,36 @@ def record(request):
   return "Record submission successful\n"
 # @node.route('/blocks', methods=['GET'])
 #  GET block
-def get_blocks():
-  chain_to_send = chain
-  # Convert our blocks into dictionaries
-  # so we can send them as json objects later
-  for i in range(len(chain_to_send)):
-    block = chain_to_send[i]
-    block_index = str(block.index)
-    block_timestamp = str(block.timestamp)
-    block_data = str(block.data)
-    block_hash = block.hash
-    chain_to_send[i] = {
-      "index": block_index,
-      "timestamp": block_timestamp,
-      "data": block_data,
-      "hash": block_hash
-    }
-  chain_to_send = json.dumps(chain_to_send)
-  return chain_to_send
+  def get_blocks(request):
+      pass
+#   chain_to_send = chain
+#   # Convert our blocks into dictionaries
+#   # so we can send them as json objects later
+#   for i in range(len(chain_to_send)):
+#     block = chain_to_send[i]
+#     block_index = str(block.index)
+#     block_timestamp = str(block.timestamp)
+#     block_data = str(block.data)
+#     block_hash = block.hash
+#     chain_to_send[i] = {
+#       "index": block_index,
+#       "timestamp": block_timestamp,
+#       "data": block_data,
+#       "hash": block_hash
+#     }
+#     chain_to_send[i] = json.dumps(chain_to_send[i])
+#
+#   sendstring="区块链详细信息： "
+#   for i in range(len(chain_to_send)):
+#     sendstring+=str(chain_to_send[i])
+#   return HttpResponse(sendstring)
 
 def find_new_chains():
   # Get the blockchains of every other node
   other_chains = []
   for node_url in peer_nodes:
     # Get their chains using a GET request
-    block = requests.get(node_url + "/blocks").content
+    block = requests.get(node_url + "/get").content
     # Convert the JSON object to a Python dictionary
     block = json.loads(block)
     # Add it to our list
