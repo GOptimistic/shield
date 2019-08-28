@@ -14,10 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.urls import re_path
 from shieldServer import views
-from clockchain import clock
+from chainServer import clock
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.home),
@@ -28,6 +28,7 @@ urlpatterns = [
     path("mine/", clock.mine),
     path("show/", clock.show),
     path('repayment/', views.repayment, name='repayment'),
-    path('accountinfo/', views.accountinfo, name="accountinfo"),
-    re_path(r'^index/(\w+).html$', views.others)
+    re_path(r'index/query_result\.html\?idNumber=(\w*)&loanNumber=(\d*)&loanDate=(\S*)',views.query),
+    re_path(r'^index/(\w+).html$', views.others),
+    path('accountinfo/', views.accountinfo, name= "accountinfo"),
 ]

@@ -1,13 +1,10 @@
-# from django.contrib.sessions import serializers
-# from django.contrib.postgres import serializers
-from django.core import serializers
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-from shieldServer import models
 from .models import User, Borrower
 from django.http import HttpResponse, JsonResponse
+from django.core import serializers
 
 
 # Create your views here.
@@ -33,12 +30,42 @@ def others(request, file):
             return render(request, 'query.html')
         if file == 'query_analysis':
             return render(request, 'query_analysis.html')
-        if file == 'query_result':
-            return render(request, 'query_result.html')
+        if file == 'accountinfo':
+                return render(request, 'accountinfo.html')
         if file == 'home':
             return render(request, 'home.html')
-        if file == 'accountinfo':
-            return render(request, 'accountinfo.html')
+        if file == 'home_after':
+            return render(request, 'home_after.html')
+        if file == 'query_result':
+            idNumber = request.GET.get('idNumber')
+            loanNumber = request.GET.get('loanNumber')
+            loanDate = request.GET.get('loanDate')
+            print('idNumber:',idNumber)
+            print('loanNumber:',loanNumber)
+            print('loanDate:',loanDate)
+            if idNumber=='' and loanNumber=='' and loanDate=='':
+                print('必须填入一个条件')
+                return render(request, 'query_result.html')
+            query_person = Borrower.objects.all()
+            if idNumber:
+                query_person = query_person.filter(borrower_id=idNumber)
+            if loanNumber:
+                query_person = query_person.filter(trade_order=loanNumber)
+            if loanDate:
+                loanYear = loanDate.split('/',2)[2]     #获取年份
+                loanMonth = loanDate.split('/',2)[0]    #获取月份
+                loanDay = loanDate.split('/',2)[1]      #获取天数
+                print(loanYear,loanMonth,loanDay)
+                query_person = query_person.filter(borrower_time__year=loanYear,borrower_time__month=loanMonth,borrower_time__day=loanDay)
+            if query_person:
+                print('success')
+                print(query_person[0].borrower_name)
+                print(len(query_person))
+            else:
+                print('false')
+            context = {}
+            return render(request, 'query_result.html',context)
+
     else:
         return render(request, 'home.html')
 
@@ -78,22 +105,74 @@ def logout(request):
 
 @csrf_exempt
 def repayment(request):
+    pid = []
+    borrower_name = []
+    borrower_id = []
+    trade_order = []
+    trade_type = []
+    trade_money = []
+    trade_date = []
+    end_date = []
+
     if request.method == 'POST':
         req = json.loads(request.body)
         search_context = req['search_context']
         search_status = req['search_status']
-        if search_context == "":
-            return JsonResponse({'result': 200, 'msg': '输入为空'})
+        # if search_context == "":
+        #     return JsonResponse({'result': 200, 'msg': '输入为空'})
 
         if search_status == "option1":
-            searchPhone = Borrower.objects.all()
-            print(searchPhone)
-            return JsonResponse({})
-            # return JsonResponse({'result': 200, 'msg': 'login successfully'})
-            #     else:
-            #         return JsonResponse({'result': 200, 'msg': '密码错误'})
-            # else:
-            #     return JsonResponse({'result': 200, 'msg': '用户名不存在'})
+            search = Borrower.objects.all()
+
+            for e in search:
+                if e.borrower_id == search_context:
+                    if ~e.payback:
+                        pid.append(e.pid)
+                        borrower_name.append(e.borrower_name)
+                        borrower_id.append(e.borrower_id)
+                        trade_order.append(e.trade_order)
+                        trade_type.append(e.borrow_type)
+                        trade_money.append(e.borrower_sum)
+                        trade_date.append(e.borrower_time)
+                        end_date.append(e.payback_time)
+        else:
+            search = Borrower.objects.all()
+            for e in search:
+                if e.trade_order == search_context:
+                    if ~e.payback:
+                        pid.append(e.pid)
+                        borrower_name.append(e.borrower_name)
+                        borrower_id.append(e.borrower_id)
+                        trade_order.append(e.trade_order)
+                        trade_type.append(e.borrow_type)
+                        trade_money.append(e.borrower_sum)
+                        trade_date.append(e.borrower_time)
+                        end_date.append(e.payback_time)
+        data = ""
+        for i in range(len(pid)):
+            if i == len(pid) - 1:
+                data = data + "{\"p_index\": " + str(pid[i]) + ", \"borrower_name\": \"" + str(borrower_name[i]) \
+                       + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(trade_order[i]) \
+                       + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
+                       + "\",\"trade_date\": \"" + str(trade_date[i]) + "\", \"end_date\":\"" + str(end_date[i]) + "\"}"
+            else:
+                data = data + "{\"p_index\": " + str(pid[i]) + ", \"borrower_name\": \"" + str(borrower_name[i]) \
+                       + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(trade_order[i]) \
+                       + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
+                       + "\",\"trade_date\": \"" + str(trade_date[i]) + "\", \"end_date\":\"" + str(
+                    end_date[i]) + "\"}, "
+
+        jsonArr = "[" + data + "]"
+        print(jsonArr)
+        print(type(jsonArr))
+        json_data = json.loads(jsonArr)
+        print(type(json_data))
+        print(json_data)
+    return JsonResponse(json_data, safe=False)
+
+
+def repaymentPage(request):
+    return render_to_response("repayment.html")
 
 
 @csrf_exempt
@@ -166,3 +245,11 @@ def accountinfo(request):
             # return JsonResponse({'status': 200, 'msg': 'con not get the person'})
         return JsonResponse({'status': 200, 'msg': 'con not get the person'})
 
+
+
+def query(request, idNumber, loanNumber, loanDate):
+    print('aaa')
+    print(idNumber)
+    print(loanNumber)
+    print(loanDate)
+    return render(request, 'home.html')
