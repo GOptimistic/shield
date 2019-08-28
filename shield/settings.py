@@ -134,5 +134,5 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR), 'shieldServer/../static')
 DATABASE_ROUTERS = ['shield.database_router.DatabaseAppsRouter']
 DATABASE_APPS_MAPPING = {
     'shieldServer': 'default',
-    'chainServer': 'chain_db',
+    # 'chainServer': 'chain_db',
 }
