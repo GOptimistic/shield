@@ -29,12 +29,17 @@ class Block:
     @property
     def data(self):
         return self._data
-
+    @property
+    def previous_hash(self):
+        return self.previous_hash
     def hash_block(self):
         sha = hasher.sha256()
         temp = str(self._index) + str(self._timestamp) + str(self._data) + str(self._previous_hash)
         sha.update(temp.encode("utf8"))
         return sha.hexdigest()
+    def set_data(self,strdata):
+        self._data=eval(strdata)
+
 # get data from Recordnodes to chain
 def create_genesis_block():
   # Manually construct a block with
@@ -45,7 +50,6 @@ def create_genesis_block():
 chain = [create_genesis_block()]
 def getchain():
     recordlist=Recordnodes.objects.all()
-    print(len(recordlist))
     for var in recordlist:
         chain.append(Block(var.id,var.default_date,{ 'name': var.name, 'ID':var.ID_card , 'money': var.money,'funding_terms':var.funding_terms},var.hash_previous))
 getchain()
@@ -79,16 +83,18 @@ mining = False
     # print("Block #{} 已经加入区块链!".format(block_to_add.index))
     # print("Hash: {}".format(block_to_add.hash))
     # print("Data: {}\n".format(block_to_add.data))
-for i in range(len(chain)):
+def printchain():
+  for i in range(len(chain)):
     print("Block #{} 已经加入区块链!".format(chain[i].index))
     print("Hash: {}".format(chain[i].hash))
     print("Data: {}\n".format(chain[i].data))
-print(len(chain))
+  print(len(chain))
     # @node.route('/txion', methods=['POST'])
 def record(request):
   # On each new POST request,
   # we extract the record data
   new_record = request.get_json()
+  new_record=json.loads(new_record)
   # Then we add the transaction to our list
   this_nodes_records.append(new_record)
   # Because the transaction was successfully
@@ -102,30 +108,26 @@ def record(request):
   return "Record submission successful\n"
 # @node.route('/blocks', methods=['GET'])
 #  GET block
-  def get_blocks(request):
-      pass
-#   chain_to_send = chain
-#   # Convert our blocks into dictionaries
-#   # so we can send them as json objects later
-#   for i in range(len(chain_to_send)):
-#     block = chain_to_send[i]
-#     block_index = str(block.index)
-#     block_timestamp = str(block.timestamp)
-#     block_data = str(block.data)
-#     block_hash = block.hash
-#     chain_to_send[i] = {
-#       "index": block_index,
-#       "timestamp": block_timestamp,
-#       "data": block_data,
-#       "hash": block_hash
-#     }
-#     chain_to_send[i] = json.dumps(chain_to_send[i])
-#
-#   sendstring="区块链详细信息： "
-#   for i in range(len(chain_to_send)):
-#     sendstring+=str(chain_to_send[i])
-#   return HttpResponse(sendstring)
-
+def get_blocks(request):
+   chain_to_send = chain
+  # Convert our blocks into dictionaries
+  # so we can send them as json objects later
+   for i in range(len(chain_to_send)):
+    block = chain_to_send[i]
+    block_index = str(block.index)
+    block_timestamp = str(block.timestamp)
+    block_data = str(block.data)
+    block_previous_hash=block.previous_hash
+    block_hash = block.hash
+    chain_to_send[i] = {
+      'index': block_index,
+      'timestamp': block_timestamp,
+      'data': block_data,
+      'previous_hash':block_previous_hash
+      'hash': block_hash
+    }
+    chain_to_send = json.dumps(chain_to_send)
+   return JsonResponse(chain_to_send)
 def find_new_chains():
   # Get the blockchains of every other node
   other_chains = []
@@ -138,19 +140,36 @@ def find_new_chains():
     other_chains.append(block)
   return other_chains
 
-# def consensus():
-#   # Get the blocks from other nodes
-#   other_chains = find_new_chains()
-#   # If our chain isn't longest,
-#   # then we store the longest chain
-#   longest_chain = chain
-#   for chains in other_chains:
-#     if len(longest_chain) < len(chains):
-#       longest_chain = chains
-#   # If the longest chain isn't ours,
-#   # then we stop mining and set
-#   # our chain to the longest one
-#   chain = longest_chain
+def consensus():
+  # Get the blocks from other nodes
+  othernodeschains = find_new_chains()
+  # If our chain isn't longest,
+  # then we store the longest chain
+  longest_chain=chain
+  for chains in longest_chain:
+      chains={
+      'index': str(chains.index),
+      'timestamp': str(chains.timestamp),
+      'data': str(chains.data),
+      'previous_hash':chains.previous_hash,
+      'hash': chains.hash
+    }
+  change=False
+  for chains in othernodeschains:
+    if len(longest_chain) < len(chains):
+      change=True
+      longest_chain = chains
+  # If the longest chain isn't ours,
+  # then we stop mining and set
+  # our chain to the longest one
+  if change:
+   chain.clear()
+   Recordnodes.objects.all().delete()
+   print("delete origin data")
+   for chains in longest_chain:
+       chains.data=eval(chains.data)
+       chain.append(Block(chains.id, chains.default_date,chains.data,chains.previous_hash))
+       Recordnodes(id=chains.index,name=chains.data['name'],ID_card=chains.data['ID'],money=chains.data['money'],funding_terms=chains.data['funding_terms'],default_date=chains.timestamp,hash_previous=chains.previous_hash,hash_current=chains.hash).save()
 
 # def proof_of_work(last_proof):
 #   # Create a variable that we will use to find
@@ -169,17 +188,16 @@ def find_new_chains():
 
 # @node.route('/mine', methods = ['GET'])
 def mine(request):
+  record(request)
   last_block = chain[len(chain) - 1]
   # the current block being mined
   # we reward the miner by adding a record
-  this_nodes_records.append(
-    { 'name': 'lww', 'ID': 142328, 'money': 1,'funding_terms':10}
-  )
+  # this_nodes_records.append(
+  #   { 'name': 'lww', 'ID': 142328, 'money': 1,'funding_terms':10}
+  # )
   # Now we can gather the data needed
   # to create the new block
-  new_block_data = {
-    "record": list(this_nodes_records)
-  }
+  new_block_data = this_nodes_records[0]
   new_block_index = last_block.index + 1
   new_block_timestamp = date.datetime.now()
   last_block_hash = last_block.hash
@@ -203,9 +221,9 @@ def mine(request):
   })
 
 def show(request):
-     showtext=""
+     showtxt=""
      for i in chain:
-         showtext+="Block #{}  ".format(i.index)
-         showtext+="recorddata: {}".format(i.data)
-         showtext+="hash:  {}".format(i.hash)
-     return HttpResponse(showtext)
+         showtxt+="Block #{}  ".format(i.index)
+         showtxt+="recorddata: {}".format(i.data)
+         showtxt+="hash:  {}".format(i.hash)
+     return HttpResponse(showtxt)
