@@ -123,7 +123,7 @@ def get_blocks(request):
       'index': block_index,
       'timestamp': block_timestamp,
       'data': block_data,
-      'previous_hash':block_previous_hash
+      'previous_hash':block_previous_hash,
       'hash': block_hash
     }
     chain_to_send = json.dumps(chain_to_send)
