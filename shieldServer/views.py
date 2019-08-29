@@ -1,7 +1,7 @@
 from django.shortcuts import render, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 import json
-
+import time
 from .models import User, Borrower
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
@@ -124,13 +124,14 @@ def repayment(request):
         req = json.loads(request.body)
         search_context = req['search_context']
         search_status = req['search_status']
-        # if search_context == "":
-        #     return JsonResponse({'result': 200, 'msg': '输入为空'})
 
         if search_status == "option1":
             search = Borrower.objects.all()
 
             for e in search:
+                # if e.payback == "0":
+                #     if e.borrower_name == "李文炜":
+
                 if e.borrower_id == search_context:
                     if e.payback == "0":
                         pid.append(e.pid)
@@ -140,7 +141,7 @@ def repayment(request):
                         trade_type.append(e.borrow_type)
                         trade_money.append(e.borrower_sum)
                         trade_date.append(e.borrower_time)
-                        end_date.append(e.payback_time)
+                        end_date.append(e.should_payback_time)
         else:
             search = Borrower.objects.all()
             for e in search:
@@ -153,7 +154,7 @@ def repayment(request):
                         trade_type.append(e.borrow_type)
                         trade_money.append(e.borrower_sum)
                         trade_date.append(e.borrower_time)
-                        end_date.append(e.payback_time)
+                        end_date.append(e.should_payback_time)
         data = ""
         for i in range(len(pid)):
             if i == len(pid) - 1:
@@ -165,8 +166,7 @@ def repayment(request):
                 data = data + "{\"p_index\": " + str(pid[i]) + ", \"borrower_name\": \"" + str(borrower_name[i]) \
                        + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(trade_order[i]) \
                        + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
-                       + "\",\"trade_date\": \"" + str(trade_date[i]) + "\", \"end_date\":\"" + str(
-                    end_date[i]) + "\"}, "
+                       + "\",\"trade_date\": \"" + str(trade_date[i]) + "\", \"end_date\":\"" + str(end_date[i]) + "\"}, "
 
         jsonArr = "[" + data + "]"
         print(jsonArr)
