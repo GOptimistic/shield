@@ -20,15 +20,15 @@ function searchFunction() {
             var my_tbody = document.getElementById("need-repay-info");
             my_tbody.innerHTML = "";
             var index = 0;
-            for (; index < 3; index++) {
+            for (; index < re.length; index++) {
                 //for(var i in re){
                 console.log(re[index]);
-                my_tbody.innerHTML = my_tbody.innerHTML + '<' + 'tr><td><input type="checkbox"></td><td>' +
+                my_tbody.innerHTML = my_tbody.innerHTML + '<tr id="repayment_tr' + (index+1) +'><td><input type="checkbox"></td><td>' +
                     (index + 1) + '</td><td class="am-hide-sm-only">' + re[index].borrower_name + '</td><td>' +
                     re[index].borrower_id + '</td><td>' + re[index].trade_order + '</td><td>' + re[index].trade_type +
                     '</td><td>' + re[index].trade_money + '</td><td>' + re[index].trade_date +
                     '</td><td>' + re[index].end_date + '</td><td><div class="am-btn-toolbar">' +
-                    '<div class="am-btn-groupam-btn-group-xs"><button ' + 'id="payback_btn' + (index+1) + '" ' +
+                    '<div class="am-btn-groupam-btn-group-xs"><button ' + 'id="' + (index+1) + '" onclick="repayment_btn_action(this)" ' +
                     'class="am-btn am-btn-default am-btn-xs am-text-secondary">' +
                     '<span class="am-icon-pencil-square-o"></span>' +
                     '还款</button></div></div></td></tr>';
@@ -39,6 +39,9 @@ function searchFunction() {
         search_context: search_context,
         search_status: value
     };
+    function repayment_btn_action(element){
+        console.log(parseInt(element.id))
+    }
     xhrRegister.open('POST', 'http://127.0.0.1:8000/repayment/');
     xhrRegister.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
     xhrRegister.send(JSON.stringify(search));

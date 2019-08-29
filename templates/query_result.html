@@ -126,6 +126,7 @@
                                             <th class="table-type">贷款金额</th>
                                             <th class="table-type">贷款地点</th>
                                             <th class="table-date am-hide-sm-only">贷款日期</th>
+                                            <th class="table-date am-hide-sm-only">到期时间</th>
                                             <th class="table-date am-hide-sm-only">还款日期</th>
                                         </tr>
                                         </thead>
@@ -139,6 +140,7 @@
                                                 <td>{{ linequery_person.borrower_sum }}</td>
                                                 <td>{{ linequery_person.trade_place }}</td>
                                                 <td>{{ linequery_person.borrower_time }}</td>
+                                                <td>{{ linequery_person.should_payback_time }}</td>
                                                 <td>{{ linequery_person.payback_time }}</td>
                                             </tr>
                                         {% endfor %}
