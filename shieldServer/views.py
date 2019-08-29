@@ -45,6 +45,7 @@ def others(request, file):
             print('idNumber:', idNumber)
             print('loanNumber:', loanNumber)
             print('loanDate:', loanDate)
+            context = {}
             if idNumber == '' and loanNumber == '' and loanDate == '':
                 print('必须填入一个条件')
                 return render(request, 'query_result.html')
@@ -62,12 +63,14 @@ def others(request, file):
                                                    borrower_time__day=loanDay)
             if query_person:
                 print('success')
-                print(query_person[0].borrower_name)
+                #print(query_person[0].borrower_name)
+
+
                 print(len(query_person))
             else:
                 print('false')
-            context = {}
-            return render(request, 'query_result.html',context)
+
+            return render(request, 'query_result.html', {'query_person': query_person})
 
     else:
         return render(request, 'home.html')
