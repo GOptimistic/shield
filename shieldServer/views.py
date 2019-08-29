@@ -5,8 +5,8 @@ import time
 from .models import User, Borrower
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
-
-
+from apscheduler.scheduler import Scheduler
+from time import sleep
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
@@ -248,3 +248,17 @@ def query(request, idNumber, loanNumber, loanDate):
     print(loanNumber)
     print(loanDate)
     return render(request, 'home.html')
+
+def task_Fun():
+    print("hhhhhhhhhhhhhhhh")
+    sleep(1)
+
+
+sched=Scheduler()
+@sched.interval_schedule(seconds=6)
+def my_task1():
+    print('定时任务1开始\n')
+    task_Fun()
+    print('定时任务1结束\n')
+
+sched.start()
