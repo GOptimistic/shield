@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shieldServer', '0003_auto_20190828_1823'),
+        ('shieldServer', '0003_auto_20190827_1854'),
     ]
 
     operations = [
