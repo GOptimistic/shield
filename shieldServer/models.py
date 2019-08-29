@@ -18,7 +18,7 @@ class Borrower(models.Model):
     pid = models.AutoField(primary_key=True)
     borrower_name = models.CharField(max_length=255, default='')
     borrower_id = models.CharField(max_length=255, default='')
-    borrower_time = models.DateTimeField().formfield()
+    borrower_time = models.DateTimeField()
     borrower_sum = models.FloatField()
     borrow_type = models.CharField(max_length=255, default='')
     borrower_phone = models.CharField(max_length=255, default='')
