@@ -60,12 +60,12 @@ def others(request, file):
                                                    borrower_time__day=loanDay)
             if query_person:
                 print('success')
-                # print(query_person[0].borrower_name)
+                print(query_person[0].borrower_name)
                 print(len(query_person))
             else:
                 print('false')
             context = {}
-            return render(request, 'query_result.html', context)
+            return render(request, 'query_result.html',context)
 
     else:
         return render(request, 'home.html')
@@ -153,14 +153,12 @@ def repayment(request):
         for i in range(len(pid)):
             if i == len(pid) - 1:
                 data = data + "{\"p_index\": " + str(pid[i]) + ", \"borrower_name\": \"" + str(borrower_name[i]) \
-                       + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(
-                    trade_order[i]) \
+                       + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(trade_order[i]) \
                        + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
                        + "\",\"trade_date\": \"" + str(trade_date[i]) + "\", \"end_date\":\"" + str(end_date[i]) + "\"}"
             else:
                 data = data + "{\"p_index\": " + str(pid[i]) + ", \"borrower_name\": \"" + str(borrower_name[i]) \
-                       + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(
-                    trade_order[i]) \
+                       + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(trade_order[i]) \
                        + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
                        + "\",\"trade_date\": \"" + str(trade_date[i]) + "\", \"end_date\":\"" + str(
                     end_date[i]) + "\"}, "
@@ -247,6 +245,7 @@ def accountinfo(request):
             return JsonResponse(ajax_data, safe=False)
             # return JsonResponse({'status': 200, 'msg': 'con not get the person'})
         return JsonResponse({'status': 200, 'msg': 'con not get the person'})
+
 
 
 def query(request, idNumber, loanNumber, loanDate):
