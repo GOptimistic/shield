@@ -5,9 +5,14 @@ import time
 from .models import User, Borrower
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
+
+from django.utils.timezone import now
 from apscheduler.scheduler import Scheduler
 from time import sleep
+
 # Create your views here.
+
+
 def home(request):
     return render(request, 'home.html')
 
@@ -195,6 +200,8 @@ def add_lending(request):
         paybackTime = req['paybackTime']
         tradeOrder = req['tradeOrder']
         tradePlace = req['tradePlace']
+        funding_terms = req['funding_terms']
+        is_upload = req['isUpload']
         need_add_loan = Borrower.objects.get_or_create(
             borrower_name=borrower_Name,
             borrower_id=borrower_ID,
@@ -206,7 +213,9 @@ def add_lending(request):
             should_payback_time=shouldPaybackTime,
             payback_time=paybackTime,
             trade_order=tradeOrder,
-            trade_place=tradePlace)
+            trade_place=tradePlace,
+            funding_terms=funding_terms,
+            is_uploaded=is_upload)
         if need_add_loan:
             return JsonResponse({'status': 200, 'msg': 'add successfully'})
         return JsonResponse({'status': 200, 'msg': 'add failed'})
@@ -232,16 +241,25 @@ def query(request, idNumber, loanNumber, loanDate):
     print(loanDate)
     return render(request, 'home.html')
 
+
+# 定时查询违约信息
 def task_Fun():
-    print("hhhhhhhhhhhhhhhh")
+    default_info = Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0)\
+        .values('pid', 'borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'borrower_phone', 'borrower_sum',
+                'borrower_time')
+    default_info = list(default_info)
+    print(default_info)
     sleep(1)
 
 
-sched=Scheduler()
-@sched.interval_schedule(seconds=6)
+sched = Scheduler()
+
+
+@sched.interval_schedule(seconds=10)
 def my_task1():
     print('定时任务1开始\n')
     task_Fun()
     print('定时任务1结束\n')
+
 
 sched.start()

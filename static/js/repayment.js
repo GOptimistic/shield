@@ -28,7 +28,8 @@ function searchFunction() {
                     re[index].borrower_id + '</td><td>' + re[index].trade_order + '</td><td>' + re[index].trade_type +
                     '</td><td>' + re[index].trade_money + '</td><td>' + re[index].trade_date +
                     '</td><td>' + re[index].end_date + '</td><td><div class="am-btn-toolbar">' +
-                    '<div class="am-btn-groupam-btn-group-xs"><button ' + 'id="' + (index+1) + '" onclick="repayment_btn_action(this)" ' +
+                    '<div class="am-btn-groupam-btn-group-xs"><button  type="button" ' +
+                    'id="' + (index+1) + '" onclick="repayment_btn_action(this)" ' +
                     'class="am-btn am-btn-default am-btn-xs am-text-secondary">' +
                     '<span class="am-icon-pencil-square-o"></span>' +
                     '还款</button></div></div></td></tr>';

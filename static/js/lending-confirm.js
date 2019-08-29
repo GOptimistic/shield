@@ -24,23 +24,27 @@ window.onload = function () {
 };
 
 cirBtn.onclick = function () {
+    alert('pushed');
     //交易单号位交易地点代码+交易时间(距离1970/01/01的毫秒数)
     let borrowDatetime = new Date().Format("yyyy-MM-dd HH:mm:ss");
     let tradeOrder = '000' + Date.parse(borrowDatetime);
-
+    tradeOrder = tradeOrder.slice(0,-3);
     loanInfo.borrowerTime = borrowDatetime;
     loanInfo.tradeOrder = tradeOrder;
     loanInfo.tradePlace = '中国银行江宁分行';
     loanInfo.payback = 0;
     loanInfo.paybackTime = null;
+    loanInfo.funding_terms = 0;
+    loanInfo.isUpload = 0;
 
-    let response = JSON.parse(xhrRegister.responseText);
+    var response;
     ajaxResponse(xhrRegister, function () {
-
+        response = JSON.parse(xhrRegister.responseText);
         alert(response.msg);
         localStorage.removeItem('loanInfo');
         location.assign('http://127.0.0.1:8000/index/lending.html');
     }, function () {
+        response = JSON.parse(xhrRegister.responseText);
         alert(response.msg);
         localStorage.removeItem('loanInfo');
         location.assign('http://127.0.0.1:8000/index/lending.html');

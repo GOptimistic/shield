@@ -27,11 +27,15 @@ class Borrower(models.Model):
     payback_time = models.DateTimeField()
     trade_order = models.CharField(max_length=255, default='')
     trade_place = models.CharField(max_length=255, default='')
+    funding_terms = models.IntegerField()
+    is_uploaded = models.IntegerField()
 
     def __str__(self):
-        borrow_list = {self.pid,self.borrower_name,self.borrower_id,self.trade_order,self.borrow_type,self.borrower_sum,self.borrower_time}
+        borrow_list = {self.pid, self.borrower_name, self.borrower_id, self.trade_order, self.borrow_type,
+                       self.borrower_sum, self.borrower_time}
         # return borrow_list
         return self.borrower_name
 
+
 class Meta:
-         app_label = 'shieldServer'
+    app_label = 'shieldServer'
