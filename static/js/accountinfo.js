@@ -7,17 +7,23 @@ window.onload = function () {
     ajaxResponse(xhrRegister,
         function () {
             let str = xhrRegister.responseText;
-            let jsonString = toJSONStr(str);
-            workerinfo = JSON.parse(jsonString);
-            let inside = workerinfo['fields'];
-            console.log(inside);
-            let fie = JSON.stringify(inside);
-            let test = JSON.parse(fie);
-            //var jsone = eval("("+ inside +")");
-            //console.log(jsone);
-            hName.innerHTML = test.user_real_name;
-            hId.innerHTML = test.username;
-            testP.innerHTML = test.user_phone;
+            console.log('123');
+            console.log(str);
+            //let jsonString = toJSONStr(str);
+            //workerinfo = JSON.parse(jsonString);
+            workerinfo = JSON.parse(str);
+            //let inside = workerinfo['fields'];
+            //console.log(inside);
+            //let fie = JSON.stringify(inside);
+            //let test = JSON.parse(fie);
+
+             hName.innerHTML = workerinfo.user_real_name;
+            hId.innerHTML = workerinfo.username;
+            testP.innerHTML = workerinfo.user_phone;
+
+            // hName.innerHTML = test.user_real_name;
+            // hId.innerHTML = test.username;
+            // testP.innerHTML = test.user_phone;
         }, function () {
         });
     xhrRegister.open('POST', 'http://127.0.0.1:8000/accountinfo/');

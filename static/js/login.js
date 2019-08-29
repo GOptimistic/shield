@@ -4,7 +4,6 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
         if (xhr.readyState === 4) {
             console.log(xhr.status);
             if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
-                //alert("成功");
                 successFunction();
             } else {
                 // alert("失败" + xhr.status);

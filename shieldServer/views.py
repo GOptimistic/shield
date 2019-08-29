@@ -52,9 +52,9 @@ def others(request, file):
             if loanNumber:
                 query_person = query_person.filter(trade_order=loanNumber)
             if loanDate:
-                loanYear = loanDate.split('/',2)[2]     #获取年份
-                loanMonth = loanDate.split('/',2)[0]    #获取月份
-                loanDay = loanDate.split('/',2)[1]      #获取天数
+                loanYear = loanDate.split('/',2)[2]     # 获取年份
+                loanMonth = loanDate.split('/',2)[0]    # 获取月份
+                loanDay = loanDate.split('/',2)[1]      # 获取天数
                 print(loanYear,loanMonth,loanDay)
                 query_person = query_person.filter(borrower_time__year=loanYear,borrower_time__month=loanMonth,borrower_time__day=loanDay)
             if query_person:
@@ -236,10 +236,13 @@ def accountinfo(request):
     if request.method == 'POST':
         # req = json.loads(request.body)
         print(request.session['username'])
-        worker = User.objects.filter(username=request.session['username'])
+        worker = User.objects.filter(username=request.session['username'])\
+            .only('username', 'user_real_name', 'user_phone')
+        print(worker.__str__())
         if worker:
             ajax_data = serializers.serialize("json", worker)
             print(ajax_data)
+
             # sta_str = {'status': 200, 'msg': 'get the person'}
             return JsonResponse(ajax_data, safe=False)
             # return JsonResponse({'status': 200, 'msg': 'con not get the person'})
