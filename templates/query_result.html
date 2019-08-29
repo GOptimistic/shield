@@ -124,18 +124,24 @@
                                             <th class="table-title">贷款单号</th>
                                             <th class="table-type">贷款类别</th>
                                             <th class="table-type">贷款金额</th>
+                                            <th class="table-type">贷款地点</th>
                                             <th class="table-date am-hide-sm-only">贷款日期</th>
+                                            <th class="table-date am-hide-sm-only">还款日期</th>
                                         </tr>
                                         </thead>
                                         <tbody id="need-repay-info">
-                                        <tr>
-                                            <td class="am-hide-sm-only">赵一样</td>
-                                            <td>123456123456789123</td>
-                                            <td>11111111</td>
-                                            <td>1123.12</td>
-                                            <td>小额贷款</td>
-                                            <td class="am-hide-sm-only">2013-03-03 7:28:47</td>
-                                        </tr>
+                                        {% for linequery_person in query_person %}
+                                            <tr>
+                                                <td>{{ linequery_person.borrower_name }}</td>
+                                                <td>{{ linequery_person.borrower_id }}</td>
+                                                <td>{{ linequery_person.trade_order }}</td>
+                                                <td>{{ linequery_person.borrow_type }}</td>
+                                                <td>{{ linequery_person.borrower_sum }}</td>
+                                                <td>{{ linequery_person.trade_place }}</td>
+                                                <td>{{ linequery_person.borrower_time }}</td>
+                                                <td>{{ linequery_person.payback_time }}</td>
+                                            </tr>
+                                        {% endfor %}
                                         </tbody>
                                     </table>
                                 </form>

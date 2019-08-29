@@ -28,20 +28,11 @@ function searchFunction() {
                     re[index].borrower_id + '</td><td>' + re[index].trade_order + '</td><td>' + re[index].trade_type +
                     '</td><td>' + re[index].trade_money + '</td><td>' + re[index].trade_date +
                     '</td><td>' + re[index].end_date + '</td><td><div class="am-btn-toolbar">' +
-                    '<div class="am-btn-groupam-btn-group-xs"><button ' +
+                    '<div class="am-btn-groupam-btn-group-xs"><button ' + 'id="payback_btn' + (index+1) + '" ' +
                     'class="am-btn am-btn-default am-btn-xs am-text-secondary">' +
                     '<span class="am-icon-pencil-square-o"></span>' +
                     '还款</button></div></div></td></tr>';
             }
-            // let each = [];
-            // each.push(re.p_index);
-            // each.push(re.borrower_name);
-            // each.push(re.borrower_id);
-            // each.push(re.trade_order);
-            // each.push(re.trade_type);
-            // each.push(re.trade_money);
-            // each.push(re.trade_date);
-            // each.push(re.end_date);
         }, function () {
         });
     let search = {
