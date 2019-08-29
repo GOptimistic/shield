@@ -132,7 +132,7 @@ def repayment(request):
 
             for e in search:
                 if e.borrower_id == search_context:
-                    if ~e.payback:
+                    if e.payback == "0":
                         pid.append(e.pid)
                         borrower_name.append(e.borrower_name)
                         borrower_id.append(e.borrower_id)
@@ -145,7 +145,7 @@ def repayment(request):
             search = Borrower.objects.all()
             for e in search:
                 if e.trade_order == search_context:
-                    if ~e.payback:
+                    if e.payback == "0":
                         pid.append(e.pid)
                         borrower_name.append(e.borrower_name)
                         borrower_id.append(e.borrower_id)
