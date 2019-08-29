@@ -1,7 +1,7 @@
 from django.shortcuts import render, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 import json
-import time
+
 from .models import User, Borrower
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
@@ -63,8 +63,7 @@ def others(request, file):
                                                    borrower_time__day=loanDay)
             if query_person:
                 print('success')
-                #print(query_person[0].borrower_name)
-
+                # print(query_person[0].borrower_name)
 
                 print(len(query_person))
             else:
@@ -127,13 +126,9 @@ def repayment(request):
 
         if search_status == "option1":
             search = Borrower.objects.all()
-
             for e in search:
-                # if e.payback == "0":
-                #     if e.borrower_name == "李文炜":
-
                 if e.borrower_id == search_context:
-                    if e.payback == "0":
+                    if e.payback == 0:
                         pid.append(e.pid)
                         borrower_name.append(e.borrower_name)
                         borrower_id.append(e.borrower_id)
@@ -146,7 +141,7 @@ def repayment(request):
             search = Borrower.objects.all()
             for e in search:
                 if e.trade_order == search_context:
-                    if e.payback == "0":
+                    if e.payback == 0:
                         pid.append(e.pid)
                         borrower_name.append(e.borrower_name)
                         borrower_id.append(e.borrower_id)
@@ -156,6 +151,7 @@ def repayment(request):
                         trade_date.append(e.borrower_time)
                         end_date.append(e.should_payback_time)
         data = ""
+        print(len(pid))
         for i in range(len(pid)):
             if i == len(pid) - 1:
                 data = data + "{\"p_index\": " + str(pid[i]) + ", \"borrower_name\": \"" + str(borrower_name[i]) \
@@ -242,13 +238,12 @@ def accountinfo(request):
     if request.method == 'POST':
         # req = json.loads(request.body)
         print(request.session['username'])
-        worker = User.objects.filter(username=request.session['username'])\
+        worker = User.objects.filter(username=request.session['username']) \
             .values('username', 'user_real_name', 'user_phone')
         if worker:
             worker = list(worker)
             return JsonResponse(worker, safe=False)
         return JsonResponse({'status': 200, 'msg': 'con not get the person'})
-
 
 
 def query(request, idNumber, loanNumber, loanDate):
