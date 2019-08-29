@@ -6,24 +6,12 @@ window.onload = function () {
     let xhrRegister = new XMLHttpRequest();
     ajaxResponse(xhrRegister,
         function () {
-            let str = xhrRegister.responseText;
-            console.log('123');
-            console.log(str);
-            //let jsonString = toJSONStr(str);
-            //workerinfo = JSON.parse(jsonString);
-            workerinfo = JSON.parse(str);
-            //let inside = workerinfo['fields'];
-            //console.log(inside);
-            //let fie = JSON.stringify(inside);
-            //let test = JSON.parse(fie);
-
+             let jsonString = listToJSONStr(xhrRegister.responseText);
+            //console.log(jsonString);
+            workerinfo = JSON.parse(jsonString);
              hName.innerHTML = workerinfo.user_real_name;
             hId.innerHTML = workerinfo.username;
             testP.innerHTML = workerinfo.user_phone;
-
-            // hName.innerHTML = test.user_real_name;
-            // hId.innerHTML = test.username;
-            // testP.innerHTML = test.user_phone;
         }, function () {
         });
     xhrRegister.open('POST', 'http://127.0.0.1:8000/accountinfo/');
@@ -45,12 +33,19 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
     }
 };
 
-function toJSONStr(str) {
+function ajaxToJSONStr(str) {
     //从后端使用jsonresponce传回Ajax= serializers.serialize("json", queryset)
-    str = str.slice(2, -2);
+    str = str.slice(2,-2);
     let reg1 = new RegExp("\\\\\"", "g");
     let reg2 = new RegExp("\\\\\\\\", "g");
     let temp = str.replace(reg1, "\"");
     temp = temp.replace(reg2, "\\");
     return temp;
+}
+
+function listToJSONStr(str) {
+    //从后端传来的list使用该方法转换成json字符串
+     str = str.slice(1,-1);
+     return str;
+
 }

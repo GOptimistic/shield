@@ -239,13 +239,11 @@ def accountinfo(request):
     if request.method == 'POST':
         # req = json.loads(request.body)
         print(request.session['username'])
-        worker = User.objects.filter(username=request.session['username'])
+        worker = User.objects.filter(username=request.session['username'])\
+            .values('username', 'user_real_name', 'user_phone')
         if worker:
-            ajax_data = serializers.serialize("json", worker)
-            print(ajax_data)
-            # sta_str = {'status': 200, 'msg': 'get the person'}
-            return JsonResponse(ajax_data, safe=False)
-            # return JsonResponse({'status': 200, 'msg': 'con not get the person'})
+            worker = list(worker)
+            return JsonResponse(worker, safe=False)
         return JsonResponse({'status': 200, 'msg': 'con not get the person'})
 
 
