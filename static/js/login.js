@@ -27,11 +27,11 @@ subBt.onclick = function () {
 
     ajaxResponse(xhrRegister,
         function () {
-            let respones = JSON.parse(xhrRegister.responseText);
-            document.getElementById("login_name_j").innerHTML = respones.msg;
+            let response = JSON.parse(xhrRegister.responseText);
+            document.getElementById("login_name_j").innerHTML = response.msg;
             console.log("success")
-            console.log(respones.msg)
-            if (respones.msg === 'login successfully') {
+            console.log(response.msg)
+            if (response.msg === 'login successfully') {
                 location.assign('http://127.0.0.1:8000/index/home_after.html');
             }
 

@@ -214,26 +214,9 @@ def add_lending(request):
             payback_time=paybackTime,
             trade_order=tradeOrder,
             trade_place=tradePlace)
-        # if need_add_loan:
-
-        # userID = req['userID']
-        # pwd = req['pwd']
-        # if userID == "":
-        #     return JsonResponse({'result': 200, 'msg': '用户名为空'})
-        # elif pwd == "":
-        #     return JsonResponse({'result': 200, 'msg': '密码为空'})
-        #
-        # searchName = User.objects.filter(username=userID)
-        # if searchName:
-        #     searchUser = User.objects.filter(username=userID, password=pwd)
-        #     if searchUser:
-        #         request.session['username'] = userID
-        #         request.session['is_login'] = True
-        #         request.session.set_expiry(0)
-        #         return JsonResponse({'result': 200, 'msg': 'login successfully'})
-        #     else:
-        #         return JsonResponse({'result': 200, 'msg': '密码错误'})
-        # else:
+        if need_add_loan:
+            return JsonResponse({'status': 200, 'msg': 'add successfully'})
+        return JsonResponse({'status': 200, 'msg': 'add failed'})
 
 
 @csrf_exempt
