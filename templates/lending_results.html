@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="../static/css/query.css">
     <link rel="stylesheet" href="../static/css/results.css">
     <link rel="stylesheet" href="../static/css/modalBox.css">
+    <link rel="stylesheet" href="../static/css/amazeui.min.css"/>
+    <!--link rel="stylesheet" href="../static/css/app.css"-->
+
 </head>
 
 <body class="index-page sidebar-collapse">
@@ -168,7 +171,54 @@
                     </div>
                 </div>
                 <div class="results_show" id="lending-result">
-                    
+                    <div class="am-g">
+                        <div class="am-u-sm-12">
+                            <form class="am-form">
+                                <table class="am-table am-table-striped am-table-hover table-main">
+                                    <thead>
+                                    <tr>
+                                        <th class="table-id">序号</th>
+                                        <th class="table-author am-hide-sm-only">姓名</th>
+                                        <th calss="table-title table-title-id">身份证号</th>
+                                        <th class="table-title">贷款单号</th>
+                                        <th class="table-type">贷款类别</th>
+                                        <th class="table-type">贷款金额</th>
+                                        <th class="table-date am-hide-sm-only"> 贷款时间</th>
+                                        <th class="table-date am-hide-sm-only"> 到期时间</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="need-repay-info">
+                                    </tbody>
+                                </table>
+
+                                <hr>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="am-g">
+                        <div class="am-u-sm-12">
+                            <form class="am-form">
+                                <table class="am-table am-table-striped am-table-hover table-main">
+                                    <thead>
+                                    <tr>
+                                        <th class="table-id">序号</th>
+                                        <th class="table-author am-hide-sm-only">姓名</th>
+                                        <th calss="table-title table-title-id">身份证号</th>
+                                        <th class="table-title">贷款单号</th>
+                                        <th class="table-type">贷款类别</th>
+                                        <th class="table-type">贷款金额</th>
+                                        <th class="table-date am-hide-sm-only"> 贷款时间</th>
+                                        <th class="table-date am-hide-sm-only"> 到期时间</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="need-repay-info">
+                                    </tbody>
+                                </table>
+
+                                <hr>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="results_row">
                     <div class="results_button results_button_yes">
@@ -183,6 +233,12 @@
         </div>
     </div>
 </body>
+<style>
+    .am-table>thead>tr>th {
+    border-top: 1px solid #F2F5F8;
+    color: #93a2a9;
+}
+</style>
 <!--  analysis result show js -->
 <script src="../static/js/lending-result.js" type="text/javascript"></script>
 <!--   Core JS Files   -->
@@ -200,6 +256,9 @@
 <!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
 <script src="../static/js/now-ui-kit.js?v=1.1.0" type="text/javascript"></script>
 <script type="text/javascript" src="../static/js/ExitModal.js"></script>
+<script src="../static/js/jquery.min.js"></script>
+<script src="../static/js/amazeui.min.js"></script>
+<script src="../static/js/app.js"></script>
 
 
 </html>
