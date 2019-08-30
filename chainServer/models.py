@@ -3,8 +3,8 @@ from django.db import models
 
 # Create your models here.
 class Recordnodes(models.Model):
-    name = models.CharField(max_length=10, null=False)
-    ID_card = models.CharField(max_length=18, null=False)
+    name = models.CharField(max_length=255, null=False)
+    ID_card = models.CharField(max_length=255, null=False)
     money = models.FloatField(max_length=20, null=False)
     funding_terms = models.IntegerField(null=False)
     default_date = models.DateTimeField(max_length=50, null=False)

@@ -33,7 +33,7 @@ class Block:
 
     @property
     def previous_hash(self):
-        return self.previous_hash
+        return self._previous_hash
 
     def hash_block(self):
         sha = hasher.sha256()
@@ -55,7 +55,7 @@ def create_genesis_block():
 
 
 chain = [create_genesis_block()]
-
+my_url='https://wwww.49.232.23.19:8001/'
 
 def getchain():
     recordlist = Recordnodes.objects.all()
@@ -108,12 +108,38 @@ def printchain():
     print(len(chain))
     # @node.route('/txion', methods=['POST'])
 
+ def valid_chain(tocheckchain):
+        # """
+        # Determine if a given blockchain is valid
+        # :param chain: <list> A blockchain
+        # :return: <bool> True if valid, False if not
+        # """
+
+        last_block = tocheckchain[0]
+        current_index = 1
+
+        while current_index < len(tocheckchain):
+            block = chain[current_index]
+            print(f'{last_block}')
+            print(f'{block}')
+            print("\n-----------\n")
+            # Check that the hash of the block is correct
+            if block.previous_hash != last_block.hash:
+                return False
+            last_block = block
+            current_index += 1
+
+        return True
+
 
 def record(requestrecords):
     # On each new POST request,
     # we extract the record data
-    for requestrecord in requestrecords:
-        new_record = json.loads(requestrecord)
+    requestrecords = json.loads(requestrecords)
+    print(type(requestrecords))
+    print(requestrecords)
+    for i in range(len(requestrecords)):
+        new_record = requestrecords[i]
         # Then we add the transaction to our list
         this_nodes_records.append(new_record)
         # Because the transaction was successfully
@@ -235,7 +261,6 @@ def mine(requestrecords):
         new_block_index = last_block.index + 1
         new_block_timestamp = date.datetime.now()
         last_block_hash = last_block.hash
-        # Empty transaction list
 
         # Now create the
         # new block!
@@ -253,7 +278,12 @@ def mine(requestrecords):
                     hash_previous=mined_block.previous_hash, hash_current=mined_block.hash).save()
     # Let the client know we mined a block
     this_nodes_records[:] = []
-
+    for node_url in peer_nodes:
+        # Get their chains using a GET request
+        block = requests.get(node_url + "/get")
+        # Convert the JSON object to a Python dictionary
+        block = json.loads(block)
+        # Add it to our list
 
 def show(request):
     showtxt = ""
@@ -262,3 +292,17 @@ def show(request):
         showtxt += "recorddata: {}".format(i.data)
         showtxt += "hash:  {}".format(i.hash)
     return HttpResponse(showtxt)
+
+
+def findbyidname(id_card, needname):
+    default_info = Recordnodes.objects.filter(ID_card=id_card, name=needname) \
+        .values('id', 'name', 'default_date', 'money')
+    default_info = list(default_info)
+    # for i in range(len(default_info)):
+    #     date_time = default_info[i]['borrower_time']
+    #     default_info[i]['borrower_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
+    jsonArray = json.dumps(default_info)
+    return jsonArray
+
+def broadcastreceiver(sendurl,sendrecords):
+    pass

@@ -11,13 +11,13 @@
 	modalBox.show = function() {
 		console.log(this.modal);
 		this.modal.style.display = "block";
-	}
+	};
 	/*模态框关闭*/
 	modalBox.close = function() {
 		this.modal.style.display = "none";
 		self.location.href="./lending.html";
 
-	}
+	};
 	/*当用户点击模态框内容之外的区域，模态框也会关闭*/
 	// modalBox.outsideClick = function() {
 	// 	var modal = this.modal;

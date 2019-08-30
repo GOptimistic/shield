@@ -16,8 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.urls import re_path
-from shieldServer import views
+from shieldServer import views, message
 from chainServer import clock
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.home),
@@ -30,6 +31,9 @@ urlpatterns = [
     path('repayment/', views.repayment, name='repayment'),
     path('repayment_repay/', views.repayment_repay, name='repayment_repay'),
     re_path(r'index/query_result\.html\?idNumber=(\w*)&loanNumber=(\d*)&loanDate=(\S*)',views.query),
+    path('sendCode/', message.send_message, name='sendCode'),
+    path('changePwd/', views.changePwd, name='changePwd'),
+    re_path(r'index/query_result\.html\?idNumber=(\w*)&loanNumber=(\d*)&loanDate=(\S*)', views.query),
     re_path(r'^index/(\w+).html$', views.others),
-    path('accountinfo/', views.accountinfo, name= "accountinfo"),
+    path('accountinfo/', views.accountinfo, name="accountinfo"),
 ]
