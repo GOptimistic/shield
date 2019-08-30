@@ -24,7 +24,7 @@ window.onload = function () {
         let blockInfo = lendingInfo['block'];
         let blockInfoLength = lendingInfo['blockLength'];
         let localInfo = lendingInfo['local'];
-         let localInfoLength = lendingInfo['localLength'];
+        let localInfoLength = lendingInfo['localLength'];
     }, function () {
     })
 

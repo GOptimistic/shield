@@ -245,11 +245,21 @@ def query(request, idNumber, loanNumber, loanDate):
     return render(request, 'home.html')
 
 
+@csrf_exempt
+def lending_result(request):
+    if request.method == 'POST':
+        req = json.loads(request.body)
+        borrower_name = req['borrowerName']
+        borrower_id = req['borrowerID']
+        localInfo = Borrower.objects.filter(borrower_name=borrower_name, borrower_id=borrower_id)\
+            .values()
+
+
 # 定时查询违约信息
 def task_Fun():
     default_info = Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0)\
         .values('pid', 'borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'borrower_phone', 'borrower_sum',
-                'borrower_time')
+                'borrower_time', 'funding_terms')
     default_info = list(default_info)
     for i in range(len(default_info)):
         date_time = default_info[i]['borrower_time']
