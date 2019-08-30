@@ -6,6 +6,7 @@ from .models import User, Borrower
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 
+from datetime import datetime
 from django.utils.timezone import now
 from apscheduler.scheduler import Scheduler
 from time import sleep
@@ -248,7 +249,10 @@ def task_Fun():
         .values('pid', 'borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'borrower_phone', 'borrower_sum',
                 'borrower_time')
     default_info = list(default_info)
-    print(default_info)
+    for i in range(len(default_info)):
+        date_time = default_info[i]['borrower_time']
+        default_info[i]['borrower_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
+    jsonArray = json.dumps(default_info)
     sleep(1)
 
 

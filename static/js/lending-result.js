@@ -1,5 +1,7 @@
 let lendResConBtn = document.getElementById('lending-result-confirm');
 let lendResCelBtn = document.getElementById('lending-result-cancel');
+let blockHisInfo = document.getElementById('lend-history-block-info');
+let localHisInfo = document.getElementById('lend-history-local-info');
 window.onload = function () {
     let xhrRegister = new XMLHttpRequest();
     if (typeof Storage == 'undefined') {
@@ -11,14 +13,18 @@ window.onload = function () {
             borrowerName: loanInfo.borrowerName,
             borrowerID: loanInfo.borrowerID
         };
-        xhrRegister.open('POST', 'http://127.0.0.1:8000/Lending-Result');
+        xhrRegister.open('POST', 'http://127.0.0.1:8000/Lending-Result/');
         xhrRegister.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
         xhrRegister.send(JSON.stringify(lendingResult));
     }
 
     ajaxResponse(xhrRegister, function () {
         let jsonString = listToJSONStr(xhrRegister.responseText);
-
+        let lendingInfo = JSON.parse(jsonString);
+        let blockInfo = lendingInfo['block'];
+        let blockInfoLength = lendingInfo['blockLength'];
+        let localInfo = lendingInfo['local'];
+         let localInfoLength = lendingInfo['localLength'];
     }, function () {
     })
 

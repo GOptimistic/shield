@@ -1,5 +1,3 @@
-let cirBtn = document.getElementById('continue-lend');
-let modBtn = document.getElementById('continue-modify');
 let lenConName = document.getElementById('lending_confirm_name');
 let lenConID = document.getElementById('lending_confirm_id');
 let lenConPhone = document.getElementById('lending_confirm_phone');
@@ -8,6 +6,7 @@ let lenConSum = document.getElementById('lending_confirm_sum');
 let lenConDateTime = document.getElementById('lending_confirm_datetime');
 let loanInfo;
 let xhrRegister = new XMLHttpRequest();
+
 window.onload = function () {
     if (typeof Storage == 'undefined') {
         alert('do not support storage');
@@ -23,6 +22,8 @@ window.onload = function () {
     lenConDateTime.innerHTML = loanInfo.shouldPaybackTime;
 };
 
+
+let cirBtn = document.getElementById('continue-lend');
 cirBtn.onclick = function () {
     alert('pushed');
     //交易单号位交易地点代码+交易时间(距离1970/01/01的毫秒数)
@@ -57,12 +58,16 @@ cirBtn.onclick = function () {
 
 };
 
+let modBtn = document.getElementById('continue-modify');
 modBtn.onclick = function () {
     if (localStorage.getItem('loanInfo') != null) {
         localStorage.removeItem('loanInfo');
     }
     location.assign('http://127.0.0.1:8000/index/lending.html');
 }
+
+
+
 
 function ajaxResponse(xhr, successFunction, falseFunction) {
     xhr.onreadystatechange = function () {
