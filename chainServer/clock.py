@@ -33,7 +33,7 @@ class Block:
 
     @property
     def previous_hash(self):
-        return self.previous_hash
+        return self._previous_hash
 
     def hash_block(self):
         sha = hasher.sha256()
@@ -112,8 +112,11 @@ def printchain():
 def record(requestrecords):
     # On each new POST request,
     # we extract the record data
-    for requestrecord in requestrecords:
-        new_record = json.loads(requestrecord)
+    requestrecords=json.loads(requestrecords)
+    print(type(requestrecords))
+    print(requestrecords)
+    for i in range(len(requestrecords)):
+        new_record = requestrecords[i]
         # Then we add the transaction to our list
         this_nodes_records.append(new_record)
         # Because the transaction was successfully
