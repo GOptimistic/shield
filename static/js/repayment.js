@@ -1,3 +1,5 @@
+var re = {};
+
 function searchFunction() {
     var myselect = document.getElementById("select-method");
     var index = myselect.selectedIndex; //被选中的搜索条件的下标
@@ -11,7 +13,7 @@ function searchFunction() {
     let xhrRegister = new XMLHttpRequest();
     ajaxResponse(xhrRegister,
         function () {
-            let re = JSON.parse(xhrRegister.responseText);
+            re = JSON.parse(xhrRegister.responseText);
             console.log(re);
             // var jsonObject= JSON.parse(re);
             // var totalnum = re.num;
@@ -28,8 +30,7 @@ function searchFunction() {
                     re[index].borrower_id + '</td><td>' + re[index].trade_order + '</td><td>' + re[index].trade_type +
                     '</td><td>' + re[index].trade_money + '</td><td>' + re[index].trade_date +
                     '</td><td>' + re[index].end_date + '</td><td><div class="am-btn-toolbar">' +
-                    '<div class="am-btn-groupam-btn-group-xs"><button  type="button" ' +
-                    'id="' + (index+1) + '" onclick="repayment_btn_action(this)" ' +
+                    '<div class="am-btn-groupam-btn-group-xs"><button type="button" ' + 'id="' + (index) + '" onclick="repayment_btn_action(this)" ' +
                     'class="am-btn am-btn-default am-btn-xs am-text-secondary">' +
                     '<span class="am-icon-pencil-square-o"></span>' +
                     '还款</button></div></div></td></tr>';
@@ -40,9 +41,7 @@ function searchFunction() {
         search_context: search_context,
         search_status: value
     };
-    function repayment_btn_action(element){
-        console.log(parseInt(element.id))
-    }
+
     xhrRegister.open('POST', 'http://127.0.0.1:8000/repayment/');
     xhrRegister.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
     xhrRegister.send(JSON.stringify(search));
@@ -61,3 +60,23 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
         }
     }
 }
+
+function repayment_btn_action(element){
+
+    console.log(re);
+    let xhrRegister2 = new XMLHttpRequest();
+    ajaxResponse(xhrRegister2,
+        function () {
+            console.log(1);
+
+
+        },function () {
+        });
+
+    //window.location.href = "repayment.html?trade_order="+re[parseInt(element.id)].trade_;
+    xhrRegister2.open('POST', 'http://127.0.0.1:8000/repayment_repay/');
+    xhrRegister2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
+    //xhrRegister2.send(JSON.stringify(search));
+
+}
+

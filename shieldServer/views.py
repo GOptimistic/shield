@@ -44,6 +44,8 @@ def others(request, file):
             return render(request, 'home_after.html')
         if file == 'changePsw':
             return render(request, 'changePsw.html')
+        if file == 'repayment_repay':
+            return render(request, 'repayment.html')
         if file == 'query_result':
             idNumber = request.GET.get('idNumber')
             loanNumber = request.GET.get('loanNumber')
@@ -267,3 +269,9 @@ def my_task1():
 
 
 sched.start()
+
+
+@csrf_exempt
+def repayment_repay(request):
+    if request.method == 'POST':
+        print("lailelaodi")
