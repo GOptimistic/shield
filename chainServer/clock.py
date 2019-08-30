@@ -109,20 +109,20 @@ def printchain():
     # @node.route('/txion', methods=['POST'])
 
 
-def record(requestrecord):
-
+def record(requestrecords):
     # On each new POST request,
     # we extract the record data
-    new_record = json.loads(requestrecord)
-    # Then we add the transaction to our list
-    this_nodes_records.append(new_record)
-    # Because the transaction was successfully
-    # submitted, we log it to our console
-    print("New record")
-    print("name: {}\n".format(new_record['borrower_name'].encode('ascii', 'replace')))
-    print("ID: {}\n".format(new_record['borrower_id'].encode('ascii', 'replace')))
-    print("money: {}\n".format(new_record['borrower_sum']))
-    print("funding-terms: ()\n".format(new_record['funding_terms']))
+    for requestrecord in requestrecords:
+        new_record = json.loads(requestrecord)
+        # Then we add the transaction to our list
+        this_nodes_records.append(new_record)
+        # Because the transaction was successfully
+        # submitted, we log it to our console
+        print("New record")
+        print("name: {}\n".format(new_record['borrower_name'].encode('ascii', 'replace')))
+        print("ID: {}\n".format(new_record['borrower_id'].encode('ascii', 'replace')))
+        print("money: {}\n".format(new_record['borrower_sum']))
+        print("funding-terms: ()\n".format(new_record['funding_terms']))
     # Then we let the client know it worked out
     return "Record submission successful\n"
 
@@ -215,8 +215,8 @@ def consensus():
 #   return incrementor
 
 # @node.route('/mine', methods = ['GET'])
-def mine(requestrecord):
-    record(requestrecord)
+def mine(requestrecords):
+    record(requestrecords)
     last_block = chain[len(chain) - 1]
     # the current block being mined
     # we reward the miner by adding a record
@@ -225,37 +225,34 @@ def mine(requestrecord):
     # )
     # Now we can gather the data needed
     # to create the new block
-    new_block_data = {
-        'name': this_nodes_records[0]['borrower_name'],
-        'ID': this_nodes_records[0]['borrower_id'],
-        'money': this_nodes_records[0]['borrower_sum'],
-        'funding_terms': this_nodes_records[0]['funding_terms'],
-    }
-    new_block_index = last_block.index + 1
-    new_block_timestamp = date.datetime.now()
-    last_block_hash = last_block.hash
-    # Empty transaction list
-    this_nodes_records[:] = []
-    # Now create the
-    # new block!
-    mined_block = Block(
-        new_block_index,
-        new_block_timestamp,
-        new_block_data,
-        last_block_hash
-    )
-    chain.append(mined_block)
-    Recordnodes(id=mined_block.index, name=mined_block.data['name'], ID_card=mined_block.data['ID'],
-                money=mined_block.data['money'],
-                funding_terms=mined_block.data['funding_terms'], default_date=mined_block.timestamp,
-                hash_previous=mined_block.previous_hash, hash_current=mined_block.hash).save()
+    for i in range(len(this_nodes_records)):
+        new_block_data = {
+            'name': this_nodes_records[i]['borrower_name'],
+            'ID': this_nodes_records[i]['borrower_id'],
+            'money': this_nodes_records[i]['borrower_sum'],
+            'funding_terms': this_nodes_records[i]['funding_terms'],
+        }
+        new_block_index = last_block.index + 1
+        new_block_timestamp = date.datetime.now()
+        last_block_hash = last_block.hash
+        # Empty transaction list
+
+        # Now create the
+        # new block!
+        mined_block = Block(
+            new_block_index,
+            new_block_timestamp,
+            new_block_data,
+            last_block_hash
+        )
+        chain.append(mined_block)
+        last_block = chain[len(chain) - 1]
+        Recordnodes(id=mined_block.index, name=mined_block.data['name'], ID_card=mined_block.data['ID'],
+                    money=mined_block.data['money'],
+                    funding_terms=mined_block.data['funding_terms'], default_date=mined_block.timestamp,
+                    hash_previous=mined_block.previous_hash, hash_current=mined_block.hash).save()
     # Let the client know we mined a block
-    return JsonResponse({
-        "index": new_block_index,
-        "timestamp": str(new_block_timestamp),
-        "data": new_block_data,
-        "hash": last_block_hash
-    })
+    this_nodes_records[:] = []
 
 
 def show(request):
