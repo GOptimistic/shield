@@ -251,21 +251,38 @@ def lending_result(request):
         req = json.loads(request.body)
         borrower_name = req['borrowerName']
         borrower_id = req['borrowerID']
-        localInfo = Borrower.objects.filter(borrower_name=borrower_name, borrower_id=borrower_id)\
-            .values()
+        local_info = Borrower.objects.filter(borrower_name=borrower_name, borrower_id=borrower_id)\
+            .values('borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'borrower_sum', 'borrower_time',
+                    'trade_order')
+        local_info = list(local_info)
+        for i in range(len(local_info)):
+            date_time = local_info[i]['borrower_time']
+            local_info[i]['borrower_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
+        local_num = len(local_info)
+        analysis_result = []
+        str = '"localLength": "' + local_num + '"'
+        analysis_result.append(str)
+        analysis_result.append('"local":'+local_info)
+        block_info = findbyidname(borrower_id, borrower_name)
+        block_num = len(block_info)
+        str = '"blockLength": "' + block_num + '"'
+        analysis_result.append(str)
+        analysis_result.append('"block":'+block_info)
+    return JsonResponse(json.dumps(analysis_result))
+
 
 
 # 定时查询违约信息
 def task_Fun():
     default_info = Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0)\
-        .values('pid', 'borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'borrower_phone', 'borrower_sum',
-                'borrower_time')
+        .values('pid', 'borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'borrower_sum', 'borrower_time')
     default_info = list(default_info)
     for i in range(len(default_info)):
         date_time = default_info[i]['borrower_time']
         default_info[i]['borrower_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
     jsonArray = json.dumps(default_info)
     mine(jsonArray)
+    Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0).update(is_uploades=1)
     sleep(1)
 
 
