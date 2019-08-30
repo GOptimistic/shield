@@ -55,7 +55,8 @@ def create_genesis_block():
 
 
 chain = [create_genesis_block()]
-my_url='https://wwww.49.232.23.19:8001/'
+my_url = 'https://wwww.49.232.23.19:8001/'
+
 
 def getchain():
     recordlist = Recordnodes.objects.all()
@@ -108,28 +109,29 @@ def printchain():
     print(len(chain))
     # @node.route('/txion', methods=['POST'])
 
- def valid_chain(tocheckchain):
-        # """
-        # Determine if a given blockchain is valid
-        # :param chain: <list> A blockchain
-        # :return: <bool> True if valid, False if not
-        # """
 
-        last_block = tocheckchain[0]
-        current_index = 1
+def valid_chain(tocheckchain):
+    # """
+    # Determine if a given blockchain is valid
+    # :param chain: <list> A blockchain
+    # :return: <bool> True if valid, False if not
+    # """
 
-        while current_index < len(tocheckchain):
-            block = chain[current_index]
-            print(f'{last_block}')
-            print(f'{block}')
-            print("\n-----------\n")
-            # Check that the hash of the block is correct
-            if block.previous_hash != last_block.hash:
-                return False
-            last_block = block
-            current_index += 1
+    last_block = tocheckchain[0]
+    current_index = 1
 
-        return True
+    while current_index < len(tocheckchain):
+        block = chain[current_index]
+        print(f'{last_block}')
+        print(f'{block}')
+        print("\n-----------\n")
+        # Check that the hash of the block is correct
+        if block.previous_hash != last_block.hash:
+            return False
+        last_block = block
+        current_index += 1
+
+    return True
 
 
 def record(requestrecords):
@@ -285,6 +287,7 @@ def mine(requestrecords):
         block = json.loads(block)
         # Add it to our list
 
+
 def show(request):
     showtxt = ""
     for i in chain:
@@ -294,15 +297,16 @@ def show(request):
     return HttpResponse(showtxt)
 
 
-def findbyidname(id_card, needname):
-    default_info = Recordnodes.objects.filter(ID_card=id_card, name=needname) \
-        .values('id', 'name', 'default_date', 'money')
+def findbyidname(id_card, need_name):
+    default_info = Recordnodes.objects.filter(ID_card=id_card, name=need_name) \
+        .values('ID_card', 'name', 'default_date', 'money')
     default_info = list(default_info)
-    # for i in range(len(default_info)):
-    #     date_time = default_info[i]['borrower_time']
-    #     default_info[i]['borrower_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
+    for i in range(len(default_info)):
+        date_time = default_info[i]['default_date']
+        default_info[i]['default_date'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
     jsonArray = json.dumps(default_info)
     return jsonArray
 
-def broadcastreceiver(sendurl,sendrecords):
+
+def broadcastreceiver(sendurl, sendrecords):
     pass

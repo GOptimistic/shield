@@ -11,8 +11,9 @@ from django.utils.timezone import now
 from apscheduler.scheduler import Scheduler
 from time import sleep
 
+from chainServer.clock import mine, findbyidname
 
-from chainServer.clock import mine
+
 # Create your views here.
 
 
@@ -163,14 +164,17 @@ def repayment(request):
         for i in range(len(pid)):
             if i == len(pid) - 1:
                 data = data + "{\"p_index\": " + str(pid[i]) + ", \"borrower_name\": \"" + str(borrower_name[i]) \
-                       + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(trade_order[i]) \
+                       + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(
+                    trade_order[i]) \
                        + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
                        + "\",\"trade_date\": \"" + str(trade_date[i]) + "\", \"end_date\":\"" + str(end_date[i]) + "\"}"
             else:
                 data = data + "{\"p_index\": " + str(pid[i]) + ", \"borrower_name\": \"" + str(borrower_name[i]) \
-                       + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(trade_order[i]) \
+                       + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(
+                    trade_order[i]) \
                        + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
-                       + "\",\"trade_date\": \"" + str(trade_date[i]) + "\", \"end_date\":\"" + str(end_date[i]) + "\"}, "
+                       + "\",\"trade_date\": \"" + str(trade_date[i]) + "\", \"end_date\":\"" + str(
+                    end_date[i]) + "\"}, "
 
         jsonArr = "[" + data + "]"
         print(jsonArr)
@@ -194,8 +198,6 @@ def changePwd(request):
         return JsonResponse({'msg': '修改成功！'})
     except User.DoesNotExist:
         return JsonResponse({'msg': '无此员工！'})
-
-
 
 
 def repaymentPage(request):
@@ -272,45 +274,46 @@ def lending_result(request):
         req = json.loads(request.body)
         borrower_name = req['borrowerName']
         borrower_id = req['borrowerID']
-        local_info = Borrower.objects.filter(borrower_name=borrower_name, borrower_id=borrower_id)\
+        local_info = Borrower.objects.filter(borrower_name=borrower_name, borrower_id=borrower_id) \
             .values('borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'borrower_sum', 'borrower_time',
-                    'trade_order')
+                    'trade_order', 'trade_place', 'should_payback_time', 'payback_time')
         local_info = list(local_info)
         for i in range(len(local_info)):
-            date_time = local_info[i]['borrower_time']
-            local_info[i]['borrower_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
+            date_time = local_info[i]['payback_time']
+            if date_time is not None:
+                local_info[i]['payback_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
+            else:
+                local_info[i]['payback_time'] = "N/A"
+            local_info[i]['borrower_time'] = local_info[i]['borrower_time'].strftime('%Y-%m-%d %H:%I:%S')
+            local_info[i]['should_payback_time'] = local_info[i]['should_payback_time'].strftime('%Y-%m-%d %H:%I:%S')
         local_num = len(local_info)
-        analysis_result = []
-        str = '"localLength": "' + local_num + '"'
-        analysis_result.append(str)
-        analysis_result.append('"local":'+local_info)
+        local_info = json.dumps(local_info)
         block_info = findbyidname(borrower_id, borrower_name)
-        block_num = len(block_info)
-        str = '"blockLength": "' + block_num + '"'
-        analysis_result.append(str)
-        analysis_result.append('"block":'+block_info)
-    return JsonResponse(json.dumps(analysis_result))
-
+        block_num = len(json.loads(block_info))
+        jsonStr = '{"localLength":' + str(local_num) + ', ' + '"local":' + local_info + ', "blockLength":' \
+                  + str(block_num) + ', "block":' + block_info + '}'
+        return JsonResponse(jsonStr, safe=False)
 
 
 # 定时查询违约信息
 def task_Fun():
-    default_info = Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0)\
-        .values('pid', 'borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'borrower_sum', 'borrower_time')
+    default_info = Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0) \
+        .values('pid', 'borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'borrower_sum', 'borrower_time'
+                , 'funding_terms')
     default_info = list(default_info)
     for i in range(len(default_info)):
         date_time = default_info[i]['borrower_time']
         default_info[i]['borrower_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
     jsonArray = json.dumps(default_info)
+    Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0).update(is_uploaded=1)
     mine(jsonArray)
-    Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0).update(is_uploades=1)
     sleep(1)
 
 
 sched = Scheduler()
 
 
-@sched.interval_schedule(seconds=10)
+@sched.interval_schedule(seconds=600)
 def my_task1():
     print('定时任务1开始\n')
     task_Fun()
@@ -324,4 +327,3 @@ sched.start()
 def repayment_repay(request):
     if request.method == 'POST':
         print("lailelaodi")
-
