@@ -5,7 +5,7 @@ from chainServer import clock
 # Create your views here.
 def broadcastreceiver(request):
     send_records = request.GET
-    send_records = clock.Block(send_records)
+    send_records = clock.Block.to_block(send_records)
     if send_records.previous_hash == clock.chain[len(clock.chain) - 1].hash:
         clock.chain.append(send_records)
         if clock.valid_chain():
