@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="">
+<head>
+       
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title></title>
+
+</head>
+<body>
+   
+<li>
+    <label for="">手机号码:</label>
+    <input type="text" placeholder="11位数的手机号码" id="mobile" name="mobile" onblur="Checkphone(this.value)"/>
+    <span class="error_tip" id="error_tip">提示信息</span>
+</li>
+<li>
+    <label for="">验证码:</label>
+    <label>
+        <input type="text" name="code" placeholder="请输入手机验证码" style="width: 140px;">
+    </label>
+    &nbsp;&nbsp;
+    <input type="button" value=" 获取验证码" id="zphone" style="width: 100px;margin-left: 10px">
+</li>
+
+   
+<script type="text/javascript" src="../static/js/register.js"></script>
+</body>
+</html>

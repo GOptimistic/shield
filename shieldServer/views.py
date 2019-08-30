@@ -10,6 +10,8 @@ from datetime import datetime
 from django.utils.timezone import now
 from apscheduler.scheduler import Scheduler
 from time import sleep
+
+
 from chainServer.clock import mine
 # Create your views here.
 
@@ -46,6 +48,8 @@ def others(request, file):
             return render(request, 'changePsw.html')
         if file == 'repayment_repay':
             return render(request, 'repayment.html')
+        if file == 'test_message':
+            return render(request, 'test_message.html')
         if file == 'query_result':
             idNumber = request.GET.get('idNumber')
             loanNumber = request.GET.get('loanNumber')
@@ -177,6 +181,23 @@ def repayment(request):
     return JsonResponse(json_data, safe=False)
 
 
+@csrf_exempt
+def changePwd(request):
+    req = json.loads(request.body)
+    user_id = req['id']
+    new_pwd = req['pwd']
+
+    try:
+        user = User.objects.get(username=user_id)
+        user.password = new_pwd
+        user.save()
+        return JsonResponse({'msg': '修改成功！'})
+    except User.DoesNotExist:
+        return JsonResponse({'msg': '无此员工！'})
+
+
+
+
 def repaymentPage(request):
     return render_to_response("repayment.html")
 
@@ -303,3 +324,4 @@ sched.start()
 def repayment_repay(request):
     if request.method == 'POST':
         print("lailelaodi")
+
