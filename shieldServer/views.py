@@ -2,6 +2,7 @@ from django.shortcuts import render, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 import json
 import time
+import datetime
 from .models import User, Borrower
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
@@ -299,5 +300,6 @@ def repayment_repay(request):
         req = json.loads(request.body)
         repay_status = Borrower.objects.get(trade_order=req['trade_order'])
         repay_status.payback = 1
+        repay_status.payback_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
         repay_status.save()
     return JsonResponse({'status': 200, 'msg': 'con not get the person'})
