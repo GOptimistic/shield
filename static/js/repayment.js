@@ -62,21 +62,20 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
 }
 
 function repayment_btn_action(element){
-
-    console.log(re);
     let xhrRegister2 = new XMLHttpRequest();
     ajaxResponse(xhrRegister2,
         function () {
             console.log(1);
 
-
-        },function () {
+            },function () {
         });
 
     //window.location.href = "repayment.html?trade_order="+re[parseInt(element.id)].trade_;
     xhrRegister2.open('POST', 'http://127.0.0.1:8000/repayment_repay/');
     xhrRegister2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
-    //xhrRegister2.send(JSON.stringify(search));
+    xhrRegister2.send(JSON.stringify(re[element.id]));
+
+    searchFunction()
 
 }
 

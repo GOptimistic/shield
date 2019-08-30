@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.urls import re_path
 from shieldServer import views, message
 from chainServer import clock
-
+from chainServer import  views as chain_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.home),
@@ -29,6 +29,7 @@ urlpatterns = [
     path('lendingResult/', views.lending_result, name='lendingResult'),
     path("mine/", clock.mine),
     path("show/", clock.show),
+    path('receive/',chain_views.broadcastreceiver),
     path('repayment/', views.repayment, name='repayment'),
     path('repayment_repay/', views.repayment_repay, name='repayment_repay'),
     path('sendCode/', message.send_message, name='sendCode'),

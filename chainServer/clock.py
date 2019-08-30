@@ -5,6 +5,8 @@ import datetime as date
 from django.http import HttpResponse
 from django.http import JsonResponse
 from chainServer.models import Recordnodes
+from django.shortcuts import render
+from django.http import HttpRequest
 
 
 class Block:
@@ -14,6 +16,14 @@ class Block:
         self._data = data
         self._previous_hash = previous_hash
         self._hash = self.hash_block()
+
+    def __init__(self, blockdict):
+        self._index = blockdict.index
+        self._timestamp = blockdict.timestamp
+        self._data = blockdict.data
+        self._previous_hash = blockdict.previous_hash
+        self._hash = blockdict.hash
+
 
     @property
     def hash(self):
@@ -44,6 +54,11 @@ class Block:
     def set_data(self, strdata):
         self._data = eval(strdata)
 
+    def to_dict(self):
+        blockdict = {'index': self._index, 'timestamp': self._timestamp, 'data': self._data,
+                     'previous_hash': self._previous_hash, 'hash': self._hash}
+        return blockdict
+
 
 # get data from Recordnodes to chain
 def create_genesis_block():
@@ -68,10 +83,10 @@ def getchain():
 getchain()
 
 
-def next_block(last_block):
+def next_block(last_block,data):
     this_index = last_block.index + 1
     this_timestamp = date.datetime.now()
-    this_data = "我是新区块 " + str(this_index)
+    this_data = data
     this_hash = last_block.hash
     return Block(this_index, this_timestamp, this_data, this_hash)
 
@@ -273,19 +288,17 @@ def mine(requestrecords):
             last_block_hash
         )
         chain.append(mined_block)
+        for node_url in peer_nodes:
+            # Get their chains using a GET request
+                requests.post(node_url + "/receive", data=mined_block.to_dict())
         last_block = chain[len(chain) - 1]
         Recordnodes(id=mined_block.index, name=mined_block.data['name'], ID_card=mined_block.data['ID'],
                     money=mined_block.data['money'],
                     funding_terms=mined_block.data['funding_terms'], default_date=mined_block.timestamp,
                     hash_previous=mined_block.previous_hash, hash_current=mined_block.hash).save()
     # Let the client know we mined a block
+
     this_nodes_records[:] = []
-    for node_url in peer_nodes:
-        # Get their chains using a GET request
-        block = requests.get(node_url + "/get")
-        # Convert the JSON object to a Python dictionary
-        block = json.loads(block)
-        # Add it to our list
 
 
 def show(request):
