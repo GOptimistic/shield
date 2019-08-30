@@ -75,5 +75,7 @@ function repayment_btn_action(element){
     xhrRegister2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
     xhrRegister2.send(JSON.stringify(re[element.id]));
 
+    searchFunction()
+
 }
 
