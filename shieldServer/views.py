@@ -10,7 +10,7 @@ from datetime import datetime
 from django.utils.timezone import now
 from apscheduler.scheduler import Scheduler
 from time import sleep
-
+from chainServer.clock import mine
 # Create your views here.
 
 
@@ -249,12 +249,13 @@ def query(request, idNumber, loanNumber, loanDate):
 def task_Fun():
     default_info = Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0)\
         .values('pid', 'borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'borrower_phone', 'borrower_sum',
-                'borrower_time')
+                'borrower_time','funding_terms')
     default_info = list(default_info)
     for i in range(len(default_info)):
         date_time = default_info[i]['borrower_time']
         default_info[i]['borrower_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
     jsonArray = json.dumps(default_info)
+    mine(jsonArray)
     sleep(1)
 
 
