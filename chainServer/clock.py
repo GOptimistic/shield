@@ -108,7 +108,7 @@ def printchain():
     print(len(chain))
     # @node.route('/txion', methods=['POST'])
 
- def valid_chain(tocheckchain):
+def valid_chain(tocheckchain):
         # """
         # Determine if a given blockchain is valid
         # :param chain: <list> A blockchain

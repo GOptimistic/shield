@@ -296,5 +296,8 @@ sched.start()
 @csrf_exempt
 def repayment_repay(request):
     if request.method == 'POST':
-        print("lailelaodi")
-
+        req = json.loads(request.body)
+        repay_status = Borrower.objects.get(trade_order=req['trade_order'])
+        repay_status.payback = 1
+        repay_status.save()
+    return JsonResponse({'status': 200, 'msg': 'con not get the person'})
