@@ -34,7 +34,6 @@ urlpatterns = [
     path('repayment_repay/', views.repayment_repay, name='repayment_repay'),
     path('sendCode/', message.send_message, name='sendCode'),
     path('changePwd/', views.changePwd, name='changePwd'),
-    re_path(r'index/query_result\.html\?idNumber=(\w*)&loanNumber=(\d*)&loanDate=(\S*)', views.query),
     re_path(r'^index/(\w+).html$', views.others),
     path('accountinfo/', views.accountinfo, name="accountinfo"),
 ]

@@ -32,7 +32,7 @@ subBt.onclick = function () {
             console.log("success")
             console.log(response.msg)
             if (response.msg === 'login successfully') {
-                location.assign('http://127.0.0.1:8000/index/home_after.html');
+                location.assign('./home_after.html');
             }
 
         }, function () {
@@ -46,7 +46,7 @@ subBt.onclick = function () {
         pwd: pwd
     };
 
-    xhrRegister.open('POST', 'http://127.0.0.1:8000/login/');
+    xhrRegister.open('POST', '../login/');
     xhrRegister.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
     xhrRegister.send(JSON.stringify(user));
 };

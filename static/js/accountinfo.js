@@ -13,7 +13,7 @@ window.onload = function () {
             testP.innerHTML = workerinfo.user_phone;
         }, function () {
         });
-    xhrRegister.open('POST', 'http://127.0.0.1:8000/accountinfo/');
+    xhrRegister.open('POST', '../accountinfo/');
     xhrRegister.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
     xhrRegister.send();
 

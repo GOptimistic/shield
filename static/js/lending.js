@@ -61,7 +61,7 @@ anaBtn.onclick = function () {
             let sendStr = JSON.stringify(lendingInfo);
             localStorage.setItem('loanInfo', sendStr);
         }
-        location.assign('http://127.0.0.1:8000/index/lending_results.html');
+        location.assign('./lending_results.html');
     }else{
          alert('请输入完整信息');
     }

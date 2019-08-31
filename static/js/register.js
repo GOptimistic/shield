@@ -76,7 +76,7 @@ codeBtn.onclick = function () {
         }, function () {
         });
 
-    xhrRegister.open('POST', 'http://127.0.0.1:8000/sendCode/');
+    xhrRegister.open('POST', '../sendCode/');
     xhrRegister.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
     xhrRegister.send(JSON.stringify(phoneNum));
 };
@@ -120,7 +120,7 @@ confirmBtn.onclick = function () {
             console.log("js:" + user_id);
             console.log("js:" + pwd);
 
-            xhrRegister.open('POST', 'http://127.0.0.1:8000/changePwd/');
+            xhrRegister.open('POST', '../changePwd/');
             xhrRegister.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
             xhrRegister.send(JSON.stringify(idNpwd));
         } else {

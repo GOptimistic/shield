@@ -13,7 +13,7 @@ window.onload = function () {
             borrowerName: loanInfo.borrowerName,
             borrowerID: loanInfo.borrowerID
         };
-        xhrRegister.open('POST', 'http://127.0.0.1:8000/lendingResult/');
+        xhrRegister.open('POST', '../lendingResult/');
         xhrRegister.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
         xhrRegister.send(JSON.stringify(lendingResult));
     }
@@ -79,12 +79,12 @@ function listToJSONStr(str) {
 
 lendResConBtn.onclick = function () {
 
-    location.assign('http://127.0.0.1:8000/index/lending_confirm.html');
+    location.assign('./lending_confirm.html');
 };
 
 lendResCelBtn.onclick = function () {
     if (localStorage.getItem('loanInfo') != null) {
         localStorage.removeItem('loanInfo');
     }
-    location.assign('http://127.0.0.1:8000/index/lending.html');
+    location.assign('./lending.html');
 };

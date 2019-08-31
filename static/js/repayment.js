@@ -42,7 +42,7 @@ function searchFunction() {
         search_status: value
     };
 
-    xhrRegister.open('POST', 'http://127.0.0.1:8000/repayment/');
+    xhrRegister.open('POST', '../repayment/');
     xhrRegister.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
     xhrRegister.send(JSON.stringify(search));
 }
@@ -71,7 +71,7 @@ function repayment_btn_action(element){
         });
 
     //window.location.href = "repayment.html?trade_order="+re[parseInt(element.id)].trade_;
-    xhrRegister2.open('POST', 'http://127.0.0.1:8000/repayment_repay/');
+    xhrRegister2.open('POST', '../repayment_repay/');
     xhrRegister2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
     xhrRegister2.send(JSON.stringify(re[element.id]));
 

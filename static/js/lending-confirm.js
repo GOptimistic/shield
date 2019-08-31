@@ -43,15 +43,15 @@ cirBtn.onclick = function () {
         response = JSON.parse(xhrRegister.responseText);
         alert(response.msg);
         localStorage.removeItem('loanInfo');
-        location.assign('http://127.0.0.1:8000/index/lending.html');
+        location.assign('./lending.html');
     }, function () {
         response = JSON.parse(xhrRegister.responseText);
         alert(response.msg);
         localStorage.removeItem('loanInfo');
-        location.assign('http://127.0.0.1:8000/index/lending.html');
+        location.assign('./lending.html');
     });
 
-    xhrRegister.open('POST', 'http://127.0.0.1:8000/addLending/');
+    xhrRegister.open('POST', '../addLending/');
     xhrRegister.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
     xhrRegister.send(JSON.stringify(loanInfo));
 
@@ -63,7 +63,7 @@ modBtn.onclick = function () {
     if (localStorage.getItem('loanInfo') != null) {
         localStorage.removeItem('loanInfo');
     }
-    location.assign('http://127.0.0.1:8000/index/lending.html');
+    location.assign('./lending.html');
 }
 
 
