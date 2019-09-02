@@ -219,7 +219,7 @@ def add_lending(request):
         borrower_Name = req['borrowerName']
         borrower_ID = req['borrowerID']
         borrower_Time = req['borrowerTime']
-        borrower_Sum = req['borrowedSum']
+        loan_amount = req['loanedMoney']
         borrower_Phone = req['borrowerPhone']
         borrow_Type = req['borrowType']
         payback = req['payback']
@@ -233,7 +233,7 @@ def add_lending(request):
             borrower_name=borrower_Name,
             borrower_id=borrower_ID,
             borrower_time=borrower_Time,
-            borrower_sum=borrower_Sum,
+            loan_amount=loan_amount,
             borrow_type=borrow_Type,
             borrower_phone=borrower_Phone,
             payback=payback,

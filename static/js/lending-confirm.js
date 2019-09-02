@@ -37,6 +37,7 @@ cirBtn.onclick = function () {
     loanInfo.paybackTime = null;
     loanInfo.funding_terms = 0;
     loanInfo.isUpload = 0;
+    loanInfo.fundedAmount = document.getElementById('').value;
 
     var response;
     ajaxResponse(xhrRegister, function () {

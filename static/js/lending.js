@@ -1,15 +1,18 @@
 let chkRadio = document.getElementsByName("lending_radio");
 let anaBtn = document.getElementById('analysis-button');
-let borrowerName, borrowerID, borrowerPhone, borrowedMoney, loanType, shouldPaybackTime;
+let borrowerName, borrowerID, borrowerPhone, loanedMoney, loanType, shouldPaybackTime;
+let rate, grade, empTitle, empLength, annualIncome, verificationStatus, homeOwnership;
 
 anaBtn.onclick = function () {
     borrowerName = document.getElementById('lending_input_name').value;
     borrowerID = document.getElementById('lending_input_ID').value;
     borrowerPhone = document.getElementById('lending_input_phonenum').value;
-    borrowedMoney = document.getElementById('lending_input_money').value;
+    loanedMoney = document.getElementById('lending_input_money').value;
     let temp = document.getElementById('lending_input_date').value;
     shouldPaybackTime = new Date(temp).Format("yyyy-MM-dd HH:mm:ss");
     let xhrRegister = new XMLHttpRequest();
+
+
 
     for (var i = 0; i < chkRadio.length; i++) {
         if (chkRadio[i].checked) {
@@ -44,13 +47,13 @@ anaBtn.onclick = function () {
         default:
             //alert('请选择贷款类型');
     }
-    if (borrowerName != '' && borrowerID != '' && borrowerPhone != '' && borrowedMoney != ''
+    if (borrowerName != '' && borrowerID != '' && borrowerPhone != '' && loanedMoney != ''
         &&  shouldPaybackTime != null && loanType != null) {
 
          let lendingInfo = {
         borrowerName: borrowerName,
         borrowerID: borrowerID,
-        borrowedSum: borrowedMoney,
+        borrowedSum: loanedMoney,
         borrowerPhone: borrowerPhone,
         borrowType: loanType,
         shouldPaybackTime: shouldPaybackTime
