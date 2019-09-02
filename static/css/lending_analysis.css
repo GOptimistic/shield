@@ -5,12 +5,12 @@
 }
 
 .report{
-     border:1px solid #00000000;
+     border:1px solid;
     background: whitesmoke;
     border-radius: 10px;
-    top: 25%;
-    left: 5%;
-    right:5%;
+    top: 10%;
+    left: 3%;
+    right:3%;
     width: 100%;
     min-height: 50%;
     height: auto;
