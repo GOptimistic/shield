@@ -42,10 +42,10 @@ anaBtn.onclick = function () {
             loanType = '短期贷款';
             break;
         default:
-            alert('请选择贷款类型');
+            //alert('请选择贷款类型');
     }
     if (borrowerName != '' && borrowerID != '' && borrowerPhone != '' && borrowedMoney != ''
-        &&  shouldPaybackTime != null) {
+        &&  shouldPaybackTime != null && loanType != null) {
 
          let lendingInfo = {
         borrowerName: borrowerName,

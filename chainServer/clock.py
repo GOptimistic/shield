@@ -17,7 +17,7 @@ class Block:
         self._previous_hash = previous_hash
         self._hash = self.hash_block()
 
-    def to_block(self, blockdict ):
+    def to_block(self, blockdict):
         self._index = blockdict.index
         self._timestamp = blockdict.timestamp
         self._data = blockdict.data
