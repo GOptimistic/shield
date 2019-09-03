@@ -219,12 +219,10 @@ def add_lending(request):
         borrower_Name = req['borrowerName']
         borrower_ID = req['borrowerID']
         borrower_Time = req['borrowerTime']
-
         loan_amount = req['loanedMoney']
         funded_amount = req['fundedAmount']
         rate = req['rate']
         loan_duration = req['loanDuration']
-
         borrower_Phone = req['borrowerPhone']
         borrow_Type = req['borrowType']
         payback = req['payback']
@@ -237,10 +235,13 @@ def add_lending(request):
         home_ownership = req['homeOwnership']
         emp_title = req['empTitle']
         emp_length = req['empLength']
+        annual_income = req['annualIncome']
 
         block_info = findbyidname(borrower_ID, borrower_Name)
-        block_num = len(json.loads(block_info))
+        delinq = len(json.loads(block_info))
 
+        coll_attention = cal_dti(loan_amount, funded_amount, rate, loan_duration, annual_income, home_ownership, delinq,
+                                 2, funded_amount)
         need_add_loan = Borrower.objects.get_or_create(
             borrower_name=borrower_Name,
             borrower_id=borrower_ID,
@@ -250,6 +251,13 @@ def add_lending(request):
             funded_amount=funded_amount,
             rate=rate,
 
+            home_ownership=home_ownership,
+            emp_title=emp_title,
+            emp_length=emp_length,
+            delinq_2yrs=delinq,
+            annual_income=annual_income,
+            loan_status=2,
+            collect_attention=coll_attention,
             borrow_type=borrow_Type,
             borrower_phone=borrower_Phone,
             payback=payback,
@@ -258,19 +266,48 @@ def add_lending(request):
             trade_order=tradeOrder,
             trade_place=tradePlace,
             funding_terms=funding_terms,
-            is_uploaded=is_upload,
-            home_ownership=home_ownership,
-            emp_title=emp_title,
-            emp_length=emp_length,
-            delinq_2yrs=block_num
+            is_uploaded=is_upload
         )
         if need_add_loan:
             return JsonResponse({'status': 200, 'msg': 'add successfully'})
         return JsonResponse({'status': 200, 'msg': 'add failed'})
 
 
-def cal_dti(loan, funded, rate, duration):
-    pass
+def cal_dti(loan, funded, rate, duration, income, house, delinq, status, left):
+    result = 0.0
+    income_weight = 0.0
+    house_weight = 0.0
+    status_weight = 0.0
+    if income > 200000:
+        income_weight = 0.1
+    elif 200000 >= income > 100000:
+        income_weight = 0.2
+    elif 100000 >= income > 50000:
+        income_weight = 0.3
+    else:
+        income_weight = 0.4
+
+    if house == 1:
+        house_weight = 0.2
+    elif house == 2:
+        house_weight = 0.1
+    elif house == 3:
+        house_weight == 0.3
+    else:
+        house_weight == 0.4
+
+    if status == 1:
+        return result
+    elif status == 2:
+        status_weight = 0.2
+    elif status == 3:
+        status_weight = 0.34
+    else:
+        status_weight = 0.46
+
+    result = (loan - funded) / funded * 0.15 + funded / (funded(1 + rate) ** (duration / 12)) * 0.11 + income_weight \
+             * 0.14 + house_weight * 0.14 + delinq * 0.18 + status_weight * 0.12 + left * 0.16
+    return result
 
 
 @csrf_exempt
