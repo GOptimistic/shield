@@ -23,40 +23,40 @@ window.onload = function () {
 };
 
 
-let cirBtn = document.getElementById('continue-lend');
-cirBtn.onclick = function () {
-    alert('pushed');
-    //交易单号位交易地点代码+交易时间(距离1970/01/01的毫秒数)
-    let borrowDatetime = new Date().Format("yyyy-MM-dd HH:mm:ss");
-    let tradeOrder = '000' + Date.parse(borrowDatetime);
-    tradeOrder = tradeOrder.slice(0,-3);
-    loanInfo.borrowerTime = borrowDatetime;
-    loanInfo.tradeOrder = tradeOrder;
-    loanInfo.tradePlace = '中国银行江宁分行';
-    loanInfo.payback = 0;
-    loanInfo.paybackTime = null;
-    loanInfo.funding_terms = 0;
-    loanInfo.isUpload = 0;
-
-    var response;
-    ajaxResponse(xhrRegister, function () {
-        response = JSON.parse(xhrRegister.responseText);
-        alert(response.msg);
-        localStorage.removeItem('loanInfo');
-        location.assign('./lending.html');
-    }, function () {
-        response = JSON.parse(xhrRegister.responseText);
-        alert(response.msg);
-        localStorage.removeItem('loanInfo');
-        location.assign('./lending.html');
-    });
-
-    xhrRegister.open('POST', '../addLending/');
-    xhrRegister.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
-    xhrRegister.send(JSON.stringify(loanInfo));
-
-
-};
+// let cirBtn = document.getElementById('continue-lend');
+// cirBtn.onclick = function () {
+//     alert('pushed');
+//     //交易单号位交易地点代码+交易时间(距离1970/01/01的毫秒数)
+//     let borrowDatetime = new Date().Format("yyyy-MM-dd HH:mm:ss");
+//     let tradeOrder = '000' + Date.parse(borrowDatetime);
+//     tradeOrder = tradeOrder.slice(0,-3);
+//     loanInfo.borrowerTime = borrowDatetime;
+//     loanInfo.tradeOrder = tradeOrder;
+//     loanInfo.tradePlace = '中国银行江宁分行';
+//     loanInfo.payback = 0;
+//     loanInfo.paybackTime = null;
+//     loanInfo.funding_terms = 0;
+//     loanInfo.isUpload = 0;
+//
+//     var response;
+//     ajaxResponse(xhrRegister, function () {
+//         response = JSON.parse(xhrRegister.responseText);
+//         alert(response.msg);
+//         localStorage.removeItem('loanInfo');
+//         location.assign('./lending.html');
+//     }, function () {
+//         response = JSON.parse(xhrRegister.responseText);
+//         alert(response.msg);
+//         localStorage.removeItem('loanInfo');
+//         location.assign('./lending.html');
+//     });
+//
+//     xhrRegister.open('POST', '../addLending/');
+//     xhrRegister.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
+//     xhrRegister.send(JSON.stringify(loanInfo));
+//
+//
+// };
 
 let modBtn = document.getElementById('continue-modify');
 modBtn.onclick = function () {
@@ -112,3 +112,48 @@ Date.prototype.Format = function (fmt) {
     }
     return fmt;
 };
+
+//模态框
+(function() {
+	/*建立模态框对象*/
+	var modalBox = {};
+	/*获取模态框*/
+	modalBox.modal = document.getElementById("lendingModal");
+    /*获得trigger按钮*/
+	modalBox.triggerBtn = document.getElementById("continue-lend");
+    /*获得关闭按钮*/
+	modalBox.closeBtn = document.getElementById("lending_closeBtn");
+	/*模态框显示*/
+	modalBox.show = function() {
+		console.log(this.modal);
+		this.modal.style.display = "block";
+	};
+	/*模态框关闭*/
+	modalBox.close = function() {
+		this.modal.style.display = "none";
+		self.location.href="./lending.html";
+
+	};
+	/*当用户点击模态框内容之外的区域，模态框也会关闭*/
+	// modalBox.outsideClick = function() {
+	// 	var modal = this.modal;
+	// 	window.onclick = function(event) {
+    //         if(event.target == modal) {
+    //         	modal.style.display = "none";
+    //         }
+	// 	}
+	// }
+    /*模态框初始化*/
+	modalBox.init = function() {
+		var that = this;
+		this.triggerBtn.onclick = function() {
+            that.show();
+		}
+		this.closeBtn.onclick = function() {
+			that.close();
+		}
+		this.outsideClick();
+	}
+	modalBox.init();
+
+})();

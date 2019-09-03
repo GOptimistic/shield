@@ -19,3 +19,44 @@
     padding-right: 48px;
     font-size: 20px;
 }
+
+.confirmlending_btn{
+    background: #7a6c63;
+    padding-top: 10px;
+    padding-left: 48px;
+    padding-right: 48px;
+    font-size: 20px;
+}
+
+.lending_amount_div{
+    padding-top: 20px;
+}
+
+.lending_confirm_mh5{
+    padding-top:5px;
+    padding-bottom: 5px;
+    color: black;
+}
+
+.lending_confirm_position{
+    position: relative;
+}
+
+.lending_confirm_text{
+     border-radius: 5px;
+    border-color: #7a6c63;
+    background: transparent;
+    margin-left: 15px;
+    width: 270px;
+    height: 40px;
+}
+
+.lending_confirm_text:focus{
+    border-color: black;
+     border-radius: 5px;
+    border-color: #7a6c63;
+    background: transparent;
+    margin-left: 15px;
+    width: 270px;
+    height: 40px;
+}
