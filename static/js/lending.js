@@ -126,7 +126,7 @@ anaBtn.onclick = function () {
         let lendingInfo = {
             borrowerName: borrowerName,
             borrowerID: borrowerID,
-            borrowedSum: loanedMoney,
+            loanedMoney: loanedMoney,
             borrowerPhone: borrowerPhone,
             borrowType: loanType,
             loanDuration: duration,

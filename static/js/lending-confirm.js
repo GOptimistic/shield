@@ -4,7 +4,7 @@ let lenConPhone = document.getElementById('lending_confirm_phone');
 let lenConType = document.getElementById('lending_confirm_type');
 let lenConSum = document.getElementById('lending_confirm_sum');
 let lenConDateTime = document.getElementById('lending_confirm_datetime');
-let loanInfo;
+let loanInfo, fundedMoney;
 let xhrRegister = new XMLHttpRequest();
 
 window.onload = function () {
@@ -18,28 +18,32 @@ window.onload = function () {
     lenConID.innerHTML = loanInfo.borrowerID;
     lenConPhone.innerHTML = loanInfo.borrowerPhone;
     lenConType.innerHTML = loanInfo.borrowType;
-    lenConSum.innerHTML = loanInfo.borrowedSum;
-    lenConDateTime.innerHTML = loanInfo.loanDuration;
+    lenConSum.innerHTML = loanInfo.loanedMoney;
+    lenConDateTime.innerHTML = loanInfo.loanDuration+lenConDateTime.innerHTML;
 };
 
 
-let cirBtn = document.getElementById('continue-lend');
+let cirBtn = document.getElementById('confirm-lend');
 cirBtn.onclick = function () {
-    alert('pushed');
+    fundedMoney = document.getElementById('funded-money').value;
+     if(fundedMoney == ''){
+         return alert('请输入金额');
+     }
     //交易单号位交易地点代码+交易时间(距离1970/01/01的毫秒数)
-    let borrowDatetime = new Date().Format("yyyy-MM-dd HH:mm:ss");
-    let tradeOrder = '000' + Date.parse(borrowDatetime);
+    let borrowDatetime = new Date();
+     let shouldPaybackTime = borrowDatetime;
+
+    let tradeOrder = '000' + Date.parse(borrowDatetime.Format("yyyy-MM-dd HH:mm:ss"));
     tradeOrder = tradeOrder.slice(0,-3);
     loanInfo.borrowerTime = borrowDatetime;
     loanInfo.tradeOrder = tradeOrder;
     loanInfo.tradePlace = '中国银行江宁分行';
     loanInfo.payback = 0;
-    loanInfo.paybackTime = null;
     loanInfo.funding_terms = 0;
     loanInfo.isUpload = 0;
-    loanInfo.fundedAmount = document.getElementById('').value;
-    loanInfo.shouldPaybackTime = borrowDatetime.setMonth(borrowDatetime.getMonth()+loanInfo.loanDuration)
-        .Format("yyyy-MM-dd HH:mm:ss");
+    loanInfo.lastPaymentTime = '0000-00-00';
+    loanInfo.fundedAmount = fundedMoney;
+   loanInfo.shouldPaybackTime =new Date(shouldPaybackTime.setMonth(shouldPaybackTime.getMonth()+loanInfo.loanDuration)).Format("yyyy-MM-dd HH:mm:ss");
     console.log(loanInfo.shouldPaybackTime);
 
     var response;
@@ -129,6 +133,8 @@ Date.prototype.Format = function (fmt) {
 	modalBox.triggerBtn = document.getElementById("continue-lend");
     /*获得关闭按钮*/
 	modalBox.closeBtn = document.getElementById("lending_closeBtn");
+	modalBox.cancelBtn = document.getElementById("cancel-lend");
+
 	/*模态框显示*/
 	modalBox.show = function() {
 		console.log(this.modal);
@@ -154,12 +160,16 @@ Date.prototype.Format = function (fmt) {
 		var that = this;
 		this.triggerBtn.onclick = function() {
             that.show();
-		}
+		};
 		this.closeBtn.onclick = function() {
 			that.close();
-		}
+		};
+		this.cancelBtn.onclick = function() {
+		    fundedMoney.value = '';
+            that.close();
+		};
 		this.outsideClick();
-	}
+	};
 	modalBox.init();
 
 })();

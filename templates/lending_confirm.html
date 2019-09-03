@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8" />
     <link rel="apple-touch-icon" sizes="76x76" href="../static/img/logo_title.png">
@@ -105,17 +105,17 @@
                             <div class="confirm=tips">
                                 <ul>
                                     <div class="row lending_confirm_btndiv">
-                                        <h5 class="lending_confirm_mh5 lending_confirm_position">验证码：</h5>
-                                        <input type="text"  value="" placeholder="验证码"
+                                        <h5 class="lending_confirm_mh5 lending_confirm_position">贷款金额：</h5>
+                                        <input type="text"  value="" placeholder="贷款金额" id="funded-money"
                                                class="form-control lending_confirm_text lending_confirm_position"/>
                                     </div>
                                     <li class="noMargin">
                                         <!-- <i class="icon_Pwd"></i> -->
                                         <div class="exitaccount_div lending_amount_div">
-                                            <button class="btn btn-primary confirmlending_btn"  type="button" rel="tooltip">
+                                            <button class="btn btn-primary confirmlending_btn"  type="button" rel="tooltip" id="confirm-lend">
                                                 确定
                                             </button>
-                                            <button class="btn btn-primary confirmlending_btn" type="button"   rel="tooltip">
+                                            <button class="btn btn-primary confirmlending_btn" type="button"   rel="tooltip" id="cancel-lend">
                                                 取消
                                             </button>
                                         </div>
@@ -183,7 +183,7 @@
                 </div>
                 <div class="row ">
                         <h5 class="lending_confirm_h5">贷款期限：</h5>
-                        <h5 class="lending_confirm_h5" id="lending_confirm_datetime"></h5>
+                        <h5 class="lending_confirm_h5" id="lending_confirm_datetime">年</h5>
                 </div>
                 <div class="lending_confirm_btnrow">
                     <div class="row">

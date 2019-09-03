@@ -219,24 +219,24 @@ def add_lending(request):
         borrower_Name = req['borrowerName']
         borrower_ID = req['borrowerID']
         borrower_Time = req['borrowerTime']
-        loan_amount = req['loanedMoney']
-        funded_amount = req['fundedAmount']
-        rate = req['rate']
-        loan_duration = req['loanDuration']
+        loan_amount = float(req['loanedMoney'])
+        funded_amount = float(req['fundedAmount'])
+        rate = float(req['rate'])
+        loan_duration = int(req['loanDuration'])
         borrower_Phone = req['borrowerPhone']
         borrow_Type = req['borrowType']
         payback = req['payback']
         shouldPaybackTime = req['shouldPaybackTime']
-        paybackTime = req['paybackTime']
         tradeOrder = req['tradeOrder']
         tradePlace = req['tradePlace']
         funding_terms = req['funding_terms']
         is_upload = req['isUpload']
-        home_ownership = req['homeOwnership']
+        home_ownership = int(req['homeOwnership'])
         emp_title = req['empTitle']
-        emp_length = req['empLength']
-        annual_income = req['annualIncome']
+        emp_length = int(req['empLength'])
+        annual_income = float(req['annualIncome'])
         grade = req['grade']
+        last_payment_date = req['lastPaymentTime']
 
         installment = funded_amount * (1 + rate) ** loan_duration / (12 * loan_duration)
         block_info = findbyidname(borrower_ID, borrower_Name)
@@ -252,7 +252,7 @@ def add_lending(request):
             loan_amount=loan_amount,
             funded_amount=funded_amount,
             rate=rate,
-
+            loan_duration=loan_duration,
             home_ownership=home_ownership,
             emp_title=emp_title,
             emp_length=emp_length,
@@ -264,16 +264,16 @@ def add_lending(request):
             borrower_phone=borrower_Phone,
             payback=payback,
             should_payback_time=shouldPaybackTime,
-            payback_time=paybackTime,
             trade_order=tradeOrder,
             trade_place=tradePlace,
             funding_terms=funding_terms,
             is_uploaded=is_upload,
             installment=installment,
-            dti=installment*12/annual_income,
+            dti=installment * 12 / annual_income,
             grade=grade,
             out_prncp=funded_amount,
-            purpose=borrow_Type
+            purpose=borrow_Type,
+            last_pymnt_d=None
         )
         if need_add_loan:
             return JsonResponse({'status': 200, 'msg': 'add successfully'})
@@ -312,8 +312,7 @@ def cal_dti(loan, funded, rate, duration, income, house, delinq, status, left):
     else:
         status_weight = 0.46
 
-    result = (loan - funded) / funded * 0.15 + funded / (funded(1 + rate) ** (duration / 12)) * 0.11 + income_weight \
-             * 0.14 + house_weight * 0.14 + delinq * 0.18 + status_weight * 0.12 + left * 0.16
+    result = (loan - funded) / funded * 0.15 + 1 / duration * 0.11 + income_weight * 0.14 + house_weight * 0.14 + delinq * 0.18 + status_weight * 0.12 + left * 0.16
     return result
 
 

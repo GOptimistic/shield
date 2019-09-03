@@ -23,7 +23,6 @@ class Borrower(models.Model):
     borrower_phone = models.CharField(max_length=255, default='')
     payback = models.IntegerField()
     should_payback_time = models.DateTimeField()
-    payback_time = models.DateTimeField()
     trade_order = models.CharField(max_length=255, default='')
     trade_place = models.CharField(max_length=255, default='')
     funding_terms = models.IntegerField()
@@ -45,13 +44,14 @@ class Borrower(models.Model):
     out_prncp = models.FloatField()
     total_pymnt = models.FloatField(default=0.0)
     total_rec_late_fee = models.FloatField(default=0.0)
-    last_pymnt_d = models.DateTimeField(default=None)
+    last_pymnt_d = models.DateField()
     last_pymnt_amnt = models.FloatField(default=0.0)
     purpose = models.CharField(max_length=255, default='')
+    loan_duration = models.IntegerField()
 
     def __str__(self):
         borrow_list = {self.pid, self.borrower_name, self.borrower_id, self.trade_order, self.borrow_type,
-                       self.borrower_sum, self.borrower_time}
+                       self.funded_amount, self.borrower_time}
         # return borrow_list
         return self.borrower_name
 
