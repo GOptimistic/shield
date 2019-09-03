@@ -32,18 +32,16 @@ cirBtn.onclick = function () {
     //交易单号位交易地点代码+交易时间(距离1970/01/01的毫秒数)
     let borrowDatetime = new Date();
      let shouldPaybackTime = borrowDatetime;
-
     let tradeOrder = '000' + Date.parse(borrowDatetime.Format("yyyy-MM-dd HH:mm:ss"));
     tradeOrder = tradeOrder.slice(0,-3);
-    loanInfo.borrowerTime = borrowDatetime;
+    loanInfo.borrowerTime = borrowDatetime.Format("yyyy-MM-dd HH:mm:ss");
     loanInfo.tradeOrder = tradeOrder;
     loanInfo.tradePlace = '中国银行江宁分行';
     loanInfo.payback = 0;
     loanInfo.funding_terms = 0;
     loanInfo.isUpload = 0;
-    loanInfo.lastPaymentTime = '0000-00-00';
     loanInfo.fundedAmount = fundedMoney;
-   loanInfo.shouldPaybackTime =new Date(shouldPaybackTime.setMonth(shouldPaybackTime.getMonth()+loanInfo.loanDuration)).Format("yyyy-MM-dd HH:mm:ss");
+   loanInfo.shouldPaybackTime =new Date(shouldPaybackTime.setMonth(shouldPaybackTime.getMonth()+loanInfo.loanDuration*12)).Format("yyyy-MM-dd HH:mm:ss");
     console.log(loanInfo.shouldPaybackTime);
 
     var response;

@@ -236,14 +236,13 @@ def add_lending(request):
         emp_length = int(req['empLength'])
         annual_income = float(req['annualIncome'])
         grade = req['grade']
-        last_payment_date = req['lastPaymentTime']
 
         installment = funded_amount * (1 + rate) ** loan_duration / (12 * loan_duration)
         block_info = findbyidname(borrower_ID, borrower_Name)
         delinq = len(json.loads(block_info))
 
         coll_attention = cal_dti(loan_amount, funded_amount, rate, loan_duration, annual_income, home_ownership, delinq,
-                                 2, funded_amount)
+                                 2, funded_amount/(installment*12 * loan_duration))
         need_add_loan = Borrower.objects.get_or_create(
             borrower_name=borrower_Name,
             borrower_id=borrower_ID,
