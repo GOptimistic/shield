@@ -80,11 +80,11 @@ anaBtn.onclick = function () {
     }
     switch (n) {
         case 0:
-            duration = 36;
+            duration = 3;
             rate = 4.75;
             break;
         case 1:
-            duration = 60;
+            duration = 5;
             rate = 4.9;
             break;
         default:
@@ -120,7 +120,8 @@ anaBtn.onclick = function () {
     }
 
     if (borrowerName != '' && borrowerID != '' && borrowerPhone != '' && loanedMoney != '' && duration != null
-        && loanType != null && homeOwnership != null && empLength != '' && empTitle != '' && annualIncome != '') {
+        && loanType != null && homeOwnership != null && empLength != '' && empTitle != '' && annualIncome != ''
+        && grade != null) {
 
         let lendingInfo = {
             borrowerName: borrowerName,
@@ -133,7 +134,8 @@ anaBtn.onclick = function () {
             empTitle: empTitle,
             empLength: empLength,
             rate: rate,
-            annualIncome:annualIncome
+            annualIncome: annualIncome,
+            grade: grade
         };
 
         if (typeof Storage == 'undefined') {

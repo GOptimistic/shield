@@ -236,7 +236,9 @@ def add_lending(request):
         emp_title = req['empTitle']
         emp_length = req['empLength']
         annual_income = req['annualIncome']
+        grade = req['grade']
 
+        installment = funded_amount * (1 + rate) ** loan_duration / (12 * loan_duration)
         block_info = findbyidname(borrower_ID, borrower_Name)
         delinq = len(json.loads(block_info))
 
@@ -266,7 +268,12 @@ def add_lending(request):
             trade_order=tradeOrder,
             trade_place=tradePlace,
             funding_terms=funding_terms,
-            is_uploaded=is_upload
+            is_uploaded=is_upload,
+            installment=installment,
+            dti=installment*12/annual_income,
+            grade=grade,
+            out_prncp=funded_amount,
+            purpose=borrow_Type
         )
         if need_add_loan:
             return JsonResponse({'status': 200, 'msg': 'add successfully'})
