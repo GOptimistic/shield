@@ -219,7 +219,12 @@ def add_lending(request):
         borrower_Name = req['borrowerName']
         borrower_ID = req['borrowerID']
         borrower_Time = req['borrowerTime']
+
         loan_amount = req['loanedMoney']
+        funded_amount = req['fundedAmount']
+        rate = req['rate']
+        loan_duration = req['loanDuration']
+
         borrower_Phone = req['borrowerPhone']
         borrow_Type = req['borrowType']
         payback = req['payback']
@@ -229,11 +234,22 @@ def add_lending(request):
         tradePlace = req['tradePlace']
         funding_terms = req['funding_terms']
         is_upload = req['isUpload']
+        home_ownership = req['homeOwnership']
+        emp_title = req['empTitle']
+        emp_length = req['empLength']
+
+        block_info = findbyidname(borrower_ID, borrower_Name)
+        block_num = len(json.loads(block_info))
+
         need_add_loan = Borrower.objects.get_or_create(
             borrower_name=borrower_Name,
             borrower_id=borrower_ID,
             borrower_time=borrower_Time,
+
             loan_amount=loan_amount,
+            funded_amount=funded_amount,
+            rate=rate,
+
             borrow_type=borrow_Type,
             borrower_phone=borrower_Phone,
             payback=payback,
@@ -242,10 +258,19 @@ def add_lending(request):
             trade_order=tradeOrder,
             trade_place=tradePlace,
             funding_terms=funding_terms,
-            is_uploaded=is_upload)
+            is_uploaded=is_upload,
+            home_ownership=home_ownership,
+            emp_title=emp_title,
+            emp_length=emp_length,
+            delinq_2yrs=block_num
+        )
         if need_add_loan:
             return JsonResponse({'status': 200, 'msg': 'add successfully'})
         return JsonResponse({'status': 200, 'msg': 'add failed'})
+
+
+def cal_dti(loan, funded, rate, duration):
+    pass
 
 
 @csrf_exempt

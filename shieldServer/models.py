@@ -45,7 +45,7 @@ class Borrower(models.Model):
     out_prncp = models.FloatField()
     total_pymnt = models.FloatField()
     total_rec_late_fee = models.FloatField()
-    last_pymnt_d = models.DateTimeField()
+    last_pymnt_d = models.DateTimeField(default=None)
     last_pymnt_amnt = models.FloatField(default=0.0)
     purpose = models.CharField(max_length=255, default='')
 

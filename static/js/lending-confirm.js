@@ -40,15 +40,18 @@ cirBtn.onclick = function () {
     loanInfo.fundedAmount = document.getElementById('').value;
     loanInfo.shouldPaybackTime = borrowDatetime.setMonth(borrowDatetime.getMonth()+loanInfo.loanDuration)
         .Format("yyyy-MM-dd HH:mm:ss");
+    console.log(loanInfo.shouldPaybackTime);
 
     var response;
     ajaxResponse(xhrRegister, function () {
         response = JSON.parse(xhrRegister.responseText);
+        //可在之后改为模态框
         alert(response.msg);
         localStorage.removeItem('loanInfo');
         location.assign('./lending.html');
     }, function () {
         response = JSON.parse(xhrRegister.responseText);
+        //可在之后改为模态框
         alert(response.msg);
         localStorage.removeItem('loanInfo');
         location.assign('./lending.html');

@@ -1,72 +1,149 @@
-let chkRadio = document.getElementsByName("lending_radio");
+let chkPpsRadio = document.getElementsByName("lending-purpose-radio");
+let chkDurRadio = document.getElementsByName('lending-duration-radio');
+let chkGrdRadio = document.getElementsByName('lending-grade-radio');
+let chkHosRadio = document.getElementsByName('lending-house-radio');
 let anaBtn = document.getElementById('analysis-button');
-let borrowerName, borrowerID, borrowerPhone, loanedMoney, loanType, shouldPaybackTime;
-let rate, grade, empTitle, empLength, annualIncome, verificationStatus, homeOwnership;
+let borrowerName, borrowerID, borrowerPhone, loanedMoney, loanType;
+let duration, grade, empTitle, empLength, annualIncome, homeOwnership, rate;
 
 anaBtn.onclick = function () {
     borrowerName = document.getElementById('lending_input_name').value;
     borrowerID = document.getElementById('lending_input_ID').value;
     borrowerPhone = document.getElementById('lending_input_phonenum').value;
     loanedMoney = document.getElementById('lending_input_money').value;
-    let temp = document.getElementById('lending_input_date').value;
-    shouldPaybackTime = new Date(temp).Format("yyyy-MM-dd HH:mm:ss");
+    empTitle = document.getElementById('lending_input_emptitle').value;
+    annualIncome = document.getElementById('lending_input_anlincome').value;
+    empLength = document.getElementById('lending_input_emplength').value;
+
     let xhrRegister = new XMLHttpRequest();
 
-
-
-    for (var i = 0; i < chkRadio.length; i++) {
-        if (chkRadio[i].checked) {
+    for (var n = 0; i < chkHosRadio.length; i++) {
+        if (chkHosRadio[i].checked) {
             break;
         }
     }
-    switch (++i) {
+    switch (n) {
+        case 0:
+            homeOwnership = 1;
+            break;
         case 1:
-            loanType = '个人贷款';
+            homeOwnership = 2;
             break;
         case 2:
-            loanType = '企业贷款';
+            homeOwnership = 3;
             break;
         case 3:
-            loanType = '房屋贷款';
-            break;
-        case 4:
-            loanType = '汽车贷款';
-            break;
-        case 5:
-            loanType = '商户贷款';
-            break;
-        case 6:
-            loanType = '结婚贷款';
-            break;
-        case 7:
-            loanType = '小额贷款';
-            break;
-        case 8:
-            loanType = '短期贷款';
+            homeOwnership = 4;
             break;
         default:
-            //alert('请选择贷款类型');
+            homeOwnership = null;
     }
-    if (borrowerName != '' && borrowerID != '' && borrowerPhone != '' && loanedMoney != ''
-        &&  shouldPaybackTime != null && loanType != null) {
 
-         let lendingInfo = {
-        borrowerName: borrowerName,
-        borrowerID: borrowerID,
-        borrowedSum: loanedMoney,
-        borrowerPhone: borrowerPhone,
-        borrowType: loanType,
-        loanDuration: shouldPaybackTime
-    };
-        if(typeof Storage == 'undefined'){
+    for (var m = 0; i < chkGrdRadio.length; i++) {
+        if (chkGrdRadio[i].checked) {
+            break;
+        }
+    }
+    switch (m) {
+        case 0:
+            grade = 1;
+            break;
+        case 1:
+            grade = 2;
+            break;
+        case 2:
+            grade = 3;
+            break;
+        case 3:
+            grade = 4;
+            break;
+        case 4:
+            grade = 5;
+            break;
+        case 5:
+            grade = 6;
+            break;
+        case 6:
+            grade = 7;
+            break;
+        case 7:
+            grade = -1;
+            break;
+        default:
+            grade = null;
+    }
+
+    for (var n = 0; i < chkDurRadio.length; i++) {
+        if (chkDurRadio[i].checked) {
+            break;
+        }
+    }
+    switch (n) {
+        case 0:
+            duration = 36;
+            rate = 4.75;
+            break;
+        case 1:
+            duration = 60;
+            rate = 4.9;
+            break;
+        default:
+            duration = null;
+    }
+
+    for (var i = 0; i < chkPpsRadio.length; i++) {
+        if (chkPpsRadio[i].checked) {
+            break;
+        }
+    }
+    switch (i) {
+        case 0:
+            loanType = '企业贷款';
+            break;
+        case 1:
+            loanType = '房屋贷款';
+            break;
+        case 2:
+            loanType = '汽车贷款';
+            break;
+        case 3:
+            loanType = '商户贷款';
+            break;
+        case 4:
+            loanType = '结婚贷款';
+            break;
+        case 5:
+            loanType = '购物贷款';
+            break;
+        default:
+            loanType = null;
+    }
+
+    if (borrowerName != '' && borrowerID != '' && borrowerPhone != '' && loanedMoney != ''
+        && duration != null && loanType != null && homeOwnership != null && empLength != '' && empTitle != '' && annualIncome != '') {
+
+        let lendingInfo = {
+            borrowerName: borrowerName,
+            borrowerID: borrowerID,
+            borrowedSum: loanedMoney,
+            borrowerPhone: borrowerPhone,
+            borrowType: loanType,
+            loanDuration: duration,
+            homeOwnership: homeOwnership,
+            empTitle: empTitle,
+            empLength: empLength,
+            rate: rate
+        };
+
+        if (typeof Storage == 'undefined') {
             alert('do not support storage');
-        }else{
+        } else {
             let sendStr = JSON.stringify(lendingInfo);
             localStorage.setItem('loanInfo', sendStr);
         }
         location.assign('./lending_results.html');
-    }else{
-         alert('请输入完整信息');
+    } else {
+        alert('请输入完整信息');
     }
 };
 
