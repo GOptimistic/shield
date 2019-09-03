@@ -24,13 +24,9 @@
 .lending_h{
     color:black;
     padding-right: 70%;
-    padding-top: 10%;
+    padding-top: 6%;
 }
 
-.lending_row{
-    padding-top: 5%;
-    background: transparent;
-}
 
 .lending_row_radio{
     padding-top:0px;
@@ -70,4 +66,6 @@
     border-color: #7a6c63;
 }
 
-
+.lending_row_inputs{
+    padding-top:0px;
+}
