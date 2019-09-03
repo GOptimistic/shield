@@ -56,7 +56,7 @@ anaBtn.onclick = function () {
         borrowedSum: loanedMoney,
         borrowerPhone: borrowerPhone,
         borrowType: loanType,
-        shouldPaybackTime: shouldPaybackTime
+        loanDuration: shouldPaybackTime
     };
         if(typeof Storage == 'undefined'){
             alert('do not support storage');

@@ -19,7 +19,7 @@ window.onload = function () {
     lenConPhone.innerHTML = loanInfo.borrowerPhone;
     lenConType.innerHTML = loanInfo.borrowType;
     lenConSum.innerHTML = loanInfo.borrowedSum;
-    lenConDateTime.innerHTML = loanInfo.shouldPaybackTime;
+    lenConDateTime.innerHTML = loanInfo.loanDuration;
 };
 
 
@@ -38,6 +38,8 @@ cirBtn.onclick = function () {
     loanInfo.funding_terms = 0;
     loanInfo.isUpload = 0;
     loanInfo.fundedAmount = document.getElementById('').value;
+    loanInfo.shouldPaybackTime = borrowDatetime.setMonth(borrowDatetime.getMonth()+loanInfo.loanDuration)
+        .Format("yyyy-MM-dd HH:mm:ss");
 
     var response;
     ajaxResponse(xhrRegister, function () {
