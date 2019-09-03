@@ -47,7 +47,6 @@ class Borrower(models.Model):
     total_rec_late_fee = models.FloatField()
     last_pymnt_d = models.DateTimeField()
     last_pymnt_amnt = models.FloatField(default=0.0)
-    application_type = models.IntegerField(default=1)
     purpose = models.CharField(max_length=255, default='')
 
     def __str__(self):
