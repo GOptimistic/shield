@@ -22,21 +22,17 @@ anaBtn.onclick = function () {
             break;
         }
     }
-    switch (n) {
-        case 0:
-            homeOwnership = 1;
-            break;
-        case 1:
-            homeOwnership = 2;
-            break;
-        case 2:
-            homeOwnership = 3;
-            break;
-        case 3:
-            homeOwnership = 4;
-            break;
-        default:
-            homeOwnership = null;
+    let Ownership = {
+        0: 1,
+        1: 2,
+        2: 3,
+        3: 4,
+    };
+    homeOwnership = null;
+    for (let index in Ownership) {
+        if (index == n) {
+            homeOwnership = Ownership[index];
+        }
     }
 
     for (var m = 0; i < chkGrdRadio.length; i++) {
@@ -44,33 +40,21 @@ anaBtn.onclick = function () {
             break;
         }
     }
-    switch (m) {
-        case 0:
-            grade = 1;
-            break;
-        case 1:
-            grade = 2;
-            break;
-        case 2:
-            grade = 3;
-            break;
-        case 3:
-            grade = 4;
-            break;
-        case 4:
-            grade = 5;
-            break;
-        case 5:
-            grade = 6;
-            break;
-        case 6:
-            grade = 7;
-            break;
-        case 7:
-            grade = -1;
-            break;
-        default:
-            grade = null;
+    let Grade = {
+        0: 1,
+        1: 2,
+        2: 3,
+        3: 4,
+        4: 5,
+        5: 6,
+        6: 7,
+        7: 8
+    };
+    grade = null;
+    for(let index in Grade){
+        if(index ==m){
+            grade = Grade[index];
+        }
     }
 
     for (var n = 0; i < chkDurRadio.length; i++) {

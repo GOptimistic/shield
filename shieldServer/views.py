@@ -347,14 +347,14 @@ def lending_result(request):
         borrower_id = req['borrowerID']
         local_info = Borrower.objects.filter(borrower_name=borrower_name, borrower_id=borrower_id) \
             .values('borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'funded_amount', 'borrower_time',
-                    'trade_order', 'trade_place', 'should_payback_time')
+                    'trade_order', 'trade_place', 'should_payback_time', 'last_pymnt_d')
         local_info = list(local_info)
         for i in range(len(local_info)):
-            # date_time = local_info[i]['payback_time']
-            # if date_time is not None:
-            #     local_info[i]['payback_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
-            # else:
-            #     local_info[i]['payback_time'] = "N/A"
+            date_time = local_info[i]['last_pymnt_d']
+            if date_time is not None:
+                local_info[i]['last_pymnt_d'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
+            else:
+                local_info[i]['last_pymnt_d'] = "N/A"
             local_info[i]['borrower_time'] = local_info[i]['borrower_time'].strftime('%Y-%m-%d %H:%I:%S')
             local_info[i]['should_payback_time'] = local_info[i]['should_payback_time'].strftime('%Y-%m-%d %H:%I:%S')
         local_num = len(local_info)
