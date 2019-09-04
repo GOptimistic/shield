@@ -86,6 +86,7 @@
 .home_login_name{
     border:transparent;
     height: 40px;
+    width: 545px;
     background-color: transparent;
     margin-left: 3px;
 }
@@ -103,6 +104,7 @@
 .home_login_pwd{
     border:transparent;
     height: 40px;
+    width: 545px;
     background-color: transparent;
     margin-left: 3px;
 }

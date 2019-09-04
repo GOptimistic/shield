@@ -137,6 +137,10 @@ def repayment(request):
 
         if search_status == "option1":
             search = Borrower.objects.all()
+            print(type(search))
+            #print(search)
+            #print(type(search[0].borrower_time))
+            print(str(search[0].borrower_name))
             for e in search:
                 if e.borrower_id == search_context:
                     if e.payback == 0:
@@ -145,7 +149,7 @@ def repayment(request):
                         borrower_id.append(e.borrower_id)
                         trade_order.append(e.trade_order)
                         trade_type.append(e.borrow_type)
-                        trade_money.append(e.borrower_sum)
+                        trade_money.append(e.funded_amount)
                         trade_date.append(e.borrower_time)
                         end_date.append(e.should_payback_time)
         else:
@@ -158,7 +162,7 @@ def repayment(request):
                         borrower_id.append(e.borrower_id)
                         trade_order.append(e.trade_order)
                         trade_type.append(e.borrow_type)
-                        trade_money.append(e.borrower_sum)
+                        trade_money.append(e.funded_amount)
                         trade_date.append(e.borrower_time)
                         end_date.append(e.should_payback_time)
         data = ""
@@ -247,7 +251,6 @@ def add_lending(request):
             borrower_name=borrower_Name,
             borrower_id=borrower_ID,
             borrower_time=borrower_Time,
-
             loan_amount=loan_amount,
             funded_amount=funded_amount,
             rate=rate,
@@ -343,15 +346,15 @@ def lending_result(request):
         borrower_name = req['borrowerName']
         borrower_id = req['borrowerID']
         local_info = Borrower.objects.filter(borrower_name=borrower_name, borrower_id=borrower_id) \
-            .values('borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'borrower_sum', 'borrower_time',
-                    'trade_order', 'trade_place', 'should_payback_time', 'payback_time')
+            .values('borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'funded_amount', 'borrower_time',
+                    'trade_order', 'trade_place', 'should_payback_time')
         local_info = list(local_info)
         for i in range(len(local_info)):
-            date_time = local_info[i]['payback_time']
-            if date_time is not None:
-                local_info[i]['payback_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
-            else:
-                local_info[i]['payback_time'] = "N/A"
+            # date_time = local_info[i]['payback_time']
+            # if date_time is not None:
+            #     local_info[i]['payback_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
+            # else:
+            #     local_info[i]['payback_time'] = "N/A"
             local_info[i]['borrower_time'] = local_info[i]['borrower_time'].strftime('%Y-%m-%d %H:%I:%S')
             local_info[i]['should_payback_time'] = local_info[i]['should_payback_time'].strftime('%Y-%m-%d %H:%I:%S')
         local_num = len(local_info)
@@ -366,7 +369,7 @@ def lending_result(request):
 # 定时查询违约信息
 def task_Fun():
     default_info = Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0) \
-        .values('pid', 'borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'borrower_sum', 'borrower_time'
+        .values('pid', 'borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'funded_amount', 'borrower_time'
                 , 'funding_terms')
     default_info = list(default_info)
     for i in range(len(default_info)):
@@ -395,8 +398,25 @@ sched.start()
 def repayment_repay(request):
     if request.method == 'POST':
         req = json.loads(request.body)
-        repay_status = Borrower.objects.get(trade_order=req['trade_order'])
-        repay_status.payback = 1
-        repay_status.payback_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
+        repay = req['repay']
+        repay_money = req['money']
+        # repay_unpay
+        repay_status = Borrower.objects.get(trade_order=repay['trade_order'])
+        total_money = repay_status.funded_amount * pow(1 + repay_status.rate, repay_status.loan_status)
+        rate_money = total_money - repay_status.funded_amount
+        repay_status.last_pymnt_amnt = repay_money
+        #repay_status.last_pymnt_d = datetime.today().date()# datetime.strptime(time.strftime('%Y-%m-%d', time.localtime()), "%Y-%m-%d").date()
+        repay_status.loan_status = 5
+        if repay_status.total_pymnt >= rate_money:
+            repay_status.out_prncp = repay_status.out_prncp - repay_money
+            if repay_status.out_prncp < 0:
+                repay_status.out_prncp = 0
+                repay_status.payback = 1
+                repay_status.loan_status = 6
+        else:
+            if repay_status.total_pymnt + repay_money > rate_money:
+                repay_status.out_prncp = repay_status.funded_amount - (repay_status.total_pymnt + repay_money - rate_money)
+        repay_status.total_pymnt = repay_status.total_pymnt + repay_money
+
         repay_status.save()
     return JsonResponse({'status': 200, 'msg': 'con not get the person'})

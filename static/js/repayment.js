@@ -1,3 +1,35 @@
+let success = true;
+
+/*建立模态框对象*/
+var modalBox = {};
+/*获取模态框*/
+modalBox.modal = document.getElementById("myModal");
+/*获得trigger按钮*/
+modalBox.triggerBtn = document.getElementById("index");
+/*获得关闭按钮*/
+modalBox.closeBtn = document.getElementById("changPwd_closeBtn");
+/*模态框显示*/
+modalBox.show = function () {
+    console.log(this.modal);
+    this.modal.style.display = "block";
+};
+/*模态框关闭*/
+modalBox.close = function () {
+    this.modal.style.display = "none";
+    searchFunction();
+};
+/*模态框初始化*/
+modalBox.init = function () {
+    var that = this;
+    if (success) {
+        that.show();
+    }
+    this.closeBtn.onclick = function () {
+        that.close();
+    };
+    // this.outsideClick();
+};
+
 var re = {};
 
 function searchFunction() {
@@ -25,7 +57,7 @@ function searchFunction() {
             for (; index < re.length; index++) {
                 //for(var i in re){
                 console.log(re[index]);
-                my_tbody.innerHTML = my_tbody.innerHTML + '<tr id="repayment_tr' + (index+1) +'><td><input type="checkbox"></td><td>' +
+                my_tbody.innerHTML = my_tbody.innerHTML + '<tr id="repayment_tr' + (index + 1) + '><td><input type="checkbox"></td><td>' +
                     (index + 1) + '</td><td class="am-hide-sm-only">' + re[index].borrower_name + '</td><td>' +
                     re[index].borrower_id + '</td><td>' + re[index].trade_order + '</td><td>' + re[index].trade_type +
                     '</td><td>' + re[index].trade_money + '</td><td>' + re[index].trade_date +
@@ -61,21 +93,26 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
     }
 }
 
-function repayment_btn_action(element){
+function repayment_btn_action(element) {
+    modalBox.init();
+    let money = document.getElementById('repayment_money').value;
     let xhrRegister2 = new XMLHttpRequest();
     ajaxResponse(xhrRegister2,
         function () {
             console.log(1);
 
-            },function () {
+        }, function () {
         });
-
+    let repay={
+        money:money,
+        repay:re[element.id]
+    }
     //window.location.href = "repayment.html?trade_order="+re[parseInt(element.id)].trade_;
     xhrRegister2.open('POST', '../repayment_repay/');
     xhrRegister2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
-    xhrRegister2.send(JSON.stringify(re[element.id]));
+    xhrRegister2.send(JSON.stringify(repay));
 
-    searchFunction()
+    //searchFunction()
 
 }
 

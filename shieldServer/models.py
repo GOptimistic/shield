@@ -35,7 +35,7 @@ class Borrower(models.Model):
     emp_title = models.CharField(max_length=255, default='')
     emp_length = models.IntegerField(default=-1)
     annual_income = models.FloatField(default=0.0)
-    verification_status = models.IntegerField(default=1)
+    verification_status = models.IntegerField(default=-1)
     home_ownership = models.IntegerField(default=-1)
     loan_status = models.IntegerField(default=-1)
     dti = models.FloatField(default=0.0)
