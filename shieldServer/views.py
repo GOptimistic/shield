@@ -137,10 +137,6 @@ def repayment(request):
 
         if search_status == "option1":
             search = Borrower.objects.all()
-            print(type(search))
-            #print(search)
-            #print(type(search[0].borrower_time))
-            print(str(search[0].borrower_name))
             for e in search:
                 if e.borrower_id == search_context:
                     if e.payback == 0:
@@ -149,7 +145,7 @@ def repayment(request):
                         borrower_id.append(e.borrower_id)
                         trade_order.append(e.trade_order)
                         trade_type.append(e.borrow_type)
-                        trade_money.append(e.funded_amount)
+                        trade_money.append(e.out_prncp)
                         trade_date.append(e.borrower_time)
                         end_date.append(e.should_payback_time)
         else:
@@ -162,7 +158,7 @@ def repayment(request):
                         borrower_id.append(e.borrower_id)
                         trade_order.append(e.trade_order)
                         trade_type.append(e.borrow_type)
-                        trade_money.append(e.funded_amount)
+                        trade_money.append(e.out_prncp)
                         trade_date.append(e.borrower_time)
                         end_date.append(e.should_payback_time)
         data = ""
@@ -400,23 +396,26 @@ def repayment_repay(request):
         req = json.loads(request.body)
         repay = req['repay']
         repay_money = req['money']
+        print(repay_money)
         # repay_unpay
         repay_status = Borrower.objects.get(trade_order=repay['trade_order'])
         total_money = repay_status.funded_amount * pow(1 + repay_status.rate, repay_status.loan_status)
         rate_money = total_money - repay_status.funded_amount
         repay_status.last_pymnt_amnt = repay_money
-        #repay_status.last_pymnt_d = datetime.today().date()# datetime.strptime(time.strftime('%Y-%m-%d', time.localtime()), "%Y-%m-%d").date()
+        repay_status.last_pymnt_d = datetime.today().date()# datetime.strptime(time.strftime('%Y-%m-%d', time.localtime()), "%Y-%m-%d").date()
         repay_status.loan_status = 5
         if repay_status.total_pymnt >= rate_money:
-            repay_status.out_prncp = repay_status.out_prncp - repay_money
+
+            repay_status.out_prncp = float(repay_status.out_prncp) - float(repay_money)
             if repay_status.out_prncp < 0:
                 repay_status.out_prncp = 0
                 repay_status.payback = 1
                 repay_status.loan_status = 6
         else:
-            if repay_status.total_pymnt + repay_money > rate_money:
+            if repay_status.total_pymnt + float(repay_money) > rate_money:
                 repay_status.out_prncp = repay_status.funded_amount - (repay_status.total_pymnt + repay_money - rate_money)
-        repay_status.total_pymnt = repay_status.total_pymnt + repay_money
+        repay_status.total_pymnt = repay_status.total_pymnt + float(repay_money)
 
         repay_status.save()
+        return JsonResponse({'status': 200, 'msg': 'success'})
     return JsonResponse({'status': 200, 'msg': 'con not get the person'})
