@@ -8,6 +8,7 @@ modalBox.modal = document.getElementById("myModal");
 modalBox.triggerBtn = document.getElementById("index");
 /*获得关闭按钮*/
 modalBox.closeBtn = document.getElementById("changPwd_closeBtn");
+
 /*模态框显示*/
 modalBox.show = function () {
     console.log(this.modal);
@@ -27,6 +28,9 @@ modalBox.init = function () {
     this.closeBtn.onclick = function () {
         that.close();
     };
+    // if(changed){
+    //     that.close();
+    // }
     // this.outsideClick();
 };
 
@@ -95,24 +99,35 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
 
 function repayment_btn_action(element) {
     modalBox.init();
-    let money = document.getElementById('repayment_money').value;
-    let xhrRegister2 = new XMLHttpRequest();
-    ajaxResponse(xhrRegister2,
-        function () {
-            console.log(1);
+    let repayBtn = document.getElementById('repay-button');
+    repayBtn.onclick = function () {
+        let money = document.getElementById('repayment_money').value;
+        console.log(money);
+        let xhrRegister2 = new XMLHttpRequest();
+        ajaxResponse(xhrRegister2,
+            function () {
+                console.log(1);
+                re = JSON.parse(xhrRegister2.responseText);
+                console.log(re);
+                if (re.msg === "success") {
+                    // changed=true;
+                    modalBox.close();
+                }
+            }, function () {
+            });
+        let repay = {
+            money: money,
+            repay: re[element.id]
+        };
+        console.log(repay);
+        //window.location.href = "repayment.html?trade_order="+re[parseInt(element.id)].trade_;
+        xhrRegister2.open('POST', '../repayment_repay/');
+        xhrRegister2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
+        xhrRegister2.send(JSON.stringify(repay));
 
-        }, function () {
-        });
-    let repay={
-        money:money,
-        repay:re[element.id]
+        //searchFunction()
     }
-    //window.location.href = "repayment.html?trade_order="+re[parseInt(element.id)].trade_;
-    xhrRegister2.open('POST', '../repayment_repay/');
-    xhrRegister2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
-    xhrRegister2.send(JSON.stringify(repay));
-
-    //searchFunction()
-
 }
+
+
 
