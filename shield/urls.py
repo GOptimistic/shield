@@ -24,7 +24,6 @@ urlpatterns = [
     path('index/', views.home),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
-    path('count/', views.order_count, name='orderCount'),
     path('addLending/', views.add_lending, name='addLending'),
     path('lendingResult/', views.lending_result, name='lendingResult'),
     path("mine/", clock.mine),

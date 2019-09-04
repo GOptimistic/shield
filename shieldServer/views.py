@@ -209,12 +209,6 @@ def repaymentPage(request):
     return render_to_response("repayment.html")
 
 
-@csrf_exempt
-def order_count(request):
-    if request.method == 'POST':
-        count = Borrower.objects.count()
-    return JsonResponse({'result': 200, 'msg': count})
-
 
 @csrf_exempt
 def add_lending(request):
@@ -245,7 +239,7 @@ def add_lending(request):
         block_info = findbyidname(borrower_ID, borrower_Name)
         delinq = len(json.loads(block_info))
 
-        coll_attention = cal_dti(loan_amount, funded_amount, rate, loan_duration, annual_income, home_ownership, delinq,
+        coll_attention = cal_dti(loan_amount, funded_amount, loan_duration, annual_income, home_ownership, delinq,
                                  2, funded_amount/(installment*12 * loan_duration))
         need_add_loan = Borrower.objects.get_or_create(
             borrower_name=borrower_Name,
@@ -282,7 +276,7 @@ def add_lending(request):
         return JsonResponse({'status': 200, 'msg': 'add failed'})
 
 
-def cal_dti(loan, funded, rate, duration, income, house, delinq, status, left):
+def cal_dti(loan, funded, duration, income, house, delinq, status, left):
     result = 0.0
     income_weight = 0.0
     house_weight = 0.0
