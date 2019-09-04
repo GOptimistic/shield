@@ -54,8 +54,8 @@ window.onload = function () {
 let cirBtn = document.getElementById('confirm-lend');
 cirBtn.onclick = function () {
     fundedMoney = document.getElementById('funded-money').value;
-    if (fundedMoney == '') {
-        return alert('请输入金额');
+    if (isMoney(fundedMoney)) {
+        return alert('请正确输入金额');
     }
     //交易单号位交易地点代码+交易时间(距离1970/01/01的毫秒数)
     let borrowDatetime = new Date();
@@ -94,16 +94,18 @@ cirBtn.onclick = function () {
 
 };
 
+//返回修改按钮函数
 let modBtn = document.getElementById('continue-modify');
 modBtn.onclick = function () {
     if (localStorage.getItem('loanInfo') != null) {
         localStorage.removeItem('loanInfo');
     }
     location.assign('./lending.html');
-}
+};
 
 
 function ajaxResponse(xhr, successFunction, falseFunction) {
+    //响应函数
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             console.log(xhr.status);
@@ -115,7 +117,7 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
             }
         }
     }
-};
+}
 
 function listToJSONStr(str) {
     //从后端传来的list使用该方法转换成json字符串
@@ -197,3 +199,13 @@ Date.prototype.Format = function (fmt) {
     modalBox.init();
 
 })();
+
+function isMoney(s) {//判断是否为金额格式
+    let regu = "^[0-9]+[.][0-9]{0,3}$";
+    let re = new RegExp(regu);
+    if (re.test(s)) {
+        return true;
+    } else {
+        return false;
+    }
+}

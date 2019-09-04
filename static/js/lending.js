@@ -51,8 +51,8 @@ anaBtn.onclick = function () {
         7: 8
     };
     grade = null;
-    for(let index in Grade){
-        if(index ==m){
+    for (let index in Grade) {
+        if (index == m) {
             grade = Grade[index];
         }
     }
@@ -103,9 +103,9 @@ anaBtn.onclick = function () {
             loanType = null;
     }
 
-    if (borrowerName != '' && borrowerID != '' && borrowerPhone != '' && loanedMoney != '' && duration != null
-        && loanType != null && homeOwnership != null && empLength != '' && empTitle != '' && annualIncome != ''
-        && grade != null) {
+    if (isChinaOrLetter(borrowerName) && checkCard(borrowerID) && checkMobile(borrowerPhone) && isMoney(loanedMoney)
+        && duration != null && loanType != null && homeOwnership != null && isNumber(empLength)
+        && isChinaOrLetter(empTitle) && isMoney(annualIncome) && grade != null) {
 
         let lendingInfo = {
             borrowerName: borrowerName,
@@ -130,7 +130,7 @@ anaBtn.onclick = function () {
         }
         location.assign('./lending_results.html');
     } else {
-        alert('请输入完整信息');
+        alert('请完整输入正确格式的信息');
     }
 };
 
@@ -163,6 +163,56 @@ function toTimeString(temp) {
     let dateAry = temp.split("/");
     let tempStr = dateAry[2] + ' ' + dateAry[1] + ',' + dateAry[2];
     return tempStr;
-};
+}
 
+function checkCard(str) {
+    //15位数身份证正则表达式
+    let arg1 = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$/;
+    //18位数身份证正则表达式
+    let arg2 = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[A-Z])$/;
+    if (str.match(arg1) == null && str.match(arg2) == null) {
+        return false;
+    } else {
+        return true;
+    }
+}
 
+function checkMobile(s) {//判断是否时手机号码
+    let regu = /^[1][3][0-9]{9}$/;
+    let re = new RegExp(regu);
+    if (re.test(s)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isChinaOrLetter(s) {//判断是否是汉字、字母组成
+    let regu = "^[a-zA-Z\u4e00-\u9fa5]+$";
+    let re = new RegExp(regu);
+    if (re.test(s)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isMoney(s) {//判断是否为金额格式
+    let regu = "^[0-9]+[.][0-9]{0,3}$";
+    let re = new RegExp(regu);
+    if (re.test(s)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isNumber(s) {
+    var regu = "^[0-9]+$";
+    var re = new RegExp(regu);
+    if (s.search(re) != -1) {
+        return true;
+    } else {
+        return false;
+    }
+}
