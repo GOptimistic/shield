@@ -138,8 +138,8 @@ def repayment(request):
         if search_status == "option1":
             search = Borrower.objects.all()
             print(type(search))
-            #print(search)
-            #print(type(search[0].borrower_time))
+            # print(search)
+            # print(type(search[0].borrower_time))
             print(str(search[0].borrower_name))
             for e in search:
                 if e.borrower_id == search_context:
@@ -209,7 +209,6 @@ def repaymentPage(request):
     return render_to_response("repayment.html")
 
 
-
 @csrf_exempt
 def add_lending(request):
     if request.method == 'POST':
@@ -235,12 +234,12 @@ def add_lending(request):
         annual_income = float(req['annualIncome'])
         grade = req['grade']
 
-        installment = funded_amount * (1 + rate) ** loan_duration / (12 * loan_duration)
+        installment = funded_amount * ((1 + rate) ** loan_duration) / (12 * loan_duration)
         block_info = findbyidname(borrower_ID, borrower_Name)
         delinq = len(json.loads(block_info))
 
         coll_attention = cal_dti(loan_amount, funded_amount, loan_duration, annual_income, home_ownership, delinq,
-                                 2, funded_amount/(installment*12 * loan_duration))
+                                 2, funded_amount / (installment * 12 * loan_duration))
         need_add_loan = Borrower.objects.get_or_create(
             borrower_name=borrower_Name,
             borrower_id=borrower_ID,
@@ -308,7 +307,8 @@ def cal_dti(loan, funded, duration, income, house, delinq, status, left):
     else:
         status_weight = 0.46
 
-    result = (loan - funded) / funded * 0.15 + 1 / duration * 0.11 + income_weight * 0.14 + house_weight * 0.14 + delinq * 0.18 + status_weight * 0.12 + left * 0.16
+    result = (
+                         loan - funded) / funded * 0.15 + 1 / duration * 0.11 + income_weight * 0.14 + house_weight * 0.14 + delinq * 0.18 + status_weight * 0.12 + left * 0.16
     return result
 
 
@@ -360,6 +360,35 @@ def lending_result(request):
         return JsonResponse(jsonStr, safe=False)
 
 
+@csrf_exempt
+def repayment_repay(request):
+    if request.method == 'POST':
+        req = json.loads(request.body)
+        repay = req['repay']
+        repay_money = req['money']
+        # repay_unpay
+        repay_status = Borrower.objects.get(trade_order=repay['trade_order'])
+        total_money = repay_status.funded_amount * pow(1 + repay_status.rate, repay_status.loan_status)
+        rate_money = total_money - repay_status.funded_amount
+        repay_status.last_pymnt_amnt = repay_money
+        # repay_status.last_pymnt_d = datetime.today().date()# datetime.strptime(time.strftime('%Y-%m-%d', time.localtime()), "%Y-%m-%d").date()
+        repay_status.loan_status = 5
+        if repay_status.total_pymnt >= rate_money:
+            repay_status.out_prncp = repay_status.out_prncp - repay_money
+            if repay_status.out_prncp < 0:
+                repay_status.out_prncp = 0
+                repay_status.payback = 1
+                repay_status.loan_status = 6
+        else:
+            if repay_status.total_pymnt + repay_money > rate_money:
+                repay_status.out_prncp = repay_status.funded_amount - (
+                            repay_status.total_pymnt + repay_money - rate_money)
+        repay_status.total_pymnt = repay_status.total_pymnt + repay_money
+
+        repay_status.save()
+    return JsonResponse({'status': 200, 'msg': 'con not get the person'})
+
+
 # 定时查询违约信息
 def task_Fun():
     default_info = Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0) \
@@ -375,6 +404,15 @@ def task_Fun():
     sleep(1)
 
 
+def remind():
+    need_notice = Borrower.objects.filter(payback=0).values('borrower_name', 'borrower_id', 'borrower_phone',
+                                                           'borrower_time', 'last_pymnt_d', 'installment')
+    need_notice_first = need_notice.filter(last_pymnt_d=None)
+    need_notice_not_first = need_notice.exclude(last_pymnt_d=None)
+    print(need_notice_first)
+    print(need_notice_not_first)
+
+
 sched = Scheduler()
 
 
@@ -386,31 +424,3 @@ def my_task1():
 
 
 sched.start()
-
-
-@csrf_exempt
-def repayment_repay(request):
-    if request.method == 'POST':
-        req = json.loads(request.body)
-        repay = req['repay']
-        repay_money = req['money']
-        # repay_unpay
-        repay_status = Borrower.objects.get(trade_order=repay['trade_order'])
-        total_money = repay_status.funded_amount * pow(1 + repay_status.rate, repay_status.loan_status)
-        rate_money = total_money - repay_status.funded_amount
-        repay_status.last_pymnt_amnt = repay_money
-        #repay_status.last_pymnt_d = datetime.today().date()# datetime.strptime(time.strftime('%Y-%m-%d', time.localtime()), "%Y-%m-%d").date()
-        repay_status.loan_status = 5
-        if repay_status.total_pymnt >= rate_money:
-            repay_status.out_prncp = repay_status.out_prncp - repay_money
-            if repay_status.out_prncp < 0:
-                repay_status.out_prncp = 0
-                repay_status.payback = 1
-                repay_status.loan_status = 6
-        else:
-            if repay_status.total_pymnt + repay_money > rate_money:
-                repay_status.out_prncp = repay_status.funded_amount - (repay_status.total_pymnt + repay_money - rate_money)
-        repay_status.total_pymnt = repay_status.total_pymnt + repay_money
-
-        repay_status.save()
-    return JsonResponse({'status': 200, 'msg': 'con not get the person'})

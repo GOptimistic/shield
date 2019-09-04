@@ -65,11 +65,11 @@ anaBtn.onclick = function () {
     switch (n) {
         case 0:
             duration = 3;
-            rate = 4.75;
+            rate = 0.0475;
             break;
         case 1:
             duration = 5;
-            rate = 4.9;
+            rate = 0.049;
             break;
         default:
             duration = null;
