@@ -378,7 +378,7 @@ def repayment_repay(request):
                 repay_status.loan_status = 6
         else:
             if repay_status.total_pymnt + float(repay_money) > rate_money:
-                repay_status.out_prncp = repay_status.funded_amount - (repay_status.total_pymnt + repay_money - rate_money)
+                repay_status.out_prncp = repay_status.funded_amount - (repay_status.total_pymnt + float(repay_money) - rate_money)
         repay_status.total_pymnt = repay_status.total_pymnt + float(repay_money)
 
         repay_status.save()

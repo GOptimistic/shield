@@ -178,7 +178,7 @@ function checkCard(str) {
 }
 
 function checkMobile(s) {//判断是否时手机号码
-    let regu = /^[1][3][0-9]{9}$/;
+    let regu =/^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/;
     let re = new RegExp(regu);
     if (re.test(s)) {
         return true;
@@ -198,7 +198,7 @@ function isChinaOrLetter(s) {//判断是否是汉字、字母组成
 }
 
 function isMoney(s) {//判断是否为金额格式
-    let regu = "^[0-9]+[.][0-9]{0,3}$";
+    let regu = "^[0-9]+[.][0-9]{0,2}$";
     let re = new RegExp(regu);
     if (re.test(s)) {
         return true;

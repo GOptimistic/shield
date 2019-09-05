@@ -13,27 +13,28 @@ window.onload = function () {
     document.getElementById('lending_confirm_id').innerHTML = loanInfo.borrowerID;
     document.getElementById('lending_confirm_phone').innerHTML = loanInfo.borrowerPhone;
     document.getElementById('lending_confirm_type').innerHTML = loanInfo.borrowType;
-    document.getElementById('lending_confirm_sum').innerHTML = loanInfo.loanedMoney;
-    let lenConDateTime = document.getElementById('lending_confirm_loandur');
-    lenConDateTime.innerHTML = loanInfo.loanDuration + lenConDateTime.innerHTML;
-    let empLen = document.getElementById('lending_confirm_emplen');
     document.getElementById('lending_confirm_emptitle').innerHTML = loanInfo.empTitle;
-    document.getElementById('lending_confirm_annlincome').innerHTML = loanInfo.annualIncome;
+    let sum = document.getElementById('lending_confirm_sum');
+    let lenConDateTime = document.getElementById('lending_confirm_loandur');
+    let empLen = document.getElementById('lending_confirm_emplen');
+    let income = document.getElementById('lending_confirm_annlincome');
+    income.innerHTML = loanInfo.annualIncome + income.innerHTML;
+    sum.innerHTML = loanInfo.loanedMoney + sum.innerHTML;
+    lenConDateTime.innerHTML = loanInfo.loanDuration + lenConDateTime.innerHTML;
     empLen.innerHTML = loanInfo.empLength + empLen.innerHTML;
-    document.getElementById('lending_confirm_loandur').innerHTML = loanInfo.loanDuration;
     let Grade = {
         1: 'A',
-		2: 'B',
-		3: 'C',
-		4: 'D',
-		5: 'E',
-		6: 'F',
-		7: 'G',
-		8: '未评级'
+        2: 'B',
+        3: 'C',
+        4: 'D',
+        5: 'E',
+        6: 'F',
+        7: 'G',
+        8: '未评级'
     };
-    for(let i in Grade){
-        if(i == loanInfo.grade){
-             document.getElementById('lending_confirm_grade').innerHTML = Grade[i];
+    for (let i in Grade) {
+        if (i == loanInfo.grade) {
+            document.getElementById('lending_confirm_grade').innerHTML = Grade[i];
         }
     }
 
@@ -43,9 +44,9 @@ window.onload = function () {
         3: 'MORTGAGE',
         4: 'OTHER'
     }
-    for(let i in Ownership){
-        if(i == loanInfo.homeOwnership){
-             document.getElementById('lending_confirm_house').innerHTML = Ownership[i];
+    for (let i in Ownership) {
+        if (i == loanInfo.homeOwnership) {
+            document.getElementById('lending_confirm_house').innerHTML = Ownership[i];
         }
     }
 };
@@ -54,7 +55,7 @@ window.onload = function () {
 let cirBtn = document.getElementById('confirm-lend');
 cirBtn.onclick = function () {
     fundedMoney = document.getElementById('funded-money').value;
-    if (isMoney(fundedMoney)) {
+    if (!isMoney(fundedMoney)) {
         return alert('请正确输入金额');
     }
     //交易单号位交易地点代码+交易时间(距离1970/01/01的毫秒数)
@@ -201,7 +202,7 @@ Date.prototype.Format = function (fmt) {
 })();
 
 function isMoney(s) {//判断是否为金额格式
-    let regu = "^[0-9]+[.][0-9]{0,3}$";
+    let regu = "^[0-9]+[.][0-9]{0,2}$";
     let re = new RegExp(regu);
     if (re.test(s)) {
         return true;

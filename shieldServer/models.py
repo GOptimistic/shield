@@ -42,12 +42,13 @@ class Borrower(models.Model):
     delinq_2yrs = models.IntegerField(default=-1)
     collect_attention = models.FloatField(default=0.0)
     out_prncp = models.FloatField()
-    total_pymnt = models.FloatField(default=0.0)
-    total_rec_late_fee = models.FloatField(default=0.0)
+    total_pymnt = models.FloatField(default=0.0,)
+    total_rec_late_fee = models.FloatField(default=0.0,)
     last_pymnt_d = models.DateField()
-    last_pymnt_amnt = models.FloatField(default=0.0)
+    last_pymnt_amnt = models.FloatField(default=0.0,)
     purpose = models.CharField(max_length=255, default='')
     loan_duration = models.IntegerField()
+    e_credit_time = models.DateField()
 
     def __str__(self):
         borrow_list = {self.pid, self.borrower_name, self.borrower_id, self.trade_order, self.borrow_type,

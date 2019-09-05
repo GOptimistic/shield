@@ -61,13 +61,13 @@
 }
 
 .lending_confirm_left{
-    width: 30%;
-    padding-left: 10%;
+    width: 40%;
+
     float: left;
 }
 
 .lending_confirm_right{
-    width: 70%;
+    width: 60%;
     padding-left: 10%;
     float: right;
 }

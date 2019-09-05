@@ -45,6 +45,9 @@ function searchFunction() {
     let context = [];
 
     let search_context = document.getElementById('select-context').value;
+    if (!checkInput(value, search_context)) {
+        return alert('请正确输入信息')
+    }
     //console.log(search_context);
     let xhrRegister = new XMLHttpRequest();
     ajaxResponse(xhrRegister,
@@ -102,6 +105,9 @@ function repayment_btn_action(element) {
     let repayBtn = document.getElementById('repay-button');
     repayBtn.onclick = function () {
         let money = document.getElementById('repayment_money').value;
+        if (!isMoney(money)) {
+            return alert('请正确输入信息')
+        }
         console.log(money);
         let xhrRegister2 = new XMLHttpRequest();
         ajaxResponse(xhrRegister2,
@@ -129,5 +135,39 @@ function repayment_btn_action(element) {
     }
 }
 
+function checkInput(option, input) {
+    if (option === 'option1') {
+        return checkCard(input)
+    } else if (option === 'option2') {
+        return isOrderNum(input)
+    } else
+        return false;
+}
+
+function checkCard(str) {
+    //15位数身份证正则表达式
+    let arg1 = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$/;
+    //18位数身份证正则表达式
+    let arg2 = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[A-Z])$/;
+    if (str.match(arg1) == null && str.match(arg2) == null) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function isOrderNum(str) {
+    var reg = /^[0-9]{13}$/;   /*定义验证表达式*/
+    return reg.test(str);     /*进行验证*/
+}
 
 
+function isMoney(s) {//判断是否为金额格式
+    let regu = "^[0-9]+[.][0-9]{0,3}$";
+    let re = new RegExp(regu);
+    if (re.test(s)) {
+        return true;
+    } else {
+        return false;
+    }
+}
