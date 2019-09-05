@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8" />
     <link rel="apple-touch-icon" sizes="76x76" href="../static/img/logo_title.png">
@@ -81,7 +81,7 @@
                                 <div class="divider"></div>
                                 <a class="dropdown-item" id="exitaccount" href="#">退出登录</a>
                                 <div class="divider"></div>
-                                <a class="dropdown-item" href="#">账户管理(仅管理员)</a>
+                                <a class="dropdown-item" id="usermanagemententry" href="#">账户管理(仅管理员)</a>
                             </div>
                         </li>
                     </ul>
@@ -118,6 +118,46 @@
                                                 确定
                                             </button>
                                             <button class="btn btn-primary confirmlending_btn" type="button"   rel="tooltip" id="cancel-lend">
+                                                取消
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end modelBox-->
+                <!-- 用户管理密码进入 -->
+                <div id="userModal" class="modal">
+                    <div class="modal-content">
+                        <div class="login_modal-header">
+                            <h2 class="success_model_header success_model_header_text">请授权</h2>
+                            <p id="user_management_closeBtn" class="close">×</p>
+                        </div>
+                        <div class="modal-body">
+                            <div class="confirm=tips">
+                                <div class="error-wrap login_error">
+                                    <span id="entry_error_psw" style="color:red;" class="error error-show"></span>
+                                </div>
+                                <ul>
+                                    <div class="row lending_confirm_btndiv">
+                                        <h5 class="lending_confirm_mh5 lending_confirm_position">输入工号：</h5>
+                                        <input type="text"  value="" placeholder="工号" id="usermanageinputid"
+                                               class="form-control lending_confirm_text lending_confirm_position"/>
+                                    </div>
+                                    <div class="row lending_confirm_btndiv">
+                                        <h5 class="lending_confirm_mh5 lending_confirm_position">输入密码：</h5>
+                                        <input type="password" id="usermanageinputpsw" value="" placeholder="密码"
+                                               class="form-control lending_confirm_text lending_confirm_position"/>
+                                    </div>
+                                    <li class="noMargin">
+                                        <!-- <i class="icon_Pwd"></i> -->
+                                        <div class="exitaccount_div lending_amount_div">
+                                            <button class="btn btn-primary btn-sm um_psw_con" id="usermanage_con" type="button" rel="tooltip">
+                                                确定
+                                            </button>
+                                            <button class="btn btn-primary btn-sm um_psw_con" type="button" id="usermanage_can"  rel="tooltip">
                                                 取消
                                             </button>
                                         </div>
@@ -249,6 +289,7 @@
 <script src="../static/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
 <!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
 <script src="../static/js/now-ui-kit.js?v=1.1.0" type="text/javascript"></script>
-<!--<script type="text/javascript" src="../static/js/modalBox_lending.js"></script>-->
+<!-- exit account & manage user-->
 <script type="text/javascript" src="../static/js/ExitModal.js"></script>
+<script type="text/javascript" src="../static/js/userManageEnter.js"></script>
 </html>
