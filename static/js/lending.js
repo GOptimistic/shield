@@ -15,13 +15,11 @@ anaBtn.onclick = function () {
     annualIncome = document.getElementById('lending_input_anlincome').value;
     empLength = document.getElementById('lending_input_emplength').value;
     let creditTime =new Date(document.getElementById('lending_input_date').value).Format("yyyy-MM-dd");
-    console.log(creditTime);
-
 
     let xhrRegister = new XMLHttpRequest();
 
-    for (var n = 0; i < chkHosRadio.length; i++) {
-        if (chkHosRadio[i].checked) {
+    for (var k = 0; k < chkHosRadio.length; k++) {
+        if (chkHosRadio[k].checked) {
             break;
         }
     }
@@ -33,13 +31,13 @@ anaBtn.onclick = function () {
     };
     homeOwnership = null;
     for (let index in Ownership) {
-        if (index == n) {
+        if (index == k) {
             homeOwnership = Ownership[index];
         }
     }
 
-    for (var m = 0; i < chkGrdRadio.length; i++) {
-        if (chkGrdRadio[i].checked) {
+    for (var m = 0; m < chkGrdRadio.length; m++) {
+        if (chkGrdRadio[m].checked) {
             break;
         }
     }
@@ -60,8 +58,8 @@ anaBtn.onclick = function () {
         }
     }
 
-    for (var n = 0; i < chkDurRadio.length; i++) {
-        if (chkDurRadio[i].checked) {
+    for (var n = 0; n < chkDurRadio.length; n++) {
+        if (chkDurRadio[n].checked) {
             break;
         }
     }
@@ -132,7 +130,7 @@ anaBtn.onclick = function () {
             let sendStr = JSON.stringify(lendingInfo);
             localStorage.setItem('loanInfo', sendStr);
         }
-        //location.assign('./lending_results.html');
+        location.assign('./lending_results.html');
     } else {
         alert('请完整输入正确格式的信息');
     }

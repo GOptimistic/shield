@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import time
 import datetime
-from .models import User, Borrower
+from .models import User, Borrower, Alert
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 
@@ -19,6 +19,9 @@ from chainServer.clock import mine, findbyidname
 
 
 def home(request):
+    is_login = request.session.get('is_login', False)
+    if is_login:
+        return render(request, 'home_after.html')
     return render(request, 'home.html')
 
 
@@ -53,9 +56,9 @@ def others(request, file):
         if file == 'test_message':
             return render(request, 'test_message.html')
         if file == 'user_management':
-            return  render(request, 'user_management.html')
+            return render(request, 'user_management.html')
         if file == 'new_user':
-            return  render(request, 'new_user.html')
+            return render(request, 'new_user.html')
         if file == 'query_result':
             idNumber = request.GET.get('idNumber')
             loanNumber = request.GET.get('loanNumber')
@@ -207,8 +210,6 @@ def changePwd(request):
 
 def repaymentPage(request):
     return render_to_response("repayment.html")
-
-
 
 
 @csrf_exempt
@@ -364,7 +365,6 @@ def lending_result(request):
         return JsonResponse(jsonStr, safe=False)
 
 
-
 @csrf_exempt
 def repayment_repay(request):
     if request.method == 'POST':
@@ -420,6 +420,34 @@ def remind():
     print(need_notice_not_first)
 
 
+def alert_times():
+    need_alert = Borrower.objects.filter(borrower_time__gte=now() + datetime.timedelta(days=-7))
+    name_list = {}
+    id_list = {}
+    for loaner in need_alert:
+        if loaner.borrower_id in name_list:
+            name_list[loaner.borrower_name] += 1
+            id_list[loaner.borrower_id] += 1
+        else:
+            name_list[loaner.borrower_name] = 0
+            id_list[loaner.borrower_id] = 0
+    name_list = []
+    id_list = []
+    for i in id_list.keys():
+        if id_list[i] > 7:
+            name_list.append(i)
+            id_list.append(i)
+    add_record_list = []
+    for n in len(id_list):
+        obj = Alert(
+            loaner_id=id_list[i],
+            loaner_name=name_list[i],
+            loan_times_insvnd=id_list[i]
+        )
+        add_record_list.append(obj)
+    Alert.objects.bulk_create(add_record_list)
+
+
 sched = Scheduler()
 
 
@@ -432,12 +460,13 @@ def my_task1():
 
 sched.start()
 
+
 @csrf_exempt
 def usermanage(request):
     if request.method == 'POST':
         user_info_data = {}
         usermanage_req = json.loads(request.body)
-        user_info = User.objects.all().values('username','user_real_name','user_phone','user_rank')
+        user_info = User.objects.all().values('username', 'user_real_name', 'user_phone', 'user_rank')
         user_info_data = list(user_info)
     return JsonResponse(user_info_data, safe=False)
 
