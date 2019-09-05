@@ -450,12 +450,20 @@ def deleteuser(request):
 @csrf_exempt
 def new_user(request):
     if request.method == 'POST':
+        user_info = User.objects.all()
+        last_user = user_info.last()
+        username_base = last_user.username
+        username_base_int = int(username_base)
+        username_base_int = username_base_int + 1
+        username_base = str(username_base_int)
         new_user_req = json.loads(request.body)
         add_user = User.objects.get_or_create(
+            username=username_base,
+            password="000000",
+            user_phone=new_user_req['new_user_phone'],
+            user_rank=new_user_req['new_user_rank'],
             user_real_name=new_user_req['new_user_name']
         )
         if add_user:
             return JsonResponse({'status': 200, 'msg': 'add successfully'})
         return JsonResponse({'status': 200, 'msg': 'add failed'})
-
-    return JsonResponse({'status': 200, 'msg': 'con not get the person'})

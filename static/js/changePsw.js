@@ -22,7 +22,7 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
     xhr.onreadystatechange = function () {
         successFunction();
     }
-};
+}
 
 function listToJSONStr(str) {
     //从后端传来的list使用该方法转换成json字符串
