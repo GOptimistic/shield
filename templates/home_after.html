@@ -84,7 +84,7 @@
                             <div class="divider"></div>
                             <a class="dropdown-item" id="exitaccount">退出登录</a>
                             <div class="divider"></div>
-                            <a class="dropdown-item" href="user_management.html">账户管理(仅管理员)</a>
+                            <a class="dropdown-item" id="usermanagemententry" href="#">账户管理(仅管理员)</a>
                         </div>
                     </li>
                 </ul>
@@ -142,7 +142,43 @@
                     </div>
                 </div>
                 <!-- 模态框结束 -->
-
+                <!-- 用户管理密码进入 -->
+                <div id="userModal" class="modal">
+                    <div class="modal-content">
+                        <div class="login_modal-header">
+                            <h2 class="success_model_header success_model_header_text">请授权</h2>
+                            <p id="user_management_closeBtn" class="close">×</p>
+                        </div>
+                        <div class="modal-body">
+                            <div class="confirm=tips">
+                                <ul>
+                                    <div class="row lending_confirm_btndiv">
+                                        <h5 class="lending_confirm_mh5 lending_confirm_position">输入工号：</h5>
+                                        <input type="text"  value="" placeholder="工号"
+                                               class="form-control lending_confirm_text lending_confirm_position"/>
+                                    </div>
+                                    <div class="row lending_confirm_btndiv">
+                                        <h5 class="lending_confirm_mh5 lending_confirm_position">输入密码：</h5>
+                                        <input type="text"  value="" placeholder="密码"
+                                               class="form-control lending_confirm_text lending_confirm_position"/>
+                                    </div>
+                                    <li class="noMargin">
+                                        <!-- <i class="icon_Pwd"></i> -->
+                                        <div class="exitaccount_div lending_amount_div">
+                                            <button class="btn btn-primary btn-sm um_psw_con"  type="button" rel="tooltip">
+                                                确定
+                                            </button>
+                                            <button class="btn btn-primary btn-sm um_psw_con" type="button"   rel="tooltip">
+                                                取消
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end modelBox-->
                 <!-- 注销模态框 -->
                 <div id="ExitModal" class="modal">
                     <div class="modal-content">
@@ -202,5 +238,5 @@
 <script src="../static/js/now-ui-kit.js?v=1.1.0" type="text/javascript"></script>
 <script type="text/javascript" src="../static/js/modalBox_home.js"></script>
 <script type="text/javascript" src="../static/js/ExitModal.js"></script>
-
+<script type="text/javascript" src="../static/js/userManageEnter.js"></script>
 </html>

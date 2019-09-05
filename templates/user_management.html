@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+<html>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>还款界面</title>
+    <title>员工信息</title>
     <meta name="keywords" content="index">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
@@ -39,113 +40,155 @@
     <!--导航栏样式表结！！！-->
 </head>
 <body class="index-page sidebar-collapse">
-<!-- Navbar导航条 -->
-<nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent " color-on-scroll="400">
-    <div class="container">
-        <!--左上角团队logo-->
-        <div class="content-center brand">
-            <img class="n-logo" src="../static/img/home_logo_long.png" alt="">
-        </div>
-
-        <!--导航栏菜单-->
-        <ul class="navbar-nav our_nav">
-            <a class="navbar-brand our_nav_menu">菜单</a>
-            <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#example-navbar" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-bar bar1"></span>
-                <span class="navbar-toggler-bar bar2"></span>
-                <span class="navbar-toggler-bar bar3"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="example-navbar"
-                 data-nav-image="../static/img/blurred-image-1.jpg">
-                <ul class="navbar-nav our_nav_menu_contains">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">
-                            首页
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="lending.html">
-                            贷款
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="repayment.html">
-                            还款
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="query.html">
-                            查询
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
-                           data-toggle="dropdown">
-                            <i class="now-ui-icons ui-1_settings-gear-63"
-                               aria-hidden="true"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right"
-                             aria-labelledby="navbarDropdownMenuLink">
-                            <a class="top_dropdown_header dropdown-header">账户管理</a>
-                            <a class="dropdown-item" href="./accountinfo.html">账户信息</a>
-                            <!-- <a class="dropdown-item" href="#">修改密码</a>
-                            <a class="dropdown-item" href="#">退出登录</a> -->
-                            <div class="divider"></div>
-                            <a class="dropdown-item" href="changePsw.html">修改密码</a>
-                            <div class="divider"></div>
-                            <a class="dropdown-item" id="exitaccount">退出登录</a>
-                            <div class="divider"></div>
-                            <a class="dropdown-item" href="#">账户管理(仅管理员)</a>
-                        </div>
-                    </li>
-                </ul>
+    <!-- Navbar导航条 -->
+    <nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent " color-on-scroll="400">
+        <div class="container">
+            <!--左上角团队logo-->
+            <div class="content-center brand">
+                <img class="n-logo" src="../static/img/home_logo_long.png" alt="">
             </div>
-        </ul>
+
+            <!--导航栏菜单-->
+            <ul class="navbar-nav our_nav">
+                <a class="navbar-brand our_nav_menu">菜单</a>
+                <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#example-navbar" aria-controls="navbarSupportedContent" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-bar bar1"></span>
+                    <span class="navbar-toggler-bar bar2"></span>
+                    <span class="navbar-toggler-bar bar3"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="example-navbar"
+                     data-nav-image="../static/img/blurred-image-1.jpg">
+                    <ul class="navbar-nav our_nav_menu_contains">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                首页
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="lending.html">
+                                贷款
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="repayment.html">
+                                还款
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="query.html">
+                                查询
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
+                               data-toggle="dropdown">
+                                <i class="now-ui-icons ui-1_settings-gear-63"
+                                   aria-hidden="true"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right"
+                                 aria-labelledby="navbarDropdownMenuLink">
+                                <a class="top_dropdown_header dropdown-header">账户管理</a>
+                                <a class="dropdown-item" href="./accountinfo.html">账户信息</a>
+                                <!-- <a class="dropdown-item" href="#">修改密码</a>
+                                <a class="dropdown-item" href="#">退出登录</a> -->
+                                <div class="divider"></div>
+                                <a class="dropdown-item" href="changePsw.html">修改密码</a>
+                                <div class="divider"></div>
+                                <a class="dropdown-item" id="exitaccount">退出登录</a>
+                                <div class="divider"></div>
+                                <a class="dropdown-item" href="#">账户管理(仅管理员)</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </ul>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+     <!-- 注销模态框 -->
+    <div id="ExitModal" class="modal">
+        <div class="modal-content">
+            <div class="login_modal-header">
+                <h2 class="success_model_header success_model_header_text">注销</h2>
+                <p id="closeBtn" class="close">×</p>
+            </div>
+            <div class="modal-body">
+                <div class="confirm=tips">
+                    <ul class="exitaccount_ul">
+                        <li class="noMargin">
+                            <!-- <i class="icon_Pwd"></i> -->
+                            <div class="success_text">
+                                <h3 class="successful">确定退出？</h3>
+                            </div>
+                        </li>
+                        <li class="noMargin">
+                            <!-- <i class="icon_people"></i> -->
+                            <div class="exitaccount_div">
+                                <button class="btn btn-primary exitaccount_btn" type="button" rel="tooltip"
+                                        id="exit_btn_confirm">
+                                    确定
+                                </button>
+                                <button class="btn btn-primary exitaccount_btn" type="button" rel="tooltip"
+                                        id="exit_btn_cancel">
+                                    取消
+                                </button>
+                            </div>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-</nav>
-<!-- End Navbar -->
-<div class="tpl-content-wrapper">
+    <!--end modelBox-->
+    <div class="tpl-content-wrapper">
         <div class="tpl-portlet-components">
             <div class="portlet-title">
                 <div class="tpl-block">
                     <div class="am-g">
-                       <h3>员工管理</h3>
-
-                    </div>
-                    <div class="am-g">
-                        <div class="am-u-sm-12">
-                            <form class="am-form">
-                                <table class="am-table am-table-striped am-table-hover table-main">
-                                    <thead>
-                                    <tr>
-                                         <th class="table-id">序号</th>
-                                        <th class="table-title table-title-id">工号</th>
-                                        <th class="table-author am-hide-sm-only">姓名</th>
-                                        <th calss="table-title table-title-id">手机号</th>
-                                        <th class="table-type">职位</th>
-                                        <th class="table-set">操作</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="need-repay-info">
-                                    </tbody>
-                                </table>
-
-                                <hr>
-                            </form>
+                        <div class="am-u-sm-12 am-u-md-3">
+                           <h3>员工管理</h3>
                         </div>
+                        <div class="am-u-sm-12 am-u-md-3">
+                            <button class="btn btn-sm" type="button" id="new_user_btn">
+                                新增
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="am-u-sm-12">
+                        <form class="am-form">
+                            <table class="am-table am-table-striped am-table-hover table-main">
+                                <thead>
+                                <tr>
+                                     <th class="table-id">序号</th>
+                                    <th class="table-title table-title-id">工号</th>
+                                    <th class="table-author am-hide-sm-only">姓名</th>
+                                    <th calss="table-title table-title-id">手机号</th>
+                                    <th class="table-type">职位</th>
+                                    <th class="table-set">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="user-info">
+                                </tbody>
+                            </table>
+
+
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
-    </div>
+
 <script src="../static/js/jquery.min.js"></script>
 <script src="../static/js/amazeui.min.js"></script>
 <script src="../static/js/app.js"></script>
 <script src="../static/js/ExitModal.js"></script>
-<!--<script type="text/javascript" src="../static/js/repayment.js"></script>-->
+<script src="../static/js/user_management.js"></script>
 
 <!--下面是导航栏需要的脚本！！！-->
 <script src="../static/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>

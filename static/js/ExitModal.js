@@ -21,8 +21,6 @@
 	}
 	exitcancel.onclick=function(){
 		modalBox.close();
-
-
 	}
 	/*模态框显示*/
 	modalBox.show = function() {
@@ -57,7 +55,6 @@
 		this.outsideClick();
 	}
 	modalBox.init();
-
 
 
 })();

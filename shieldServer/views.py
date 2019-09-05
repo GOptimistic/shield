@@ -52,6 +52,10 @@ def others(request, file):
             return render(request, 'repayment.html')
         if file == 'test_message':
             return render(request, 'test_message.html')
+        if file == 'user_management':
+            return  render(request, 'user_management.html')
+        if file == 'new_user':
+            return  render(request, 'new_user.html')
         if file == 'query_result':
             idNumber = request.GET.get('idNumber')
             loanNumber = request.GET.get('loanNumber')
@@ -205,6 +209,8 @@ def repaymentPage(request):
     return render_to_response("repayment.html")
 
 
+
+
 @csrf_exempt
 def add_lending(request):
     if request.method == 'POST':
@@ -356,6 +362,7 @@ def lending_result(request):
         return JsonResponse(jsonStr, safe=False)
 
 
+
 @csrf_exempt
 def repayment_repay(request):
     if request.method == 'POST':
@@ -422,3 +429,34 @@ def my_task1():
 
 
 sched.start()
+
+@csrf_exempt
+def usermanage(request):
+    if request.method == 'POST':
+        user_info_data = {}
+        usermanage_req = json.loads(request.body)
+        user_info = User.objects.all().values('username','user_real_name','user_phone','user_rank')
+        user_info_data = list(user_info)
+    return JsonResponse(user_info_data, safe=False)
+
+
+def deleteuser(request):
+    if request.method == 'POST':
+        delete_req = json.loads(request.body)
+        delete_one = User.objects.get(username=delete_req['username'])
+        delete_one.delete()
+    return JsonResponse({'status': 200, 'msg': 'con not get the person'})
+
+
+@csrf_exempt
+def new_user(request):
+    if request.method == 'POST':
+        new_user_req = json.loads(request.body)
+        add_user = User.objects.get_or_create(
+            user_real_name=new_user_req['new_user_name']
+        )
+        if add_user:
+            return JsonResponse({'status': 200, 'msg': 'add successfully'})
+        return JsonResponse({'status': 200, 'msg': 'add failed'})
+
+    return JsonResponse({'status': 200, 'msg': 'con not get the person'})
