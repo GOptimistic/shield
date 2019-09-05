@@ -168,21 +168,21 @@ def repayment(request):
                        + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(
                     trade_order[i]) \
                        + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
-                       + "\",\"trade_date\": \"" + str(trade_date[i]) + "\", \"end_date\":\"" + str(end_date[i]) + "\"}"
+                       + "\",\"trade_date\": \"" + trade_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\", \"end_date\":\"" + \
+                       end_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\"}"
             else:
                 data = data + "{\"p_index\": " + str(pid[i]) + ", \"borrower_name\": \"" + str(borrower_name[i]) \
                        + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(
                     trade_order[i]) \
                        + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
-                       + "\",\"trade_date\": \"" + str(trade_date[i]) + "\", \"end_date\":\"" + str(
-                    end_date[i]) + "\"}, "
-
-        jsonArr = "[" + data + "]"
-        print(jsonArr)
-        print(type(jsonArr))
-        json_data = json.loads(jsonArr)
-        print(type(json_data))
-        print(json_data)
+                       + "\",\"trade_date\": \"" + trade_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\", \"end_date\":\"" + \
+                       end_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\"}, "
+    jsonArr = "[" + data + "]"
+    print(jsonArr)
+    print(type(jsonArr))
+    json_data = json.loads(jsonArr)
+    print(type(json_data))
+    print(json_data)
     return JsonResponse(json_data, safe=False)
 
 
@@ -304,7 +304,7 @@ def cal_dti(loan, funded, duration, income, house, delinq, status, left):
         status_weight = 0.46
 
     result = (
-                         loan - funded) / funded * 0.15 + 1 / duration * 0.11 + income_weight * 0.14 + house_weight * 0.14 + delinq * 0.18 + status_weight * 0.12 + left * 0.16
+                     loan - funded) / funded * 0.15 + 1 / duration * 0.11 + income_weight * 0.14 + house_weight * 0.14 + delinq * 0.18 + status_weight * 0.12 + left * 0.16
     return result
 
 
@@ -367,7 +367,7 @@ def repayment_repay(request):
         total_money = repay_status.funded_amount * pow(1 + repay_status.rate, repay_status.loan_status)
         rate_money = total_money - repay_status.funded_amount
         repay_status.last_pymnt_amnt = repay_money
-        repay_status.last_pymnt_d = datetime.today().date()# datetime.strptime(time.strftime('%Y-%m-%d', time.localtime()), "%Y-%m-%d").date()
+        repay_status.last_pymnt_d = datetime.today().date()  # datetime.strptime(time.strftime('%Y-%m-%d', time.localtime()), "%Y-%m-%d").date()
         repay_status.loan_status = 5
         if repay_status.total_pymnt >= rate_money:
 
@@ -378,7 +378,8 @@ def repayment_repay(request):
                 repay_status.loan_status = 6
         else:
             if repay_status.total_pymnt + float(repay_money) > rate_money:
-                repay_status.out_prncp = repay_status.funded_amount - (repay_status.total_pymnt + float(repay_money) - rate_money)
+                repay_status.out_prncp = repay_status.funded_amount - (
+                        repay_status.total_pymnt + float(repay_money) - rate_money)
         repay_status.total_pymnt = repay_status.total_pymnt + float(repay_money)
 
         repay_status.save()
@@ -403,7 +404,7 @@ def task_Fun():
 
 def remind():
     need_notice = Borrower.objects.filter(payback=0).values('borrower_name', 'borrower_id', 'borrower_phone',
-                                                           'borrower_time', 'last_pymnt_d', 'installment')
+                                                            'borrower_time', 'last_pymnt_d', 'installment')
     need_notice_first = need_notice.filter(last_pymnt_d=None)
     need_notice_not_first = need_notice.exclude(last_pymnt_d=None)
     print(need_notice_first)

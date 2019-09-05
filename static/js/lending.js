@@ -14,6 +14,8 @@ anaBtn.onclick = function () {
     empTitle = document.getElementById('lending_input_emptitle').value;
     annualIncome = document.getElementById('lending_input_anlincome').value;
     empLength = document.getElementById('lending_input_emplength').value;
+    let creditTime = document.getElementById('').value;
+    console.log(creditTime);
 
     let xhrRegister = new XMLHttpRequest();
 
