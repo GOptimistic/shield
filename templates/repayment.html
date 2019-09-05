@@ -95,6 +95,8 @@
                             <a class="dropdown-item" href="./changePsw.html">修改密码</a>
                             <div class="divider"></div>
                             <a class="dropdown-item" id="exitaccount" href="#">退出登录</a>
+                            <div class="divider"></div>
+                            <a class="dropdown-item" id="usermanagemententry" href="#">账户管理(仅管理员)</a>
                         </div>
                     </li>
                 </ul>
@@ -173,6 +175,46 @@
         </div>
     </div>
     <!--end modelBox-->
+    <!-- 用户管理密码进入 -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="login_modal-header">
+                <h2 class="success_model_header success_model_header_text">请授权</h2>
+                <p id="user_management_closeBtn" class="close">×</p>
+            </div>
+            <div class="modal-body">
+                <div class="confirm=tips">
+                    <div class="error-wrap login_error">
+                        <span id="entry_error_psw" style="color:red;" class="error error-show"></span>
+                    </div>
+                    <ul>
+                        <div class="row lending_confirm_btndiv">
+                            <h5 class="lending_confirm_mh5 lending_confirm_position">输入工号：</h5>
+                            <input type="text"  value="" placeholder="工号" id="usermanageinputid"
+                                   class="form-control lending_confirm_text lending_confirm_position"/>
+                        </div>
+                        <div class="row lending_confirm_btndiv">
+                            <h5 class="lending_confirm_mh5 lending_confirm_position">输入密码：</h5>
+                            <input type="password" id="usermanageinputpsw" value="" placeholder="密码"
+                                   class="form-control lending_confirm_text lending_confirm_position"/>
+                        </div>
+                        <li class="noMargin">
+                            <!-- <i class="icon_Pwd"></i> -->
+                            <div class="exitaccount_div lending_amount_div">
+                                <button class="btn btn-primary btn-sm um_psw_con" id="usermanage_con" type="button" rel="tooltip">
+                                    确定
+                                </button>
+                                <button class="btn btn-primary btn-sm um_psw_con" type="button" id="usermanage_can"  rel="tooltip">
+                                    取消
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end modelBox-->
     <div class="tpl-content-wrapper">
         <div class="tpl-portlet-components">
             <div class="portlet-title">
@@ -192,40 +234,34 @@
                                 <span class="am-input-group-btn">
 										<button class="am-btn  am-btn-default am-btn-success tpl-am-btn-success am-icon-search"
                                                 type="button" onclick="searchFunction()"></button>
-									</span>
-
+                                </span>
                             </div>
                         </div>
                     </div>
-                    <div class="am-g">
-                        <div class="am-u-sm-12">
-                            <form class="am-form">
-                                <table class="am-table am-table-striped am-table-hover table-main">
-                                    <thead>
-                                    <tr>
-                                        <th class="table-id">序号</th>
-                                        <th class="table-author am-hide-sm-only">姓名</th>
-                                        <th calss="table-title table-title-id">身份证号</th>
-                                        <th class="table-title">贷款单号</th>
-                                        <th class="table-type">贷款类别</th>
-                                        <th class="table-type">贷款金额</th>
-                                        <th class="table-date am-hide-sm-only"> 贷款时间</th>
-                                        <th class="table-date am-hide-sm-only"> 到期时间</th>
-                                        <th class="table-set">操作</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="need-repay-info">
-                                    </tbody>
-                                </table>
-
-                                <hr>
-                            </form>
-                        </div>
+                    <div class="am-u-sm-12">
+                        <form class="am-form">
+                            <table class="am-table am-table-striped am-table-hover table-main">
+                                <thead>
+                                <tr>
+                                    <th class="table-id">序号</th>
+                                    <th class="table-author am-hide-sm-only">姓名</th>
+                                    <th calss="table-title table-title-id">身份证号</th>
+                                    <th class="table-title">贷款单号</th>
+                                    <th class="table-type">贷款类别</th>
+                                    <th class="table-type">贷款金额</th>
+                                    <th class="table-date am-hide-sm-only"> 贷款时间</th>
+                                    <th class="table-date am-hide-sm-only"> 到期时间</th>
+                                    <th class="table-set">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="need-repay-info">
+                                </tbody>
+                            </table>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
 </div>
@@ -234,6 +270,7 @@
 <script src="../static/js/app.js"></script>
 <script src="../static/js/ExitModal.js"></script>
 <script type="text/javascript" src="../static/js/repayment.js"></script>
+<script type="text/javascript" src="../static/js/userManageEnter.js"></script>
 
 <!--下面是导航栏需要的脚本！！！-->
 <script src="../static/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>

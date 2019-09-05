@@ -85,7 +85,7 @@
                             <div class="divider"></div>
                             <a class="dropdown-item" id="exitaccount" href="#">退出登录</a>
                             <div class="divider"></div>
-                            <a class="dropdown-item" href="#">账户管理(仅管理员)</a>
+                            <a class="dropdown-item" id="usermanagemententry" href="#">账户管理(仅管理员)</a>
                         </div>
                     </li>
                 </ul>
@@ -103,6 +103,46 @@
 
         <div class="lending_input_center">
             <div class="container lending_container">
+                <!-- 用户管理密码进入 -->
+                <div id="userModal" class="modal">
+                    <div class="modal-content">
+                        <div class="login_modal-header">
+                            <h2 class="success_model_header success_model_header_text">请授权</h2>
+                            <p id="user_management_closeBtn" class="close">×</p>
+                        </div>
+                        <div class="modal-body">
+                            <div class="confirm=tips">
+                                <div class="error-wrap login_error">
+                                    <span id="entry_error_psw" style="color:red;" class="error error-show"></span>
+                                </div>
+                                <ul>
+                                    <div class="row lending_confirm_btndiv">
+                                        <h5 class="lending_confirm_mh5 lending_confirm_position">输入工号：</h5>
+                                        <input type="text"  value="" placeholder="工号" id="usermanageinputid"
+                                               class="form-control lending_confirm_text lending_confirm_position"/>
+                                    </div>
+                                    <div class="row lending_confirm_btndiv">
+                                        <h5 class="lending_confirm_mh5 lending_confirm_position">输入密码：</h5>
+                                        <input type="password" id="usermanageinputpsw" value="" placeholder="密码"
+                                               class="form-control lending_confirm_text lending_confirm_position"/>
+                                    </div>
+                                    <li class="noMargin">
+                                        <!-- <i class="icon_Pwd"></i> -->
+                                        <div class="exitaccount_div lending_amount_div">
+                                            <button class="btn btn-primary btn-sm um_psw_con" id="usermanage_con" type="button" rel="tooltip">
+                                                确定
+                                            </button>
+                                            <button class="btn btn-primary btn-sm um_psw_con" type="button" id="usermanage_can"  rel="tooltip">
+                                                取消
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end modelBox-->
                 <!-- 注销模态框 -->
                 <div id="ExitModal" class="modal">
                     <div class="modal-content">
@@ -288,7 +328,7 @@
                     </div>
                     <div class="row lending_row_inputs">
                         <div class="col-sm-6 col-lg-3">
-                            <h6 class="lending_h6">姓名</h6>
+                            <h6 class="lending_h6">借贷人姓名</h6>
                             <div class="form-group">
                                 <input type="text" id="lending_input_name" value="" placeholder="姓名"
                                        class="form-control lending_input_text"/>
@@ -309,14 +349,14 @@
                             </div>
                         </div>
                         <div class="col-sm-6 col-lg-3">
-                            <h6 class="lending_h6">职位</h6>
+                            <h6 class="lending_h6">借贷人职位</h6>
                             <div class="form-group">
                                 <input type="text" id="lending_input_emptitle" value="" placeholder="职位"
                                        class="form-control lending_input_text"/>
                             </div>
                         </div>
                         <div class="col-sm-6 col-lg-3">
-                            <h6 class="lending_h6">年收入</h6>
+                            <h6 class="lending_h6">借贷人年收入</h6>
                             <div class="form-group">
                                 <input type="text" id="lending_input_anlincome" value="" placeholder="年收入"
                                        class="form-control lending_input_text"/>
@@ -334,6 +374,14 @@
                                 <h6 class="lending_h6">贷款金额</h6>
                                 <input type="text" id="lending_input_money" value="" placeholder="贷款金额"
                                        class="form-control lending_input_text"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="datepicker-container">
+                                <div class="form-group">
+                                    <h6 class="lending_h6">最早信用记录</h6>
+                                    <input type="text" id="lending_input_date" class="form-control date-picker lending_input_text" value="10/05/2019"  data-datepicker-color="primary">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -378,7 +426,10 @@
 <script src="../static/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
 <!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
 <script src="../static/js/now-ui-kit.js?v=1.1.0" type="text/javascript"></script>
+<!-- exit account&manage user -->
 <script type="text/javascript" src="../static/js/ExitModal.js"></script>
+<script type="text/javascript" src="../static/js/userManageEnter.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
         // the body of this function is in ../static/js/now-ui-kit.js

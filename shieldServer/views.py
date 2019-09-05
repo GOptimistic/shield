@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import time
 import datetime
-from .models import User, Borrower
+from .models import User, Borrower, Alert
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 
@@ -19,6 +19,9 @@ global query_data
 
 
 def home(request):
+    is_login = request.session.get('is_login', False)
+    if is_login:
+        return render(request, 'home_after.html')
     return render(request, 'home.html')
 
 
@@ -52,6 +55,10 @@ def others(request, file):
             return render(request, 'repayment.html')
         if file == 'test_message':
             return render(request, 'test_message.html')
+        if file == 'user_management':
+            return render(request, 'user_management.html')
+        if file == 'new_user':
+            return render(request, 'new_user.html')
         if file == 'query_result':
             idNumber = request.GET.get('idNumber')
             loanNumber = request.GET.get('loanNumber')
@@ -175,21 +182,21 @@ def repayment(request):
                        + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(
                     trade_order[i]) \
                        + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
-                       + "\",\"trade_date\": \"" + str(trade_date[i]) + "\", \"end_date\":\"" + str(end_date[i]) + "\"}"
+                       + "\",\"trade_date\": \"" + trade_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\", \"end_date\":\"" + \
+                       end_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\"}"
             else:
                 data = data + "{\"p_index\": " + str(pid[i]) + ", \"borrower_name\": \"" + str(borrower_name[i]) \
                        + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(
                     trade_order[i]) \
                        + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
-                       + "\",\"trade_date\": \"" + str(trade_date[i]) + "\", \"end_date\":\"" + str(
-                    end_date[i]) + "\"}, "
-
-        jsonArr = "[" + data + "]"
-        print(jsonArr)
-        print(type(jsonArr))
-        json_data = json.loads(jsonArr)
-        print(type(json_data))
-        print(json_data)
+                       + "\",\"trade_date\": \"" + trade_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\", \"end_date\":\"" + \
+                       end_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\"}, "
+    jsonArr = "[" + data + "]"
+    print(jsonArr)
+    print(type(jsonArr))
+    json_data = json.loads(jsonArr)
+    print(type(json_data))
+    print(json_data)
     return JsonResponse(json_data, safe=False)
 
 
@@ -236,6 +243,7 @@ def add_lending(request):
         emp_length = int(req['empLength'])
         annual_income = float(req['annualIncome'])
         grade = req['grade']
+        credit_time = req['creditTime']
 
         installment = funded_amount * ((1 + rate) ** loan_duration) / (12 * loan_duration)
         block_info = findbyidname(borrower_ID, borrower_Name)
@@ -271,7 +279,8 @@ def add_lending(request):
             grade=grade,
             out_prncp=funded_amount,
             purpose=borrow_Type,
-            last_pymnt_d=None
+            last_pymnt_d=None,
+            e_credit_time=credit_time
         )
         if need_add_loan:
             return JsonResponse({'status': 200, 'msg': 'add successfully'})
@@ -410,11 +419,39 @@ def task_Fun():
 
 def remind():
     need_notice = Borrower.objects.filter(payback=0).values('borrower_name', 'borrower_id', 'borrower_phone',
-                                                           'borrower_time', 'last_pymnt_d', 'installment')
+                                                            'borrower_time', 'last_pymnt_d', 'installment')
     need_notice_first = need_notice.filter(last_pymnt_d=None)
     need_notice_not_first = need_notice.exclude(last_pymnt_d=None)
     print(need_notice_first)
     print(need_notice_not_first)
+
+
+def alert_times():
+    need_alert = Borrower.objects.filter(borrower_time__gte=now() + datetime.timedelta(days=-7))
+    name_list = {}
+    id_list = {}
+    for loaner in need_alert:
+        if loaner.borrower_id in name_list:
+            name_list[loaner.borrower_name] += 1
+            id_list[loaner.borrower_id] += 1
+        else:
+            name_list[loaner.borrower_name] = 0
+            id_list[loaner.borrower_id] = 0
+    name_list = []
+    id_list = []
+    for i in id_list.keys():
+        if id_list[i] > 7:
+            name_list.append(i)
+            id_list.append(i)
+    add_record_list = []
+    for n in len(id_list):
+        obj = Alert(
+            loaner_id=id_list[i],
+            loaner_name=name_list[i],
+            loan_times_insvnd=id_list[i]
+        )
+        add_record_list.append(obj)
+    Alert.objects.bulk_create(add_record_list)
 
 
 sched = Scheduler()
@@ -428,3 +465,45 @@ def my_task1():
 
 
 sched.start()
+
+
+@csrf_exempt
+def usermanage(request):
+    if request.method == 'POST':
+        user_info_data = {}
+        usermanage_req = json.loads(request.body)
+        user_info = User.objects.all().values('username', 'user_real_name', 'user_phone', 'user_rank')
+        user_info_data = list(user_info)
+    return JsonResponse(user_info_data, safe=False)
+
+
+def deleteuser(request):
+    if request.method == 'POST':
+        delete_req = json.loads(request.body)
+        delete_one = User.objects.get(username=delete_req['username'])
+        delete_one.delete()
+    return JsonResponse({'status': 200, 'msg': 'con not get the person'})
+
+
+@csrf_exempt
+def new_user(request):
+    if request.method == 'POST':
+        user_info = User.objects.all()
+        last_user = user_info.last()
+        username_base = last_user.username
+        username_base_int = int(username_base)
+        username_base_int = username_base_int + 1
+        username_base = str(username_base_int)
+        new_user_req = json.loads(request.body)
+        add_user = User.objects.get_or_create(
+            username=username_base,
+            password="000000",
+            user_phone=new_user_req['new_user_phone'],
+            user_rank=new_user_req['new_user_rank'],
+            user_real_name=new_user_req['new_user_name']
+        )
+        if add_user:
+            return JsonResponse({'status': 200, 'msg': 'add successfully'})
+        return JsonResponse({'status': 200, 'msg': 'add failed'})
+
+    return JsonResponse({'status': 200, 'msg': 'con not get the person'})

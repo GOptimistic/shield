@@ -57,5 +57,14 @@ class Borrower(models.Model):
         return self.borrower_name
 
 
+class Alert(models.Model):
+    pid = models.AutoField(primary_key=True)
+    loaner_name = models.CharField(max_length=255, default='')
+    loaner_id = models.CharField(max_length=255, default='')
+    loan_times_insvnd = models.IntegerField(default=0)
+    insert_time = models.DateTimeField(auto_now_add=True)
+    status = models.IntegerField(default=0)
+
+
 class Meta:
     app_label = 'shieldServer'

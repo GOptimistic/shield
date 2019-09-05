@@ -35,6 +35,9 @@ urlpatterns = [
     path('sendCode/', message.send_message, name='sendCode'),
     path('changePwd/', views.changePwd, name='changePwd'),
     path('query_svm/', svm.query_svm, name='query_svm'),
+    path('user_management/', views.usermanage, name='usermanage'),
+    path('delete_user/', views.deleteuser, name='deleteuser'),
+    path('new_user/', views.new_user, name='newuser'),
     re_path(r'^index/(\w+).html$', views.others),
     path('accountinfo/', views.accountinfo, name="accountinfo"),
 ]
