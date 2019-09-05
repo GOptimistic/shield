@@ -14,8 +14,8 @@ from time import sleep
 
 from chainServer.clock import mine, findbyidname
 
-
 # Create your views here.
+global query_data
 
 
 def home(request):
@@ -80,10 +80,17 @@ def others(request, file):
             else:
                 print('false')
 
+            global query_data
+            query_data = query_person
             return render(request, 'query_result.html', {'query_person': query_person})
 
     else:
         return render(request, 'home.html')
+
+
+def trans_data():
+    global query_data
+    return query_data
 
 
 @csrf_exempt
@@ -303,8 +310,7 @@ def cal_dti(loan, funded, duration, income, house, delinq, status, left):
     else:
         status_weight = 0.46
 
-    result = (
-                         loan - funded) / funded * 0.15 + 1 / duration * 0.11 + income_weight * 0.14 + house_weight * 0.14 + delinq * 0.18 + status_weight * 0.12 + left * 0.16
+    result = (loan - funded) / funded * 0.15 + 1 / duration * 0.11 + income_weight * 0.14 + house_weight * 0.14 + delinq * 0.18 + status_weight * 0.12 + left * 0.16
     return result
 
 
@@ -367,7 +373,7 @@ def repayment_repay(request):
         total_money = repay_status.funded_amount * pow(1 + repay_status.rate, repay_status.loan_status)
         rate_money = total_money - repay_status.funded_amount
         repay_status.last_pymnt_amnt = repay_money
-        repay_status.last_pymnt_d = datetime.today().date()# datetime.strptime(time.strftime('%Y-%m-%d', time.localtime()), "%Y-%m-%d").date()
+        repay_status.last_pymnt_d = datetime.today().date()  # datetime.strptime(time.strftime('%Y-%m-%d', time.localtime()), "%Y-%m-%d").date()
         repay_status.loan_status = 5
         if repay_status.total_pymnt >= rate_money:
 
@@ -378,7 +384,8 @@ def repayment_repay(request):
                 repay_status.loan_status = 6
         else:
             if repay_status.total_pymnt + float(repay_money) > rate_money:
-                repay_status.out_prncp = repay_status.funded_amount - (repay_status.total_pymnt + float(repay_money) - rate_money)
+                repay_status.out_prncp = repay_status.funded_amount - (
+                            repay_status.total_pymnt + repay_money - rate_money)
         repay_status.total_pymnt = repay_status.total_pymnt + float(repay_money)
 
         repay_status.save()

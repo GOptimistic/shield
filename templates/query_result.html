@@ -127,7 +127,7 @@
                                             <th class="table-type">贷款地点</th>
                                             <th class="table-date am-hide-sm-only">贷款日期</th>
                                             <th class="table-date am-hide-sm-only">到期时间</th>
-                                            <th class="table-date am-hide-sm-only">还款日期</th>
+                                            <th class="table-date am-hide-sm-only">上次还款日期</th>
                                         </tr>
                                         </thead>
                                         <tbody id="need-repay-info">
@@ -137,11 +137,11 @@
                                                 <td>{{ linequery_person.borrower_id }}</td>
                                                 <td>{{ linequery_person.trade_order }}</td>
                                                 <td>{{ linequery_person.borrow_type }}</td>
-                                                <td>{{ linequery_person.borrower_sum }}</td>
+                                                <td>{{ linequery_person.funded_amount }}</td>
                                                 <td>{{ linequery_person.trade_place }}</td>
                                                 <td>{{ linequery_person.borrower_time }}</td>
                                                 <td>{{ linequery_person.should_payback_time }}</td>
-                                                <td>{{ linequery_person.payback_time }}</td>
+                                                <td>{{ linequery_person.last_pymnt_d }}</td>
                                             </tr>
                                         {% endfor %}
                                         </tbody>
@@ -216,7 +216,7 @@
                                         <!-- blank for style -->
                                     </div>
                                     <div class="col-md-10 col-sm-6  col-lg-3 query_button">
-                                        <button class="btn btn-primary query-button-analysis" type="button" onclick="window.location.href='query_analysis.html'">分析</button>
+                                        <button class="btn btn-primary query-button-analysis" type="button" id="query_analysis">分析</button>
                                     </div>
                                 </div>
                             </div>
@@ -246,4 +246,5 @@
 <script type="text/javascript" src="../static/js/modalBox.js"></script>
 <!--导航栏脚本结束-->
 <script type="text/javascript" src="../static/js/ExitModal.js"></script>
+<script type="text/javascript" src="../static/js/query_svm.js"></script>
 </html>
