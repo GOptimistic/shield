@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="utf-8" />
@@ -146,6 +146,9 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="confirm=tips">
+                                        <div class="error-wrap login_error">
+                                            <span id="entry_error_psw" style="color:red;" class="error error-show"></span>
+                                        </div>
                                         <ul>
                                             <div class="row lending_confirm_btndiv">
                                                 <h5 class="lending_confirm_mh5 lending_confirm_position">输入工号：</h5>
@@ -154,7 +157,7 @@
                                             </div>
                                             <div class="row lending_confirm_btndiv">
                                                 <h5 class="lending_confirm_mh5 lending_confirm_position">输入密码：</h5>
-                                                <input type="text" id="usermanageinputpsw" value="" placeholder="密码"
+                                                <input type="password" id="usermanageinputpsw" value="" placeholder="密码"
                                                        class="form-control lending_confirm_text lending_confirm_position"/>
                                             </div>
                                             <li class="noMargin">

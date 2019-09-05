@@ -55,15 +55,20 @@
 			// 	let response = JSON.parse(xhrRegister.responseText);
 			// },function () {
 			// });
-			if((user_id == "admin") && (user_psw == "admin"))
+			if((user_id == "34000002") && (user_psw == "000000"))
 			{
-				console.log("haole ");
 				location.assign('./user_management.html');
 			}
+			else{
+				document.getElementById("entry_error_psw").innerHTML = "账号或密码不正确";
+			}
 		}
-		else
-		{
-			alert("输入不能为空");
+		else {
+			if (user_id == "") {
+				document.getElementById("entry_error_psw").innerHTML = "工号不能为空";
+			} else {
+				document.getElementById("entry_error_psw").innerHTML = "密码不能为空";
+			}
 		}
 		// let user = {
 		// 	USERID: userid,
