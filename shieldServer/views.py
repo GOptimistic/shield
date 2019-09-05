@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import time
 import datetime
-from .models import User, Borrower
+from .models import User, Borrower, Alert
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 
