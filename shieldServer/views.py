@@ -235,6 +235,7 @@ def add_lending(request):
         emp_length = int(req['empLength'])
         annual_income = float(req['annualIncome'])
         grade = req['grade']
+        credit_time = req['creditTime']
 
         installment = funded_amount * ((1 + rate) ** loan_duration) / (12 * loan_duration)
         block_info = findbyidname(borrower_ID, borrower_Name)
@@ -270,7 +271,8 @@ def add_lending(request):
             grade=grade,
             out_prncp=funded_amount,
             purpose=borrow_Type,
-            last_pymnt_d=None
+            last_pymnt_d=None,
+            e_credit_time=credit_time
         )
         if need_add_loan:
             return JsonResponse({'status': 200, 'msg': 'add successfully'})

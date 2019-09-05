@@ -14,8 +14,9 @@ anaBtn.onclick = function () {
     empTitle = document.getElementById('lending_input_emptitle').value;
     annualIncome = document.getElementById('lending_input_anlincome').value;
     empLength = document.getElementById('lending_input_emplength').value;
-    let creditTime = document.getElementById('').value;
+    let creditTime =new Date(document.getElementById('lending_input_date').value).Format("yyyy-MM-dd");
     console.log(creditTime);
+
 
     let xhrRegister = new XMLHttpRequest();
 
@@ -121,7 +122,8 @@ anaBtn.onclick = function () {
             empLength: empLength,
             rate: rate,
             annualIncome: annualIncome,
-            grade: grade
+            grade: grade,
+            creditTime: creditTime
         };
 
         if (typeof Storage == 'undefined') {
@@ -130,7 +132,7 @@ anaBtn.onclick = function () {
             let sendStr = JSON.stringify(lendingInfo);
             localStorage.setItem('loanInfo', sendStr);
         }
-        location.assign('./lending_results.html');
+        //location.assign('./lending_results.html');
     } else {
         alert('请完整输入正确格式的信息');
     }
