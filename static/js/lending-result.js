@@ -44,11 +44,11 @@ window.onload = function () {
                 localInfo[i].borrower_id + '</th><th class="table-title">' +
                 localInfo[i].trade_order + '</th><th class="table-type">' +
                 localInfo[i].borrow_type + '</th><th class="table-type">' +
-                localInfo[i].borrower_sum + '</th><th class="table-type">' +
+                localInfo[i].funded_amount + '</th><th class="table-type">' +
                 localInfo[i].trade_place + '</th><th class="table-date am-hide-sm-only">' +
                 localInfo[i].borrower_time + '</th><th class="table-date am-hide-sm-only">' +
                 localInfo[i].should_payback_time + '</th><th class="table-date am-hide-sm-only">' +
-                localInfo[i].payback_time + '</th></tr>';
+                localInfo[i].last_pymnt_d + '</th></tr>';
         }
     }, function () {
     })

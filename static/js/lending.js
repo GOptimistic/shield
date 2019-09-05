@@ -22,21 +22,17 @@ anaBtn.onclick = function () {
             break;
         }
     }
-    switch (n) {
-        case 0:
-            homeOwnership = 1;
-            break;
-        case 1:
-            homeOwnership = 2;
-            break;
-        case 2:
-            homeOwnership = 3;
-            break;
-        case 3:
-            homeOwnership = 4;
-            break;
-        default:
-            homeOwnership = null;
+    let Ownership = {
+        0: 1,
+        1: 2,
+        2: 3,
+        3: 4,
+    };
+    homeOwnership = null;
+    for (let index in Ownership) {
+        if (index == n) {
+            homeOwnership = Ownership[index];
+        }
     }
 
     for (var m = 0; i < chkGrdRadio.length; i++) {
@@ -44,33 +40,21 @@ anaBtn.onclick = function () {
             break;
         }
     }
-    switch (m) {
-        case 0:
-            grade = 1;
-            break;
-        case 1:
-            grade = 2;
-            break;
-        case 2:
-            grade = 3;
-            break;
-        case 3:
-            grade = 4;
-            break;
-        case 4:
-            grade = 5;
-            break;
-        case 5:
-            grade = 6;
-            break;
-        case 6:
-            grade = 7;
-            break;
-        case 7:
-            grade = -1;
-            break;
-        default:
-            grade = null;
+    let Grade = {
+        0: 1,
+        1: 2,
+        2: 3,
+        3: 4,
+        4: 5,
+        5: 6,
+        6: 7,
+        7: 8
+    };
+    grade = null;
+    for (let index in Grade) {
+        if (index == m) {
+            grade = Grade[index];
+        }
     }
 
     for (var n = 0; i < chkDurRadio.length; i++) {
@@ -81,11 +65,11 @@ anaBtn.onclick = function () {
     switch (n) {
         case 0:
             duration = 3;
-            rate = 4.75;
+            rate = 0.0475;
             break;
         case 1:
             duration = 5;
-            rate = 4.9;
+            rate = 0.049;
             break;
         default:
             duration = null;
@@ -119,9 +103,9 @@ anaBtn.onclick = function () {
             loanType = null;
     }
 
-    if (borrowerName != '' && borrowerID != '' && borrowerPhone != '' && loanedMoney != '' && duration != null
-        && loanType != null && homeOwnership != null && empLength != '' && empTitle != '' && annualIncome != ''
-        && grade != null) {
+    if (isChinaOrLetter(borrowerName) && checkCard(borrowerID) && checkMobile(borrowerPhone) && isMoney(loanedMoney)
+        && duration != null && loanType != null && homeOwnership != null && isNumber(empLength)
+        && isChinaOrLetter(empTitle) && isMoney(annualIncome) && grade != null) {
 
         let lendingInfo = {
             borrowerName: borrowerName,
@@ -146,7 +130,7 @@ anaBtn.onclick = function () {
         }
         location.assign('./lending_results.html');
     } else {
-        alert('请输入完整信息');
+        alert('请完整输入正确格式的信息');
     }
 };
 
@@ -179,6 +163,56 @@ function toTimeString(temp) {
     let dateAry = temp.split("/");
     let tempStr = dateAry[2] + ' ' + dateAry[1] + ',' + dateAry[2];
     return tempStr;
-};
+}
 
+function checkCard(str) {
+    //15位数身份证正则表达式
+    let arg1 = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$/;
+    //18位数身份证正则表达式
+    let arg2 = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[A-Z])$/;
+    if (str.match(arg1) == null && str.match(arg2) == null) {
+        return false;
+    } else {
+        return true;
+    }
+}
 
+function checkMobile(s) {//判断是否时手机号码
+    let regu =/^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/;
+    let re = new RegExp(regu);
+    if (re.test(s)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isChinaOrLetter(s) {//判断是否是汉字、字母组成
+    let regu = "^[a-zA-Z\u4e00-\u9fa5]+$";
+    let re = new RegExp(regu);
+    if (re.test(s)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isMoney(s) {//判断是否为金额格式
+    let regu = "^[0-9]+[.][0-9]{0,2}$";
+    let re = new RegExp(regu);
+    if (re.test(s)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isNumber(s) {
+    var regu = "^[0-9]+$";
+    var re = new RegExp(regu);
+    if (s.search(re) != -1) {
+        return true;
+    } else {
+        return false;
+    }
+}
