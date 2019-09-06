@@ -88,3 +88,7 @@
 .search_position{
     margin-left: 40%;
 }
+
+.all_transparent{
+    background: transparent;
+}

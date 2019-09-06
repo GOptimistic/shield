@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>员工信息</title>
+    <style>
+        body{
+            background: url("../static/img/bg.jpg");
+            background-size:cover;
+            background-attachment: fixed;
+        }
+    </style>
     <meta name="keywords" content="index">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
@@ -13,6 +20,7 @@
     <link rel="stylesheet" href="../static/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../static/css/admin.css">
     <link rel="stylesheet" href="../static/css/app.css">
+    <link rel="stylesheet" href="../static/css/results.css">
 
     <!--下面是导航栏需要哦的样式表！！！-->
     <link rel="apple-touch-icon" sizes="76x76" href="../static/img/logo_title.png">
@@ -39,7 +47,7 @@
     <link rel="stylesheet" href="../static/css/results.css">
     <!--导航栏样式表结！！！-->
 </head>
-<body class="index-page sidebar-collapse">
+<body>
     <!-- Navbar导航条 -->
     <nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent " color-on-scroll="400">
         <div class="container">
@@ -130,7 +138,7 @@
                             <input type="password" id="usermanageinputpsw" value="" placeholder="密码"
                                    class="form-control lending_confirm_text lending_confirm_position"/>
                         </div>
-                        <li class="noMargin">
+                        <li class="noMargin modal_li">
                             <!-- <i class="icon_Pwd"></i> -->
                             <div class="exitaccount_div lending_amount_div">
                                 <button class="btn btn-primary btn-sm um_psw_con" id="usermanage_con" type="button" rel="tooltip">
@@ -183,10 +191,10 @@
         </div>
     </div>
     <!--end modelBox-->
-    <div class="tpl-content-wrapper">
-        <div class="tpl-portlet-components">
-            <div class="portlet-title">
-                <div class="tpl-block">
+    <div class="tpl-content-wrapper results_wrapper">
+        <div class="tpl-portlet-components all_transparent">
+            <div class="portlet-title all_transparent">
+                <div class="tpl-block all_transparent">
                     <div class="am-g">
                         <div class="am-u-sm-12 am-u-md-3">
                            <h3>员工管理</h3>
@@ -197,7 +205,7 @@
                             </button>
                         </div>
                     </div>
-                </div>
+
 
                     <div class="am-u-sm-12">
                         <form class="am-form">
