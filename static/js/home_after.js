@@ -99,42 +99,40 @@ option2 = {
 };
 pie1.setOption(option2);
 
-let pie2 =  echarts.init(document.getElementById('piechat2'));
+let pie2 =  echarts.init(document.getElementById('piechat2'),'vintage');
 option3 = {
-    title : {
-        text: '某站点用户访问来源',
-        subtext: '纯属虚构',
-        x:'center'
+    title: {
+        text: '年收入与交易违约比例',
+        //subtext: '数据来自网络'
     },
-    tooltip : {
-        trigger: 'item',
-        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
     },
     legend: {
-        orient: 'vertical',
-        left: '20',
-        data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+        data: ['交易违约比例']
     },
-    series : [
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'value',
+        boundaryGap: [0, 0.01]
+    },
+    yAxis: {
+        type: 'category',
+        data: ['小于等于1万','1万-3万','3万-5万','5万-10万','10万-50万','50万-100万','大于100万']
+    },
+    series: [
         {
-            name: '访问来源',
-            type: 'pie',
-            radius : '55%',
-            center: ['50%', '60%'],
-            data:[
-                {value:335, name:'直接访问'},
-                {value:310, name:'邮件营销'},
-                {value:234, name:'联盟广告'},
-                {value:135, name:'视频广告'},
-                {value:1548, name:'搜索引擎'}
-            ],
-            itemStyle: {
-                emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-            }
+            name: '交易违约比例',
+            type: 'bar',
+            data: [3/154, 1406/289012, 5576/195960, 9939/397329, 20220/788011, 14/823, 6/148]
         }
     ]
 };

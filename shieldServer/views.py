@@ -7,7 +7,7 @@ from .models import User, Borrower, Alert
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils.timezone import now
 from apscheduler.scheduler import Scheduler
 from time import sleep
@@ -59,6 +59,10 @@ def others(request, file):
             return render(request, 'user_management.html')
         if file == 'new_user':
             return render(request, 'new_user.html')
+        if file == 'query_analysis':
+            return render(request, 'query_analysis.html')
+        if file == 'alert':
+            return render(request, 'alert.html')
         if file == 'query_result':
             idNumber = request.GET.get('idNumber')
             loanNumber = request.GET.get('loanNumber')
@@ -319,7 +323,8 @@ def cal_dti(loan, funded, duration, income, house, delinq, status, left):
     else:
         status_weight = 0.46
 
-    result = (loan - funded) / funded * 0.15 + 1 / duration * 0.11 + income_weight * 0.14 + house_weight * 0.14 + delinq * 0.18 + status_weight * 0.12 + left * 0.16
+    result = (
+                         loan - funded) / funded * 0.15 + 1 / duration * 0.11 + income_weight * 0.14 + house_weight * 0.14 + delinq * 0.18 + status_weight * 0.12 + left * 0.16
     return result
 
 
@@ -394,10 +399,30 @@ def repayment_repay(request):
         else:
             if repay_status.total_pymnt + float(repay_money) > rate_money:
                 repay_status.out_prncp = repay_status.funded_amount - (
-                            repay_status.total_pymnt + repay_money - rate_money)
+                        repay_status.total_pymnt + repay_money - rate_money)
         repay_status.total_pymnt = repay_status.total_pymnt + float(repay_money)
 
         repay_status.save()
+        return JsonResponse({'status': 200, 'msg': 'success'})
+    return JsonResponse({'status': 200, 'msg': 'con not get the person'})
+
+
+def alert_serach(request):
+    if request.method == 'POST':
+        alert_list = Alert.objects.exclude(status=1).values()
+        alert_list_list = list(alert_list)
+        for i in range(len(alert_list_list)):
+            alert_list_list[i]['insert_time'] = alert_list_list[i]['insert_time'].strftime('%Y-%m-%d %H:%I:%S')
+        return JsonResponse(alert_list_list, safe=False)
+    return JsonResponse({'status': 200, 'msg': 'con not get the person'})
+
+
+@csrf_exempt
+def alert_know(request):
+    if request.method == 'POST':
+        req = json.loads(request.body)
+        info_pid = req['loanerPId']
+        Alert.objects.filter(pid=info_pid).update(status=1)
         return JsonResponse({'status': 200, 'msg': 'success'})
     return JsonResponse({'status': 200, 'msg': 'con not get the person'})
 
@@ -418,8 +443,10 @@ def task_Fun():
 
 
 def remind():
-    need_notice = Borrower.objects.filter(payback=0, collect_attention__gte=0.3).values('borrower_name', 'borrower_id', 'borrower_phone',
-                                                            'borrower_time', 'last_pymnt_d', 'installment')
+    need_notice = Borrower.objects.filter(payback=0, collect_attention__gte=0.3).values('borrower_name', 'borrower_id',
+                                                                                        'borrower_phone',
+                                                                                        'borrower_time', 'last_pymnt_d',
+                                                                                        'installment')
     need_notice_first = need_notice.filter(last_pymnt_d=None)
     need_notice_not_first = need_notice.exclude(last_pymnt_d=None)
 
@@ -428,28 +455,28 @@ def remind():
 
 
 def alert_times():
-    need_alert = Borrower.objects.filter(borrower_time__gte=now() + datetime.timedelta(days=-7))
-    name_list = {}
-    id_list = {}
+    need_alert = Borrower.objects.filter(borrower_time__gte=now() + timedelta(days=-7))
+    is_name_dict = {}
+    id_dict = {}
     for loaner in need_alert:
-        if loaner.borrower_id in name_list:
-            name_list[loaner.borrower_name] += 1
-            id_list[loaner.borrower_id] += 1
+        if loaner.borrower_id in id_dict:
+            id_dict[loaner.borrower_id] = id_dict[loaner.borrower_id] + 1
         else:
-            name_list[loaner.borrower_name] = 0
-            id_list[loaner.borrower_id] = 0
-    name_list = []
+            is_name_dict[loaner.borrower_id] = loaner.borrower_name
+            id_dict[loaner.borrower_id] = 1
+    # name_list = []
     id_list = []
-    for i in id_list.keys():
-        if id_list[i] >= 7:
-            name_list.append(i)
+    for i in id_dict.keys():
+        if int(id_dict[i]) >= 7:
+            # name_list.append(is_name_dict[i])
             id_list.append(i)
     add_record_list = []
-    for n in len(id_list):
+    for n in range(len(id_list)):
+        loanerid = id_list[n]
         obj = Alert(
             loaner_id=id_list[n],
-            loaner_name=name_list[n],
-            loan_times_insvnd=id_list[n]
+            loaner_name=is_name_dict[loanerid],
+            loan_times_insvnd=id_dict[loanerid]
         )
         add_record_list.append(obj)
     Alert.objects.bulk_create(add_record_list)
@@ -463,6 +490,13 @@ def my_task1():
     print('定时任务1开始\n')
     task_Fun()
     print('定时任务1结束\n')
+
+
+@sched.interval_schedule(seconds=60*60*24)
+def auto_alert():
+    print('enter test2')
+    alert_times()
+    print('finish test2')
 
 
 sched.start()

@@ -163,7 +163,7 @@ function isOrderNum(str) {
 
 
 function isMoney(s) {//判断是否为金额格式
-    let regu = "^[0-9]+[.][0-9]{0,3}$";
+    let regu = "^[0-9]+[.]*[0-9]{0,3}$";
     let re = new RegExp(regu);
     if (re.test(s)) {
         return true;

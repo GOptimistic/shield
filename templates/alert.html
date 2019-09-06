@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>还款界面</title>
+    <title>预警提示页面</title>
     <meta name="keywords" content="index">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
@@ -45,6 +45,7 @@
     <link rel="stylesheet" href="../static/css/query.css">
     <link rel="stylesheet" href="../static/css/results.css">
     <!--导航栏样式表结！！！-->
+    <script src="../static/js/alert.js" type="text/javascript"></script>
 </head>
 <body>
 <!-- Navbar导航条 -->
@@ -78,8 +79,8 @@
                             贷款
                         </a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link active" href="./repayment.html">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./repayment.html">
                             还款
                         </a>
                     </li>
@@ -88,8 +89,8 @@
                             查询
                         </a>
                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="./alert.html">
+                     <li class="nav-item active" >
+                        <a class="nav-link active" href="./alert.html">
                             预警
                         </a>
                     </li>
@@ -226,6 +227,7 @@
                     </div>
                 </div>
                 <!--end modelBox-->
+            <!--
                 <div class="am-u-sm-12 am-u-md-3 ">
                     <div class="am-form-group">
                         <select id="select-method" data-am-selected="{btnSize: 'sm'}">
@@ -243,6 +245,7 @@
                         </span>
                     </div>
                 </div>
+                -->
 
                 <div class="am-u-sm-12">
                     <form class="am-form">
@@ -252,15 +255,13 @@
                                 <th class="table-id">序号</th>
                                 <th class="table-author am-hide-sm-only">姓名</th>
                                 <th calss="table-title table-title-id">身份证号</th>
-                                <th class="table-title">贷款单号</th>
-                                <th class="table-type">贷款类别</th>
-                                <th class="table-type">贷款金额</th>
-                                <th class="table-date am-hide-sm-only"> 贷款时间</th>
-                                <th class="table-date am-hide-sm-only"> 到期时间</th>
+                                <th class="table-title">近7日贷款次数</th>
+                                <th class="table-date am-hide-sm-only"> 更新时间</th>
                                 <th class="table-set">操作</th>
                             </tr>
                             </thead>
-                            <tbody id="need-repay-info">
+                            <tbody id="alert-list">
+
                             </tbody>
                         </table>
                     </form>
@@ -274,7 +275,7 @@
 <script src="../static/js/amazeui.min.js"></script>
 <script src="../static/js/app.js"></script>
 <script src="../static/js/ExitModal.js"></script>
-<script type="text/javascript" src="../static/js/repayment.js"></script>
+
 <script type="text/javascript" src="../static/js/userManageEnter.js"></script>
 
 <!--下面是导航栏需要的脚本！！！-->
