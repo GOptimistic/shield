@@ -39,7 +39,7 @@
     <link rel="stylesheet" href="../static/css/results.css">
     <!--导航栏样式表结！！！-->
 </head>
-<body>
+<body class="index-page sidebar-collapse">
 <!-- Navbar导航条 -->
 <nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent " color-on-scroll="400">
     <div class="container">
@@ -50,7 +50,7 @@
 
         <!--导航栏菜单-->
         <ul class="navbar-nav our_nav">
-            <a class="navbar-brand our_nav_menu">菜单</a>
+            <!--<a class="navbar-brand our_nav_menu">菜单</a>-->
             <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#example-navbar" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -107,8 +107,17 @@
 <!-- End Navbar -->
 
 
-<div class="tpl-page-container tpl-page-header-fixed">
-    <!-- 注销模态框 -->
+<!--<div cladd ="tpl-page-container tpl-page-header-fixed">-->
+
+<!--    <div class="tpl-content-wrapper">
+        <div class="tpl-portlet-components">
+            <div class="portlet-title">
+                <div class="tpl-block">-->
+<div class="wrapper ">
+        <div class="main">
+            <div class="section section-basic results_section">
+                <div class="container results_container">
+                    <!-- 注销模态框 -->
     <div id="ExitModal" class="modal">
         <div class="modal-content">
             <div class="login_modal-header">
@@ -151,25 +160,29 @@
                 <h2 class="success_model_header success_model_header_text">还款</h2>
                 <p id="changPwd_closeBtn" class="close">×</p>
             </div>
-            <div class="modal-body">
-                <div class="confirm=tips">
+            <div class="modal-body center-try">
+                <div class="col-sm-6 col-lg-6">
+                    <input type="text" class="form-control repayment_text_left " id="repayment" placeholder="金额">
+                    <button id="repay-button" class="home_login_btn repayment_btn_right">
+                        还款
+                    </button>
+                </div>
+                <!--<div class="confirm=tips">
                     <div class="error-wrap login_error">
                         <span id="login_name_j" style="color:red;" class="error error-show"></span>
                     </div>
                     <ul>
                         <li class="home_login_input">
                             <div class="home_login_name_combine">
-                                <!--<img class="icon_people" src="../static/img/home_login_people.png" alt="">-->
+
                                 <input type="text" id="repayment_money" placeholder="金额"
                                        class="home_login_name home_login_name_left">
                             </div>
                         </li>
                     </ul>
-                </div>
+                </div>-->
                 <div class="home_login_wrap">
-                    <button id="repay-button" class="home_login_btn">
-                        还款
-                    </button>
+
                 </div>
             </div>
         </div>
@@ -215,56 +228,50 @@
         </div>
     </div>
     <!--end modelBox-->
-    <div class="tpl-content-wrapper">
-        <div class="tpl-portlet-components">
-            <div class="portlet-title">
-                <div class="tpl-block">
-                    <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-3">
-                            <div class="am-form-group">
-                                <select id="select-method" data-am-selected="{btnSize: 'sm'}">
-                                    <option value="option1">身份证号</option>
-                                    <option value="option2">流水单号</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="am-u-sm-12 am-u-md-3">
-                            <div class="am-input-group am-input-group-sm">
-                                <input type="text" id="select-context" value="" class="am-form-field">
-                                <span class="am-input-group-btn">
-										<button class="am-btn  am-btn-default am-btn-success tpl-am-btn-success am-icon-search"
-                                                type="button" onclick="searchFunction()"></button>
-                                </span>
-                            </div>
+                    <div class="am-u-sm-12 am-u-md-3">
+                        <div class="am-form-group">
+                            <select id="select-method" data-am-selected="{btnSize: 'sm'}">
+                                <option value="option1">身份证号</option>
+                                <option value="option2">流水单号</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="am-u-sm-12">
-                        <form class="am-form">
-                            <table class="am-table am-table-striped am-table-hover table-main">
-                                <thead>
-                                <tr>
-                                    <th class="table-id">序号</th>
-                                    <th class="table-author am-hide-sm-only">姓名</th>
-                                    <th calss="table-title table-title-id">身份证号</th>
-                                    <th class="table-title">贷款单号</th>
-                                    <th class="table-type">贷款类别</th>
-                                    <th class="table-type">贷款金额</th>
-                                    <th class="table-date am-hide-sm-only"> 贷款时间</th>
-                                    <th class="table-date am-hide-sm-only"> 到期时间</th>
-                                    <th class="table-set">操作</th>
-                                </tr>
-                                </thead>
-                                <tbody id="need-repay-info">
-                                </tbody>
-                            </table>
-                        </form>
+                    <div class="am-u-sm-12 am-u-md-3">
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="text" id="select-context" value="" class="am-form-field">
+                            <span class="am-input-group-btn">
+                                    <button class="am-btn  am-btn-default am-btn-success tpl-am-btn-success am-icon-search"
+                                            type="button" onclick="searchFunction()"></button>
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="am-u-sm-12">
+                    <form class="am-form">
+                        <table class="am-table am-table-striped am-table-hover table-main">
+                            <thead>
+                            <tr>
+                                <th class="table-id">序号</th>
+                                <th class="table-author am-hide-sm-only">姓名</th>
+                                <th calss="table-title table-title-id">身份证号</th>
+                                <th class="table-title">贷款单号</th>
+                                <th class="table-type">贷款类别</th>
+                                <th class="table-type">贷款金额</th>
+                                <th class="table-date am-hide-sm-only"> 贷款时间</th>
+                                <th class="table-date am-hide-sm-only"> 到期时间</th>
+                                <th class="table-set">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="need-repay-info">
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+          </div>
         </div>
-    </div>
+      </div>
 
-</div>
+</div><!---->
 <script src="../static/js/jquery.min.js"></script>
 <script src="../static/js/amazeui.min.js"></script>
 <script src="../static/js/app.js"></script>

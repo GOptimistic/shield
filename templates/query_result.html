@@ -53,7 +53,7 @@
 
             <!--导航栏菜单-->
             <ul class="navbar-nav our_nav">
-                <a class="navbar-brand our_nav_menu">菜单</a>
+                <!--<a class="navbar-brand our_nav_menu">菜单</a>-->
                 <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#example-navbar" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -109,79 +109,6 @@
     </nav>
     <!-- End Navbar -->
     <div class="tpl-page-container tpl-page-header-fixed">
-    <!-- 注销模态框 -->
-    <div id="ExitModal" class="modal">
-        <div class="modal-content">
-            <div class="login_modal-header">
-                <h2 class="success_model_header success_model_header_text">注销</h2>
-                <p id="closeBtn" class="close" >×</p>
-            </div>
-            <div class="modal-body">
-                <div class="confirm=tips">
-                    <ul class="exitaccount_ul">
-                        <li class="noMargin exitaccount_noMargin">
-                            <!-- <i class="icon_Pwd"></i> -->
-                            <div class="success_text">
-                                <h3 class="successful">确定退出？</h3>
-                            </div>
-                        </li>
-                         <li class="noMargin">
-                            <!-- <i class="icon_people"></i> -->
-                            <div class="exitaccount_div">
-                                <button class="btn btn-primary exitaccount_btn"  type="button" rel="tooltip" id="exit_btn_confirm">
-                                    确定
-                                </button>
-                                <button class="btn btn-primary exitaccount_btn" type="button"   rel="tooltip" id="exit_btn_cancel">
-                                    取消
-                                </button>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--end modelBox-->
-    <!-- 用户管理密码进入 -->
-    <div id="userModal" class="modal">
-        <div class="modal-content">
-            <div class="login_modal-header">
-                <h2 class="success_model_header success_model_header_text">请授权</h2>
-                <p id="user_management_closeBtn" class="close">×</p>
-            </div>
-            <div class="modal-body">
-                <div class="confirm=tips">
-                    <div class="error-wrap login_error">
-                        <span id="entry_error_psw" style="color:red;" class="error error-show"></span>
-                    </div>
-                    <ul>
-                        <div class="row lending_confirm_btndiv">
-                            <h5 class="lending_confirm_mh5 lending_confirm_position">输入工号：</h5>
-                            <input type="text"  value="" placeholder="工号" id="usermanageinputid"
-                                   class="form-control lending_confirm_text lending_confirm_position"/>
-                        </div>
-                        <div class="row lending_confirm_btndiv">
-                            <h5 class="lending_confirm_mh5 lending_confirm_position">输入密码：</h5>
-                            <input type="password" id="usermanageinputpsw" value="" placeholder="密码"
-                                   class="form-control lending_confirm_text lending_confirm_position"/>
-                        </div>
-                        <li class="noMargin">
-                            <!-- <i class="icon_Pwd"></i> -->
-                            <div class="exitaccount_div lending_amount_div">
-                                <button class="btn btn-primary btn-sm um_psw_con" id="usermanage_con" type="button" rel="tooltip">
-                                    确定
-                                </button>
-                                <button class="btn btn-primary btn-sm um_psw_con" type="button" id="usermanage_can"  rel="tooltip">
-                                    取消
-                                </button>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--end modelBox-->
         <div class="tpl-content-wrapper">
             <!-- result-table -->
             <div class="tpl-portlet-components">
@@ -239,38 +166,78 @@
                         <div class="section section-basic">
                             <div class="container">
                                 <!-- 注销模态框 -->
-                        <div id="ExitModal" class="modal">
-                            <div class="modal-content">
-                                <div class="login_modal-header">
-                                    <h2 class="success_model_header success_model_header_text">注销</h2>
-                                    <p id="closeBtn" class="close" >×</p>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="confirm=tips">
-                                        <ul class="exitaccount_ul">
-                                            <li class="noMargin exitaccount_noMargin">
-                                                <!-- <i class="icon_Pwd"></i> -->
-                                                <div class="success_text">
-                                                    <h3 class="successful">确定退出？</h3>
-                                                </div>
-                                            </li>
-                                             <li class="noMargin">
-                                                <!-- <i class="icon_people"></i> -->
-                                                <div class="exitaccount_div">
-                                                    <button class="btn btn-primary exitaccount_btn"  type="button" rel="tooltip" id="exit_btn_confirm">
-                                                        确定
-                                                    </button>
-                                                    <button class="btn btn-primary exitaccount_btn" type="button"   rel="tooltip" id="exit_btn_cancel">
-                                                        取消
-                                                    </button>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                <div id="ExitModal" class="modal">
+                                    <div class="modal-content">
+                                        <div class="login_modal-header">
+                                            <h2 class="success_model_header success_model_header_text">注销</h2>
+                                            <p id="closeBtn" class="close" >×</p>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="confirm=tips">
+                                                <ul class="exitaccount_ul">
+                                                    <li class="noMargin exitaccount_noMargin">
+                                                        <!-- <i class="icon_Pwd"></i> -->
+                                                        <div class="success_text">
+                                                            <h3 class="successful">确定退出？</h3>
+                                                        </div>
+                                                    </li>
+                                                     <li class="noMargin">
+                                                        <!-- <i class="icon_people"></i> -->
+                                                        <div class="exitaccount_div">
+                                                            <button class="btn btn-primary exitaccount_btn"  type="button" rel="tooltip" id="exit_btn_confirm">
+                                                                确定
+                                                            </button>
+                                                            <button class="btn btn-primary exitaccount_btn" type="button"   rel="tooltip" id="exit_btn_cancel">
+                                                                取消
+                                                            </button>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <!--end modelBox-->
+                                <!--end modelBox-->
+                                <!-- 用户管理密码进入 -->
+                                <div id="userModal" class="modal">
+                                    <div class="modal-content">
+                                        <div class="login_modal-header">
+                                            <h2 class="success_model_header success_model_header_text">请授权</h2>
+                                            <p id="user_management_closeBtn" class="close">×</p>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="confirm=tips">
+                                                <div class="error-wrap login_error">
+                                                    <span id="entry_error_psw" style="color:red;" class="error error-show"></span>
+                                                </div>
+                                                <ul>
+                                                    <div class="row lending_confirm_btndiv">
+                                                        <h5 class="lending_confirm_mh5 lending_confirm_position">输入工号：</h5>
+                                                        <input type="text"  value="" placeholder="工号" id="usermanageinputid"
+                                                               class="form-control lending_confirm_text lending_confirm_position"/>
+                                                    </div>
+                                                    <div class="row lending_confirm_btndiv">
+                                                        <h5 class="lending_confirm_mh5 lending_confirm_position">输入密码：</h5>
+                                                        <input type="password" id="usermanageinputpsw" value="" placeholder="密码"
+                                                               class="form-control lending_confirm_text lending_confirm_position"/>
+                                                    </div>
+                                                    <li class="noMargin">
+                                                        <!-- <i class="icon_Pwd"></i> -->
+                                                        <div class="exitaccount_div lending_amount_div">
+                                                            <button class="btn btn-primary btn-sm um_psw_con" id="usermanage_con" type="button" rel="tooltip">
+                                                                确定
+                                                            </button>
+                                                            <button class="btn btn-primary btn-sm um_psw_con" type="button" id="usermanage_can"  rel="tooltip">
+                                                                取消
+                                                            </button>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end modelBox-->
                                 <div class="row" id="checkRadios">
                                     <div class="col-sm-6 col-lg-3">
                                         <div class="checkbox query_checkbox">
