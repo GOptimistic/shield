@@ -5,7 +5,13 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../static/img/logo_title.png">
     <link rel="icon" type="image/png" href="../static/img/logo_title.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Shield</title>
+    <title>信息确认</title>
+    <style>
+        body{
+            background-size: cover;
+            background: url("../static/img/bg.jpg") fixed;
+        }
+    </style>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 
     <!--     Fonts and icons     -->
@@ -92,9 +98,9 @@
     <!-- End Navbar -->
 
     <div class="wrapper ">
-        <div class="page-header clear-filter" filter-color="black">
+        <!--<div class="page-header clear-filter" filter-color="black">
             <div class="page-header-image" data-parallax="true" style="background-image: url('../static/img/bg.jpg');">
-            </div>
+            </div>-->
             <div class="container lending_confirm_container">
                 <!-- 继续贷款模态框 -->
                 <div id="lendingModal" class="modal">
@@ -151,7 +157,7 @@
                                         <input type="password" id="usermanageinputpsw" value="" placeholder="密码"
                                                class="form-control lending_confirm_text lending_confirm_position"/>
                                     </div>
-                                    <li class="noMargin">
+                                    <li class="noMargin modal_li">
                                         <!-- <i class="icon_Pwd"></i> -->
                                         <div class="exitaccount_div lending_amount_div">
                                             <button class="btn btn-primary btn-sm um_psw_con" id="usermanage_con" type="button" rel="tooltip">

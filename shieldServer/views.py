@@ -473,7 +473,7 @@ def usermanage(request):
     if request.method == 'POST':
         user_info_data = {}
         usermanage_req = json.loads(request.body)
-        user_info = User.objects.all().values('username', 'user_real_name', 'user_phone', 'user_rank')
+        user_info = User.objects.filter(user_rank="员工").values('username', 'user_real_name', 'user_phone', 'user_rank')
         user_info_data = list(user_info)
     return JsonResponse(user_info_data, safe=False)
 

@@ -2,11 +2,8 @@ import json
 import requests
 import hashlib as hasher
 import datetime as date
-from django.http import HttpResponse
 from django.http import JsonResponse
 from chainServer.models import Recordnodes
-from django.shortcuts import render
-from django.http import HttpRequest
 
 
 class Block:
@@ -23,7 +20,6 @@ class Block:
         self._data = blockdict.data
         self._previous_hash = blockdict.previous_hash
         self._hash = blockdict.hash
-
 
     @property
     def hash(self):
@@ -60,19 +56,17 @@ class Block:
         return blockdict
 
 
-# get data from Recordnodes to chain
 def create_genesis_block():
     # Manually construct a block with
     # index zero and arbitrary previous hash
-    return Block(0, date.datetime.now(), {
-        "record": None
-    }, "0")
+    return Block(0, date.datetime.now(), None, "0")
 
 
 chain = [create_genesis_block()]
-my_url = 'https://wwww.49.232.23.19:8001/'
+my_url = 'https://49.232.23.19:8001/'
 
 
+# get data from Recordnodes to chain
 def getchain():
     recordlist = Recordnodes.objects.all()
     for var in recordlist:
@@ -83,7 +77,7 @@ def getchain():
 getchain()
 
 
-def next_block(last_block,data):
+def next_block(last_block, data):
     this_index = last_block.index + 1
     this_timestamp = date.datetime.now()
     this_data = data
@@ -91,46 +85,22 @@ def next_block(last_block,data):
     return Block(this_index, this_timestamp, this_data, this_hash)
 
 
-# A completely random address of the owner of this node
-miner_address = "q3nf394hjg-random-miner-address-34nf3i4nflkn3oi"
-# This node's blockchain copy
-# Store the transactions that
-# this node has in a list
+# Store the records that this node has in a list
 this_nodes_records = []
-# Store the url data of every
-# other node in the network
-# so that we can communicate
-# with them
-peer_nodes = []
-# A variable to deciding if we're mining or not
-mining = False
+# Store the url data of every other node in the network so that we can communicate  with them
+peer_nodes = ['https://139.219.2.48']
 
 
-# chain = [create_genesis_block()]
-# previous_block =chain[0]
-# num_of_blocks_to_add = 10
-# for i in range(0, num_of_blocks_to_add):
-#     block_to_add = next_block(previous_block)
-#     chain.append(block_to_add)
-#     previous_block = block_to_add
-# print("Block #{} 已经加入区块链!".format(block_to_add.index))
-# print("Hash: {}".format(block_to_add.hash))
-# print("Data: {}\n".format(block_to_add.data))
 def printchain():
     for i in range(len(chain)):
         print("Block #{} 已经加入区块链!".format(chain[i].index))
         print("Hash: {}".format(chain[i].hash))
         print("Data: {}\n".format(chain[i].data))
     print(len(chain))
-    # @node.route('/txion', methods=['POST'])
 
 
 def valid_chain(tocheckchain):
-    # """
     # Determine if a given blockchain is valid
-    # :param chain: <list> A blockchain
-    # :return: <bool> True if valid, False if not
-    # """
 
     last_block = tocheckchain[0]
     current_index = 1
@@ -145,19 +115,15 @@ def valid_chain(tocheckchain):
             return False
         last_block = block
         current_index += 1
-
     return True
 
 
 def record(requestrecords):
-    # On each new POST request,
-    # we extract the record data
+    # extract the record data
     requestrecords = json.loads(requestrecords)
-    print(type(requestrecords))
-    print(requestrecords)
     for i in range(len(requestrecords)):
         new_record = requestrecords[i]
-        # Then we add the transaction to our list
+        # Then we add the record to our list
         this_nodes_records.append(new_record)
         # Because the transaction was successfully
         # submitted, we log it to our console
@@ -170,7 +136,6 @@ def record(requestrecords):
     return "Record submission successful\n"
 
 
-# @node.route('/blocks', methods=['GET'])
 #  GET block
 def get_blocks(request):
     chain_to_send = chain
@@ -242,32 +207,11 @@ def consensus():
                         hash_current=chains.hash).save()
 
 
-# def proof_of_work(last_proof):
-#   # Create a variable that we will use to find
-#   # our next proof of work
-#   incrementor = last_proof + 1
-#   # Keep incrementing the incrementor until
-#   # it's equal to a number divisible by 9
-#   # and the proof of work of the previous
-#   # block in the chain
-#   while not (incrementor % 9 == 0 and incrementor % last_proof == 0):
-#     incrementor += 1
-#   # Once that number is found,
-#   # we can return it as a proof
-#   # of our work
-#   return incrementor
-
-# @node.route('/mine', methods = ['GET'])
 def mine(requestrecords):
     record(requestrecords)
     last_block = chain[len(chain) - 1]
     # the current block being mined
-    # we reward the miner by adding a record
-    # this_nodes_records.append(
-    #   { 'name': 'lww', 'ID': 142328, 'money': 1,'funding_terms':10}
-    # )
-    # Now we can gather the data needed
-    # to create the new block
+    # Now we can gather the data needed to create the new block
     for i in range(len(this_nodes_records)):
         new_block_data = {
             'name': this_nodes_records[i]['borrower_name'],
@@ -279,8 +223,7 @@ def mine(requestrecords):
         new_block_timestamp = date.datetime.now()
         last_block_hash = last_block.hash
 
-        # Now create the
-        # new block!
+        # Now create the new block!
         mined_block = Block(
             new_block_index,
             new_block_timestamp,
@@ -289,27 +232,18 @@ def mine(requestrecords):
         )
         chain.append(mined_block)
         for node_url in peer_nodes:
-            # Get their chains using a GET request
-                requests.post(node_url + "/receive", data=mined_block.to_dict())
+            # Let the other nodes know we mined a block
+            requests.post(node_url + "/receive", data=mined_block.to_dict())
         last_block = chain[len(chain) - 1]
         Recordnodes(id=mined_block.index, name=mined_block.data['name'], ID_card=mined_block.data['ID'],
                     money=mined_block.data['money'],
                     funding_terms=mined_block.data['funding_terms'], default_date=mined_block.timestamp,
                     hash_previous=mined_block.previous_hash, hash_current=mined_block.hash).save()
-    # Let the client know we mined a block
 
     this_nodes_records[:] = []
 
 
-def show(request):
-    showtxt = ""
-    for i in chain:
-        showtxt += "Block #{}  ".format(i.index)
-        showtxt += "recorddata: {}".format(i.data)
-        showtxt += "hash:  {}".format(i.hash)
-    return HttpResponse(showtxt)
-
-
+# find records by ID_card and name
 def findbyidname(id_card, need_name):
     default_info = Recordnodes.objects.filter(ID_card=id_card, name=need_name) \
         .values('ID_card', 'name', 'default_date', 'money')
@@ -319,7 +253,3 @@ def findbyidname(id_card, need_name):
         default_info[i]['default_date'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
     jsonArray = json.dumps(default_info)
     return jsonArray
-
-
-def broadcastreceiver(sendurl, sendrecords):
-    pass
