@@ -4,6 +4,7 @@ import hashlib as hasher
 import datetime as date
 from django.http import JsonResponse
 from chainServer.models import Recordnodes
+import ast
 
 
 class Block:
@@ -59,11 +60,11 @@ class Block:
 def create_genesis_block():
     # Manually construct a block with
     # index zero and arbitrary previous hash
-    return Block(0, date.datetime.now(), None, "0")
+    return Block(0, 0, None, "0")
 
 
 chain = [create_genesis_block()]
-my_url = 'https://49.232.23.19:8001/'
+my_url = 'http://49.232.23.19:8001/'
 
 
 # get data from Recordnodes to chain
@@ -88,7 +89,7 @@ def next_block(last_block, data):
 # Store the records that this node has in a list
 this_nodes_records = []
 # Store the url data of every other node in the network so that we can communicate  with them
-peer_nodes = ['https://139.219.2.48']
+peer_nodes = ["http://localhost:8000"]
 
 
 def printchain():
@@ -155,8 +156,11 @@ def get_blocks(request):
             'previous_hash': block_previous_hash,
             'hash': block_hash
         }
-        chain_to_send = json.dumps(chain_to_send)
-    return JsonResponse(chain_to_send)
+        chain_to_send[i] = json.dumps(chain_to_send[i])
+    blockstr = chain_to_send[0]
+    for i in range(len(chain_to_send) - 1):
+        blockstr = blockstr + '**' + chain_to_send[i + 1]
+    return JsonResponse(blockstr, safe=False)
 
 
 def find_new_chains():
@@ -166,26 +170,36 @@ def find_new_chains():
         # Get their chains using a GET request
         block = requests.get(node_url + "/get").content
         # Convert the JSON object to a Python dictionary
+        print(block)
+        block = bytes.decode(block)
+        print(block)
         block = json.loads(block)
         # Add it to our list
-        other_chains.append(block)
+        print(block)
+        print(type(block))
+        blocklist = str.split(block, '**')
+        print(blocklist)
+        for i in blocklist:
+            i = json.loads(i)
+            print(i)
+        other_chains.append(blocklist)
     return other_chains
 
 
-def consensus():
+def consensus(request):
     # Get the blocks from other nodes
     othernodeschains = find_new_chains()
     # If our chain isn't longest,
     # then we store the longest chain
     longest_chain = chain
-    for chains in longest_chain:
-        chains = {
-            'index': str(chains.index),
-            'timestamp': str(chains.timestamp),
-            'data': str(chains.data),
-            'previous_hash': chains.previous_hash,
-            'hash': chains.hash
-        }
+    # for chains in longest_chain:
+    #     chains = {
+    #         'index': str(chains.index),
+    #         'timestamp': str(chains.timestamp),
+    #         'data': str(chains.data),
+    #         'previous_hash': chains.previous_hash,
+    #         'hash': chains.hash
+    #     }
     change = False
     for chains in othernodeschains:
         if len(longest_chain) < len(chains):
@@ -199,12 +213,12 @@ def consensus():
         Recordnodes.objects.all().delete()
         print("delete origin data")
         for chains in longest_chain:
-            chains.data = eval(chains.data)
-            chain.append(Block(chains.id, chains.default_date, chains.data, chains.previous_hash))
-            Recordnodes(id=chains.index, name=chains.data['name'], ID_card=chains.data['ID'],
-                        money=chains.data['money'], funding_terms=chains.data['funding_terms'],
-                        default_date=chains.timestamp, hash_previous=chains.previous_hash,
-                        hash_current=chains.hash).save()
+            chains['data']=json.dumps(chains['data'])
+            chain.append(Block(chains['index'], chains['timestamp'], chains['data'], chains.previous_hash))
+            Recordnodes(id=chains['index'], name=chains.data['name'], ID_card=chains.data['ID'],
+                        money=chains['data']['money'], funding_terms=chains['data']['funding_terms'],
+                        default_date=chains['timestamp'], hash_previous=chains['previous_hash'],
+                        hash_current=chains['hash']).save()
 
 
 def mine(requestrecords):
