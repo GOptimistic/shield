@@ -418,10 +418,11 @@ def task_Fun():
 
 
 def remind():
-    need_notice = Borrower.objects.filter(payback=0).values('borrower_name', 'borrower_id', 'borrower_phone',
+    need_notice = Borrower.objects.filter(payback=0, collect_attention__gte=0.3).values('borrower_name', 'borrower_id', 'borrower_phone',
                                                             'borrower_time', 'last_pymnt_d', 'installment')
     need_notice_first = need_notice.filter(last_pymnt_d=None)
     need_notice_not_first = need_notice.exclude(last_pymnt_d=None)
+
     print(need_notice_first)
     print(need_notice_not_first)
 
@@ -440,15 +441,15 @@ def alert_times():
     name_list = []
     id_list = []
     for i in id_list.keys():
-        if id_list[i] > 7:
+        if id_list[i] >= 7:
             name_list.append(i)
             id_list.append(i)
     add_record_list = []
     for n in len(id_list):
         obj = Alert(
-            loaner_id=id_list[i],
-            loaner_name=name_list[i],
-            loan_times_insvnd=id_list[i]
+            loaner_id=id_list[n],
+            loaner_name=name_list[n],
+            loan_times_insvnd=id_list[n]
         )
         add_record_list.append(obj)
     Alert.objects.bulk_create(add_record_list)

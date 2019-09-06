@@ -15,7 +15,7 @@ anaBtn.onclick = function () {
     annualIncome = document.getElementById('lending_input_anlincome').value;
     empLength = document.getElementById('lending_input_emplength').value;
     let creditTime =new Date(document.getElementById('lending_input_date').value).Format("yyyy-MM-dd");
-
+    console.log(creditTime);
     let xhrRegister = new XMLHttpRequest();
 
     for (var k = 0; k < chkHosRadio.length; k++) {
@@ -103,11 +103,57 @@ anaBtn.onclick = function () {
         default:
             loanType = null;
     }
+    let isComplete = true;
+    if(!isChinaOrLetter(borrowerName)){
+        isComplete = false;
+        alert('请输入正确名字')
+    }
+    if(!checkCard(borrowerID)){
+        isComplete = false;
+        alert('请输入正确身份证号')
+    }
+    if(!checkMobile(borrowerPhone)){
+        isComplete = false;
+        alert('请输入正确手机号码')
+    }
+    if(!isMoney(loanedMoney)){
+        isComplete = false;
+        alert('请输入正确贷款金额')
+    }
+    if(duration == null){
+        isComplete = false;
+        alert('请输入贷款时长')
+    }
+    if(loanType == null){
+        isComplete = false;
+        alert('请输入贷款类型')
+    }
+    if(homeOwnership == null){
+        isComplete = false;
+        alert('请输入住房状态')
+    }
+    if(!isNumber(empLength)){
+        isComplete = false;
+        alert('请输入正确时长（年）')
+    }
+    if(!isChinaOrLetter(empTitle)){
+        isComplete = false;
+        alert('请输入正确职位')
+    }
+    if(!isMoney(annualIncome)){
+        isComplete = false;
+        alert('请输入正确年收入')
+    }
+    if(grade == null){
+        isComplete = false;
+        alert('请输入评级')
+    }
+    if(!isDate(creditTime)){
+         isComplete = false;
+        alert('请输入日期')
+    }
 
-    if (isChinaOrLetter(borrowerName) && checkCard(borrowerID) && checkMobile(borrowerPhone) && isMoney(loanedMoney)
-        && duration != null && loanType != null && homeOwnership != null && isNumber(empLength)
-        && isChinaOrLetter(empTitle) && isMoney(annualIncome) && grade != null) {
-
+    if (isComplete) {
         let lendingInfo = {
             borrowerName: borrowerName,
             borrowerID: borrowerID,
@@ -131,8 +177,6 @@ anaBtn.onclick = function () {
             localStorage.setItem('loanInfo', sendStr);
         }
         location.assign('./lending_results.html');
-    } else {
-        alert('请完整输入正确格式的信息');
     }
 };
 
@@ -200,7 +244,7 @@ function isChinaOrLetter(s) {//判断是否是汉字、字母组成
 }
 
 function isMoney(s) {//判断是否为金额格式
-    let regu = "^[0-9]+[.][0-9]{0,2}$";
+    let regu = "(^[0-9]+[.][0-9]{0,2}$)|(^[0-9]$)";
     let re = new RegExp(regu);
     if (re.test(s)) {
         return true;
@@ -217,4 +261,10 @@ function isNumber(s) {
     } else {
         return false;
     }
+}
+
+function isDate(str) {
+    //适用于yyyy-mm-dd格式
+    let arg = /^(\d{4})-(0[1-9]|1[012])-([012][0-9]|3[01])$/;
+    return arg.test(str);
 }
