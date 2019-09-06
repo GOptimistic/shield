@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -23,6 +25,7 @@ from sklearn.metrics import roc_auc_score
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
+from sklearn.externals import joblib
 
 
 @csrf_exempt
@@ -30,30 +33,34 @@ def query_svm(request):
     query_data = trans_data()
     n = len(query_data)
     svm_input = []
+    trand_code = []
     for i in range(0, n):
-        svm_input.append([query_data[i].verification_status, query_data[i].emp_length,
-                          query_data[i].home_ownership, query_data[i].installment, query_data[i].last_pymnt_amnt,
-                          query_data[i].dti, query_data[i].loan_duration * 12,
-                          int(time.mktime(query_data[i].e_credit_time.timetuple())),
-                          query_data[i].grade, query_data[i].annual_income, query_data[i].out_prncp,
-                          query_data[i].total_pymnt, query_data[i].rate, query_data[i].funded_amount,
+        svm_input.append([query_data[i].funded_amount, query_data[i].loan_duration * 12,
+                          query_data[i].rate, query_data[i].installment, query_data[i].grade,
+                          query_data[i].emp_length, query_data[i].home_ownership,
+                          query_data[i].annual_income, query_data[i].verification_status,
                           int(time.mktime(query_data[i].borrower_time.timetuple())),
-                          int(time.mktime(query_data[i].last_pymnt_d.timetuple())), query_data[i].delinq_2yrs,
-                          query_data[i].total_rec_late_fee])
+                          query_data[i].dti, query_data[i].delinq_2yrs,
+                          int(time.mktime(query_data[i].e_credit_time.timetuple())),
+                          query_data[i].out_prncp, query_data[i].total_pymnt,
+                          query_data[i].total_rec_late_fee,
+                          int(time.mktime(query_data[i].last_pymnt_d.timetuple())),
+                          query_data[i].last_pymnt_amnt])
+        trand_code.append(query_data[i].trade_order)
     print(svm_input)
     svm_input = np.array(svm_input)
     print(svm_input.shape)
 
-    x_fit = [
-        [-1, 5, 3, 0.0, 0.0, 0.0, 36, 1536076800, -1, 100000.0, 0.0, 0.0, 0.0475, 8000.0, 1567068342, 1567353600, -1,
-         0.0],
-        [-1, 5, 3, 0.0, 0.0, 0.0, 60, 1536076800, -1, 100000.0, 0.0, 0.0, 0.049, 50000.0, 1567068765, 1567353600, -1,
-         0.0],
-        [-1, 5, 3, 0.0, 0.0, 0.0, 60, 1536076800, -1, 100000.0, 0.0, 0.0, 0.049, 200000.0, 1567070146, 1567353600, -1,
-         0.0],
-        [-1, 5, 3, 0.0, 0.0, 0.0, 60, 1536076800, -1, 100000.0, 0.0, 0.0, 0.049, 50000.0, 1567068765, 1567353600, -1,
-         0.0]]
-    y_fit = [0, 1, 0, 1]
+    # x_fit = [
+    #     [-1, 5, 3, 0.0, 0.0, 0.0, 36, 1536076800, -1, 100000.0, 0.0, 0.0, 0.0475, 8000.0, 1567068342, 1567353600, -1,
+    #      0.0],
+    #     [-1, 5, 3, 0.0, 0.0, 0.0, 60, 1536076800, -1, 100000.0, 0.0, 0.0, 0.049, 50000.0, 1567068765, 1567353600, -1,
+    #      0.0],
+    #     [-1, 5, 3, 0.0, 0.0, 0.0, 60, 1536076800, -1, 100000.0, 0.0, 0.0, 0.049, 200000.0, 1567070146, 1567353600, -1,
+    #      0.0],
+    #     [-1, 5, 3, 0.0, 0.0, 0.0, 60, 1536076800, -1, 100000.0, 0.0, 0.0, 0.049, 50000.0, 1567068765, 1567353600, -1,
+    #      0.0]]
+    # y_fit = [0, 1, 0, 1]
     # for i in range(0, svm_input.shape[0]):
     #     y_fit.append(np.random.randint(0, 2))
     # print(y_fit)
@@ -61,7 +68,7 @@ def query_svm(request):
     # 0-1
     scaler = MinMaxScaler()
     scaler.fit(svm_input)
-    # scaler.data_max_
+    scaler.data_max_
     data_normorlize = scaler.transform(svm_input)
     print('--------------data_normorlize--------------')
     print(data_normorlize)
@@ -72,28 +79,25 @@ def query_svm(request):
     print('--------------data_normorlize after shuffle--------------')
     print(data_normorlize)
 
-    # SVM
-    parameters = {'kernel': ['linear', 'rbf', 'sigmoid', 'poly'], 'C': np.linspace(0.1, 20, 50),
-                  'gamma': np.linspace(0.1, 20, 20)}
-    # parameters = {'kernel': ['linear'], 'C': 0.1, 'gamma': 0.1}
-    svc = svm.SVC(probability=True)
-    print(svc)
-    model = GridSearchCV(svc, parameters, cv=2, scoring='accuracy', iid=True, refit=True)
-    model.fit(x_fit, y_fit)
-    print('--------------before--------------')
-    print(model.best_estimator_)
-    print(model.best_params_)
-    model.best_estimator_ = SVC(C=0.1, cache_size=200, class_weight=None, coef0=0.0, decision_function_shape='ovr',
-                                degree=3, gamma=0.1, kernel='linear', max_iter=-1, probability=True,
-                                random_state=None, shrinking=True, tol=0.001, verbose=False)
-    model.best_params_ = {'C': 0.1, 'gamma': 0.1, 'kernel': 'linear'}
-    print('--------------after--------------')
-    print(model.best_estimator_)
-    print(model.best_params_)
-    # model.set_params(model.best_params_)
-    # estimator = model.estimator
+    print(os.getcwd())
+    model = joblib.load('shieldServer/shield2.model')
     print('--------------model--------------')
     print(model)
+    estimator = model.best_estimator_
+    print('\n--------------estimator--------------\n'+str(estimator))
+    para = model.best_params_
+    print('\n--------------para--------------\n'+str(para))
     ypred = model.predict(svm_input)
     print(ypred)
-    return JsonResponse({'status': 200})
+    yscore1 = model.decision_function(svm_input)
+    yscore2 = model.predict_proba(svm_input)
+    print('--------------yscore1--------------')
+    print(yscore1)
+    print('--------------yscore2--------------')
+    print(yscore2)
+    ypred = list(ypred)
+    yscore = list(yscore2[:, 1])
+    return JsonResponse({'status': 200, 'class': ypred, 'proba': yscore, 'trade_code': trand_code,
+                         'id': query_data[0].borrower_id, 'defaut_times': query_data[0].delinq_2yrs,
+                         'home': query_data[0].home_ownership,'income': query_data[0].annual_income,
+                         'work': query_data[0].emp_length})

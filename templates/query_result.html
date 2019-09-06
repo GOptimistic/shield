@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>查询结果</title>
+    <script src="../static/js/echarts.min.js"></script>
     <meta name="keywords" content="index">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
@@ -12,7 +13,7 @@
     <link rel="stylesheet" href="../static/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../static/css/admin.css"/>
     <link rel="stylesheet" href="../static/css/app.css"/>
-    <link rel="stylesheet" herf="../static/css/query.css" />
+    <link rel="stylesheet" herf="../static/css/query.css"/>
     <link rel="stylesheet" herf="../static/css/now-ui-kit.css"/>
     <link rel="stylesheet" href="../static/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../static/css/modalBox.css"/>
@@ -20,20 +21,20 @@
     <!--下面试导航栏需要的样式表！！！-->
     <link rel="apple-touch-icon" sizes="76x76" href="../static/img/logo_title.png">
     <link rel="icon" type="image/png" href="../static/img/logo_title.png">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>Shield-分析结果</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
-        name='viewport' />
+          name='viewport'/>
     <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
     <!-- CSS Files -->
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../static/css/now-ui-kit.css?v=1.1.0" rel="stylesheet" />
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../static/css/now-ui-kit.css?v=1.1.0" rel="stylesheet"/>
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="../static/css/demo.css" rel="stylesheet" />
+    <link href="../static/css/demo.css" rel="stylesheet"/>
     <!-- Canonical SEO -->
-    <link rel="canonical" href="" />
+    <link rel="canonical" href=""/>
     <!--  Social tags      -->
     <meta name="keywords" content="">
     <meta name="description" content="">
@@ -42,14 +43,14 @@
     <link rel="stylesheet" href="../static/css/results.css">
     <!--导航栏样式表结束！！！-->
 </head>
-<body>
-    <!-- Navbar导航条 -->
-    <nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent " color-on-scroll="400">
-        <div class="container">
-            <!--左上角团队logo-->
-            <div class="content-center brand">
-                <img class="n-logo" src="../static/img/home_logo_long.png" alt="">
-            </div>
+<body class="index-page sidebar-collapse">
+<!-- Navbar导航条 -->
+<nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent " color-on-scroll="400">
+    <div class="container">
+        <!--左上角团队logo-->
+        <div class="content-center brand">
+            <img class="n-logo" src="../static/img/home_logo_long.png" alt="">
+        </div>
 
             <!--导航栏菜单-->
             <ul class="navbar-nav our_nav">
@@ -151,14 +152,39 @@
                                 </form>
                             </div>
 
+                            </div>
+
                         </div>
 
                     </div>
-
                 </div>
-            </div>
-            <!-- finish result table -->
+                <!-- finish result table -->
 
+                <!-- select analysis -->
+
+                <div class="row" id="checkRadios">
+                    <div class="col-md-10 col-sm-6  col-lg-3 query_button">
+                        <button class="btn btn-primary query-button-analysis" type="button"
+                                id="query_analysis">分析
+                        </button>
+                    </div>
+                </div>
+                <span id="predict_class">class</span>
+                <div class="query_result_chart query_result_row" style="width: 700px;height:800px;">
+                    <div style="width: 700px;height:500px;" class="tpl-echarts tpl-chart-mb query_result_bar"
+                         id="predict_bar">
+                    </div>
+                    <div style="width:100px;"></div>
+                    <div style="width: 700px;height:500px;" class="tpl-echarts tpl-chart-mb query_result_rader"
+                         id="predict_radar">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- finish select analysis -->
             <!-- select analysis -->
             <div>
                 <div class="wrapper">
@@ -291,4 +317,5 @@
 <script type="text/javascript" src="../static/js/ExitModal.js"></script>
 <script type="text/javascript" src="../static/js/query_svm.js"></script>
 <script type="text/javascript" src="../static/js/userManageEnter.js"></script>
+
 </html>
