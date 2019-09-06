@@ -83,44 +83,13 @@
     margin-left: 5px;
 }
 
-.home_login_name{
-    border:transparent;
-    height: 40px;
-    width: 545px;
-    background-color: transparent;
-    margin-left: 3px;
-}
-
-.home_login_name:focus{
-    border:transparent;
-    box-shadow: transparent;
-}
-
-.home_login_pwd_combine{
-    float:left;
-    margin-left: 5px;
-}
-
-.home_login_pwd{
-    border:transparent;
-    height: 40px;
-    width: 545px;
-    background-color: transparent;
-    margin-left: 3px;
-}
-
-.home_login_pwd:focus{
-    border:transparent;
-    box-shadow: transparent;
-}
-
 .home_login_wrap{
     margin-top:5px;
     margin-bottom:5px;
 }
 
 .home_login_btn{
-    color: #7a6c63;
+    background-color: #7a6c63;
     font-size: 18px;
     margin: 5px;
     /*margin-top:5px;*/
@@ -166,6 +135,10 @@
     /*margin-left: 40%;*/
     margin-left:auto;
     margin-right:auto;
+}
+
+.successful{
+    padding-left: 20%;
 }
 
 .success_text{
@@ -297,4 +270,21 @@
     padding-right: 48px;
     font-size: 20px;
 
+}
+
+.center-try{
+    align-items: center;
+}
+
+.repayment_text_left{
+    border-radius: 5px;
+    border-color: #7a6c63;
+    background: transparent;
+    margin-left: 15px;
+    height: 40px;
+}
+
+.repayment_btn_right{
+    width: 20%;
+    position: relative;
 }

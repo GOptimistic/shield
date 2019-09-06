@@ -24,14 +24,14 @@
     position: relative;
     width: 100%;
     float:left;
-    padding-right:800px;
+    padding-left:10px;
 
 }
 
 .query_subtitle{
     color:black;
     font-weight: 700;
-    padding-right:670px;
+    padding-left: 10px;
 }
 
 .query_table{
