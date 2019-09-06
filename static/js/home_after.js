@@ -7,78 +7,61 @@ option1 = {
         axisPointer: {
             type: 'cross',
             crossStyle: {
-                color: '#999'
+                color: '#99573b'
             }
         }
     },
     toolbox: {
         feature: {
-            dataView: {show: true, readOnly: false},
-            //magicType: {show: true, type: ['line', 'bar']},
-            magicType: {show: true, type: ['bar']},
+            magicType: {show: true, type: ['line','bar']},
             restore: {show: true},
-            saveAsImage: {show: true}
         }
     },
     legend: {
-        data:['蒸发量','降水量','平均温度']
+        data:['贷款交易总量','异常交易量']
     },
     xAxis: [
         {
             type: 'category',
-            data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+            data: ['2007年','2008年','2009年','2010年','2011年','2012年','2013年','2014年','2015年'],
             axisPointer: {
                 type: 'shadow'
             }
         }
     ],
-    yAxis: [
+    yAxis:
         {
             type: 'value',
-            name: '水量',
+            name: '交易量',
             min: 0,
-            max: 250,
-            interval: 50,
+            max: 400000,
             axisLabel: {
-                formatter: '{value} ml'
+                formatter: '{value} 次'
             }
         },
-        {
-            type: 'value',
-            name: '温度',
-            min: 0,
-            max: 25,
-            interval: 5,
-            axisLabel: {
-                formatter: '{value} °C'
-            }
-        }
-    ],
     series: [
-        {
-            name:'蒸发量',
-            type:'bar',
-            data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+          {
+            name:'异常交易量',
+            type:'line',
+            stack: '总量',
+            data:[0, 0, 0, 7, 89, 349, 3123, 7908, 8774]
         },
         {
-            name:'降水量',
-            type:'bar',
-            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
-        },
-        // {
-        //     name:'平均温度',
-        //     type:'line',
-        //     yAxisIndex: 1,
-        //     data:[2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
-        // }
+            name:'贷款交易总量',
+            type:'line',
+            stack: '总量',
+            data:[206, 1314, 4122, 9809, 17909, 43723, 114782, 210543, 386875]
+        }
+
     ]
 };
 histogram.setOption(option1);
-let pie1 = echarts.init(document.getElementById('piechat1'));
+
+let pie1 = echarts.init(document.getElementById('piechat1'),'vintage');
 option2 = {
     title : {
-        text: '某站点用户访问来源',
-        subtext: '纯属虚构',
+        text: '交易状态统计',
+        subtext: '还款情况',
         x:'center'
     },
     tooltip : {
@@ -88,20 +71,21 @@ option2 = {
     legend: {
         orient: 'vertical',
         left: '20',
-        data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+        data: ['已付清','还款中','宽限期中','迟付1-15天','迟付16-30天','迟付31-120天']
     },
     series : [
         {
-            name: '访问来源',
+            name: '还款状态',
             type: 'pie',
             radius : '55%',
             center: ['50%', '60%'],
             data:[
-                {value:335, name:'直接访问'},
-                {value:310, name:'邮件营销'},
-                {value:234, name:'联盟广告'},
-                {value:135, name:'视频广告'},
-                {value:1548, name:'搜索引擎'}
+                {value:200349, name:'已付清'},
+                {value:568683, name:'还款中'},
+                {value:6015, name:'宽限期中'},
+                {value:1148, name:'迟付1-15天'},
+                {value:10872, name:'迟付16-30天'},
+                {value:2215, name:'迟付31-120天'}
             ],
             itemStyle: {
                 emphasis: {
