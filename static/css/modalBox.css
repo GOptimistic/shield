@@ -285,11 +285,13 @@
     align-items: center;
 }
 
+.repayment_amount{
+    padding-bottom: 20px;
+}
 .repayment_text_left{
     border-radius: 5px;
     border-color: #7a6c63;
     background: transparent;
-    margin-left: 15px;
     height: 40px;
 }
 
