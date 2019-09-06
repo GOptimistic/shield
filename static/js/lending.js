@@ -14,7 +14,7 @@ anaBtn.onclick = function () {
     empTitle = document.getElementById('lending_input_emptitle').value;
     annualIncome = document.getElementById('lending_input_anlincome').value;
     empLength = document.getElementById('lending_input_emplength').value;
-    let creditTime =new Date(document.getElementById('lending_input_date').value).Format("yyyy-MM-dd");
+    let creditTime = new Date(document.getElementById('lending_input_date').value).Format("yyyy-MM-dd");
     console.log(creditTime);
     let xhrRegister = new XMLHttpRequest();
 
@@ -103,54 +103,55 @@ anaBtn.onclick = function () {
         default:
             loanType = null;
     }
+
     let isComplete = true;
-    if(!isChinaOrLetter(borrowerName)){
+    if (loanType == null) {
         isComplete = false;
-        alert('请输入正确名字')
+        return alert('请输入贷款类型')
     }
-    if(!checkCard(borrowerID)){
+    if (duration == null) {
         isComplete = false;
-        alert('请输入正确身份证号')
+        return alert('请输入贷款时长')
     }
-    if(!checkMobile(borrowerPhone)){
+    if (grade == null) {
         isComplete = false;
-        alert('请输入正确手机号码')
+        return alert('请输入评级')
     }
-    if(!isMoney(loanedMoney)){
+    if (homeOwnership == null) {
         isComplete = false;
-        alert('请输入正确贷款金额')
+        return alert('请输入住房状态')
     }
-    if(duration == null){
+    if (!isChinaOrLetter(borrowerName)) {
         isComplete = false;
-        alert('请输入贷款时长')
+        return ('请输入正确名字')
     }
-    if(loanType == null){
+    if (!checkCard(borrowerID)) {
         isComplete = false;
-        alert('请输入贷款类型')
+        return alert('请输入正确身份证号')
     }
-    if(homeOwnership == null){
+    if (!checkMobile(borrowerPhone)) {
         isComplete = false;
-        alert('请输入住房状态')
+        return alert('请输入正确手机号码')
     }
-    if(!isNumber(empLength)){
+    if (!isChinaOrLetter(empTitle)) {
         isComplete = false;
-        alert('请输入正确时长（年）')
+        return alert('请输入正确职位')
     }
-    if(!isChinaOrLetter(empTitle)){
+    if (!isMoney(annualIncome)) {
         isComplete = false;
-        alert('请输入正确职位')
+        return alert('请输入正确年收入')
     }
-    if(!isMoney(annualIncome)){
+    if (!isNumber(empLength)) {
         isComplete = false;
-        alert('请输入正确年收入')
+        return alert('请输入正确时长（年）')
     }
-    if(grade == null){
+    if (!isMoney(loanedMoney)) {
         isComplete = false;
-        alert('请输入评级')
+        return alert('请输入正确贷款金额')
     }
-    if(!isDate(creditTime)){
-         isComplete = false;
-        alert('请输入日期')
+    if (!isDate(creditTime)) {
+        isComplete = false;
+        return alert('请输入日期')
     }
 
     if (isComplete) {
@@ -224,7 +225,7 @@ function checkCard(str) {
 }
 
 function checkMobile(s) {//判断是否时手机号码
-    let regu =/^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/;
+    let regu = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/;
     let re = new RegExp(regu);
     if (re.test(s)) {
         return true;
@@ -244,7 +245,7 @@ function isChinaOrLetter(s) {//判断是否是汉字、字母组成
 }
 
 function isMoney(s) {//判断是否为金额格式
-    let regu = "(^[0-9]+[.][0-9]{0,2}$)|(^[0-9]$)";
+    let regu = "^[0-9]+[.]*[0-9]{0,2}$";
     let re = new RegExp(regu);
     if (re.test(s)) {
         return true;
