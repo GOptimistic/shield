@@ -138,7 +138,7 @@ def record(requestrecords):
 
 
 #  GET block
-def get_blocks(request):
+def get_blocks():
     chain_to_send = chain
     # Convert our blocks into dictionaries
     # so we can send them as json objects later
@@ -186,7 +186,7 @@ def find_new_chains():
     return other_chains
 
 
-def consensus(request):
+def consensus():
     # Get the blocks from other nodes
     othernodeschains = find_new_chains()
     # If our chain isn't longest,
