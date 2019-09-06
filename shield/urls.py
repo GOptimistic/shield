@@ -28,7 +28,7 @@ urlpatterns = [
     path('addLending/', views.add_lending, name='addLending'),
     path('lendingResult/', views.lending_result, name='lendingResult'),
     path("mine/", clock.mine),
-    path("show/", clock.show),
+    path("get/", clock.get_blocks),
     path('receive/', chain_views.broadcastreceiver),
     path('repayment/', views.repayment, name='repayment'),
     path('repayment_repay/', views.repayment_repay, name='repayment_repay'),
