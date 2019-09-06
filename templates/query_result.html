@@ -54,7 +54,7 @@
 
         <!--导航栏菜单-->
         <ul class="navbar-nav our_nav">
-            <!--<a class="navbar-brand our_nav_menu">菜单</a>-->
+            <a class="navbar-brand our_nav_menu">菜单</a>
             <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#example-navbar" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -85,11 +85,6 @@
                             查询
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./alert.html">
-                            预警
-                        </a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
                            data-toggle="dropdown">
@@ -114,53 +109,141 @@
     </div>
 </nav>
 <!-- End Navbar -->
-<div class="tpl-page-container tpl-page-header-fixed">
-    <div class="tpl-content-wrapper">
-        <!-- result-table -->
-        <div class="tpl-portlet-components">
-            <div class="portlet-title">
-                <!-- main context -->
-                <div class="tpl-block">
-                    <div class="am-g">
-                        <div class="am-u-sm-12">
-                            <form class="am-form">
-                                <table class="am-table am-table-striped am-table-hover table-main">
-                                    <thead>
-                                    <tr>
-                                        <th class="table-author am-hide-sm-only">姓名</th>
-                                        <th calss="table-title table-title-id">身份证号</th>
-                                        <th class="table-title">贷款单号</th>
-                                        <th class="table-type">贷款类别</th>
-                                        <th class="table-type">贷款金额</th>
-                                        <th class="table-type">贷款地点</th>
-                                        <th class="table-date am-hide-sm-only">贷款日期</th>
-                                        <th class="table-date am-hide-sm-only">到期时间</th>
-                                        <th class="table-date am-hide-sm-only">上次还款日期</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="need-repay-info">
-                                    {% for linequery_person in query_person %}
-                                        <tr>
-                                            <td>{{ linequery_person.borrower_name }}</td>
-                                            <td>{{ linequery_person.borrower_id }}</td>
-                                            <td>{{ linequery_person.trade_order }}</td>
-                                            <td>{{ linequery_person.borrow_type }}</td>
-                                            <td>{{ linequery_person.funded_amount }}</td>
-                                            <td>{{ linequery_person.trade_place }}</td>
-                                            <td>{{ linequery_person.borrower_time }}</td>
-                                            <td>{{ linequery_person.should_payback_time }}</td>
-                                            <td>{{ linequery_person.last_pymnt_d }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </form>
+<div class="wrapper query_result_wrapper">
+    <div class="page-header clear-filter" filter-color="black"><!--遮罩的颜色-->
+        <div class="page-header-image" data-parallax="true" style="background-image: url('../static/img/bg.jpg');">
+        </div>
+        <div class="tpl-page-container tpl-page-header-fixed query_result_container">
+
+            <!-- 注销模态框 -->
+            <div id="ExitModal" class="modal">
+                <div class="modal-content">
+                    <div class="login_modal-header">
+                        <h2 class="success_model_header success_model_header_text">注销</h2>
+                        <p id="closeBtn" class="close">×</p>
+                    </div>
+                    <div class="modal-body">
+                        <div class="confirm=tips">
+                            <ul class="exitaccount_ul">
+                                <li class="noMargin exitaccount_noMargin">
+                                    <!-- <i class="icon_Pwd"></i> -->
+                                    <div class="success_text">
+                                        <h3 class="successful">确定退出？</h3>
+                                    </div>
+                                </li>
+                                <li class="noMargin">
+                                    <!-- <i class="icon_people"></i> -->
+                                    <div class="exitaccount_div">
+                                        <button class="btn btn-primary exitaccount_btn" type="button"
+                                                rel="tooltip"
+                                                id="exit_btn_confirm">
+                                            确定
+                                        </button>
+                                        <button class="btn btn-primary exitaccount_btn" type="button"
+                                                rel="tooltip"
+                                                id="exit_btn_cancel">
+                                            取消
+                                        </button>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <!--end modelBox-->
+            <!-- 用户管理密码进入 -->
+            <div id="userModal" class="modal">
+                <div class="modal-content">
+                    <div class="login_modal-header">
+                        <h2 class="success_model_header success_model_header_text">请授权</h2>
+                        <p id="user_management_closeBtn" class="close">×</p>
+                    </div>
+                    <div class="modal-body">
+                        <div class="confirm=tips">
+                            <div class="error-wrap login_error">
+                                                <span id="entry_error_psw" style="color:red;"
+                                                      class="error error-show"></span>
+                            </div>
+                            <ul>
+                                <div class="row lending_confirm_btndiv">
+                                    <h5 class="lending_confirm_mh5 lending_confirm_position">输入工号：</h5>
+                                    <input type="text" value="" placeholder="工号" id="usermanageinputid"
+                                           class="form-control lending_confirm_text lending_confirm_position"/>
+                                </div>
+                                <div class="row lending_confirm_btndiv">
+                                    <h5 class="lending_confirm_mh5 lending_confirm_position">输入密码：</h5>
+                                    <input type="password" id="usermanageinputpsw" value=""
+                                           placeholder="密码"
+                                           class="form-control lending_confirm_text lending_confirm_position"/>
+                                </div>
+                                <li class="noMargin">
+                                    <!-- <i class="icon_Pwd"></i> -->
+                                    <div class="exitaccount_div lending_amount_div">
+                                        <button class="btn btn-primary btn-sm um_psw_con"
+                                                id="usermanage_con"
+                                                type="button"
+                                                rel="tooltip">
+                                            确定
+                                        </button>
+                                        <button class="btn btn-primary btn-sm um_psw_con" type="button"
+                                                id="usermanage_can"
+                                                rel="tooltip">
+                                            取消
+                                        </button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end modelBox-->
+            <div class="tpl-content-wrapper query_result_tpl_content">
+                <!-- result-table -->
+                <div class="tpl-portlet-components query_result_tpl_portlet">
+                    <div class="portlet-title">
+                        <!-- main context -->
+                        <div class="tpl-block">
+                            <div class="am-g">
+                                <div class="am-u-sm-12">
+                                    <form class="am-form">
+                                        <table class="am-table am-table-striped am-table-hover table-main">
+                                            <thead>
+                                            <tr>
+                                                <th class="table-author am-hide-sm-only">姓名</th>
+                                                <th calss="table-title table-title-id">身份证号</th>
+                                                <th class="table-title">贷款单号</th>
+                                                <th class="table-type">贷款类别</th>
+                                                <th class="table-type">贷款金额</th>
+                                                <th class="table-type">贷款地点</th>
+                                                <th class="table-date am-hide-sm-only">贷款日期</th>
+                                                <th class="table-date am-hide-sm-only">到期时间</th>
+                                                <th class="table-date am-hide-sm-only">上次还款日期</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="need-repay-info">
+                                            {% for linequery_person in query_person %}
+                                                <tr>
+                                                    <td>{{ linequery_person.borrower_name }}</td>
+                                                    <td>{{ linequery_person.borrower_id }}</td>
+                                                    <td>{{ linequery_person.trade_order }}</td>
+                                                    <td>{{ linequery_person.borrow_type }}</td>
+                                                    <td>{{ linequery_person.funded_amount }}</td>
+                                                    <td>{{ linequery_person.trade_place }}</td>
+                                                    <td>{{ linequery_person.borrower_time }}</td>
+                                                    <td>{{ linequery_person.should_payback_time }}</td>
+                                                    <td>{{ linequery_person.last_pymnt_d }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
 
                             </div>
 
-
-                </div>
+                        </div>
 
                     </div>
                 </div>
@@ -191,118 +274,6 @@
     </div>
 </div>
 <!-- finish select analysis -->
-            <!-- select analysis -->
-            <div>
-                <div class="wrapper">
-                    <div class="main">
-                        <div class="section section-basic">
-                            <div class="container">
-                                <!-- 注销模态框 -->
-                                <div id="ExitModal" class="modal">
-                                    <div class="modal-content">
-                                        <div class="login_modal-header">
-                                            <h2 class="success_model_header success_model_header_text">注销</h2>
-                                            <p id="closeBtn" class="close" >×</p>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="confirm=tips">
-                                                <ul class="exitaccount_ul">
-                                                    <li class="noMargin exitaccount_noMargin">
-                                                        <!-- <i class="icon_Pwd"></i> -->
-                                                        <div class="success_text">
-                                                            <h3 class="successful">确定退出？</h3>
-                                                        </div>
-                                                    </li>
-                                                     <li class="noMargin">
-                                                        <!-- <i class="icon_people"></i> -->
-                                                        <div class="exitaccount_div">
-                                                            <button class="btn btn-primary exitaccount_btn"  type="button" rel="tooltip" id="exit_btn_confirm">
-                                                                确定
-                                                            </button>
-                                                            <button class="btn btn-primary exitaccount_btn" type="button"   rel="tooltip" id="exit_btn_cancel">
-                                                                取消
-                                                            </button>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--end modelBox-->
-                                <!-- 用户管理密码进入 -->
-                                <div id="userModal" class="modal">
-                                    <div class="modal-content">
-                                        <div class="login_modal-header">
-                                            <h2 class="success_model_header success_model_header_text">请授权</h2>
-                                            <p id="user_management_closeBtn" class="close">×</p>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="confirm=tips">
-                                                <div class="error-wrap login_error">
-                                                    <span id="entry_error_psw" style="color:red;" class="error error-show"></span>
-                                                </div>
-                                                <ul>
-                                                    <div class="row lending_confirm_btndiv">
-                                                        <h5 class="lending_confirm_mh5 lending_confirm_position">输入工号：</h5>
-                                                        <input type="text"  value="" placeholder="工号" id="usermanageinputid"
-                                                               class="form-control lending_confirm_text lending_confirm_position"/>
-                                                    </div>
-                                                    <div class="row lending_confirm_btndiv">
-                                                        <h5 class="lending_confirm_mh5 lending_confirm_position">输入密码：</h5>
-                                                        <input type="password" id="usermanageinputpsw" value="" placeholder="密码"
-                                                               class="form-control lending_confirm_text lending_confirm_position"/>
-                                                    </div>
-                                                    <li class="noMargin">
-                                                        <!-- <i class="icon_Pwd"></i> -->
-                                                        <div class="exitaccount_div lending_amount_div">
-                                                            <button class="btn btn-primary btn-sm um_psw_con" id="usermanage_con" type="button" rel="tooltip">
-                                                                确定
-                                                            </button>
-                                                            <button class="btn btn-primary btn-sm um_psw_con" type="button" id="usermanage_can"  rel="tooltip">
-                                                                取消
-                                                            </button>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--end modelBox-->
-                                <div class="row" id="checkRadios">
-                                    <div class="col-sm-6 col-lg-3">
-                                        <div class="checkbox query_checkbox">
-                                            <input id="checkbox1" type="checkbox">
-                                            <label class="query-checkbox-label" for="checkbox1">
-                                                预测分析
-                                            </label>
-                                        </div>
-                                        <div class="checkbox query_checkbox">
-                                            <input id="checkbox2" type="checkbox">
-                                            <label class="query-checkbox-label" for="checkbox2">
-                                                行为图像
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                <div class="col-sm-6 col-lg-3">
-                                    <!-- blank for style -->
-                                </div>
-                                <div class="col-md-10 col-sm-6  col-lg-3 query_button">
-                                    <button class="btn btn-primary query-button-analysis" type="button"
-                                            id="query_analysis">分析
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- finish select analysis -->
-    </div>
-</div>
 </body>
 
 <!--下面是导航栏需要的脚本！！！-->
@@ -325,4 +296,5 @@
 <script type="text/javascript" src="../static/js/ExitModal.js"></script>
 <script type="text/javascript" src="../static/js/query_svm.js"></script>
 <script type="text/javascript" src="../static/js/userManageEnter.js"></script>
+
 </html>
