@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>员工信息</title>
+    <style>
+        body {
+            background: url("../static/img/bg.jpg");
+            background-size: cover;
+            background-attachment: fixed;
+        }
+    </style>
     <meta name="keywords" content="index">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
@@ -13,6 +20,7 @@
     <link rel="stylesheet" href="../static/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../static/css/admin.css">
     <link rel="stylesheet" href="../static/css/app.css">
+    <link rel="stylesheet" href="../static/css/results.css">
 
     <!--下面是导航栏需要哦的样式表！！！-->
     <link rel="apple-touch-icon" sizes="76x76" href="../static/img/logo_title.png">
@@ -39,7 +47,7 @@
     <link rel="stylesheet" href="../static/css/results.css">
     <!--导航栏样式表结！！！-->
 </head>
-<body class="index-page sidebar-collapse">
+<body>
 <!-- Navbar导航条 -->
 <nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent " color-on-scroll="400">
     <div class="container">
@@ -48,6 +56,135 @@
             <img class="n-logo" src="../static/img/home_logo_long.png" alt="">
         </div>
 
+        <!--导航栏菜单-->
+        <ul class="navbar-nav our_nav">
+            <!--<a class="navbar-brand our_nav_menu">菜单</a>-->
+            <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#example-navbar" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="example-navbar"
+                 data-nav-image="../static/img/blurred-image-1.jpg">
+                <ul class="navbar-nav our_nav_menu_contains">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            首页
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="lending.html">
+                            贷款
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="repayment.html">
+                            还款
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="query.html">
+                            查询
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
+                           data-toggle="dropdown">
+                            <i class="now-ui-icons ui-1_settings-gear-63"
+                               aria-hidden="true"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right"
+                             aria-labelledby="navbarDropdownMenuLink">
+                            <a class="top_dropdown_header dropdown-header">账户管理</a>
+                            <a class="dropdown-item" href="./accountinfo.html">账户信息</a>
+                            <!-- <a class="dropdown-item" href="#">修改密码</a>
+                            <a class="dropdown-item" href="#">退出登录</a> -->
+                            <div class="divider"></div>
+                            <a class="dropdown-item" href="changePsw.html">修改密码</a>
+                            <div class="divider"></div>
+                            <a class="dropdown-item" id="exitaccount">退出登录</a>
+                            <div class="divider"></div>
+                            <a class="dropdown-item" id="usermanagemententry" href="#">账户管理(仅管理员)</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </ul>
+    </div>
+</nav>
+<!-- End Navbar -->
+<!-- 用户管理密码进入 -->
+<div id="userModal" class="modal">
+    <div class="modal-content">
+        <div class="login_modal-header">
+            <h2 class="success_model_header success_model_header_text">请授权</h2>
+            <p id="user_management_closeBtn" class="close">×</p>
+        </div>
+        <div class="modal-body">
+            <div class="confirm=tips">
+                <div class="error-wrap login_error">
+                    <span id="entry_error_psw" style="color:red;" class="error error-show"></span>
+                </div>
+                <ul>
+                    <div class="row lending_confirm_btndiv">
+                        <h5 class="lending_confirm_mh5 lending_confirm_position">输入工号：</h5>
+                        <input type="text" value="" placeholder="工号" id="usermanageinputid"
+                               class="form-control lending_confirm_text lending_confirm_position"/>
+                    </div>
+                    <div class="row lending_confirm_btndiv">
+                        <h5 class="lending_confirm_mh5 lending_confirm_position">输入密码：</h5>
+                        <input type="password" id="usermanageinputpsw" value="" placeholder="密码"
+                               class="form-control lending_confirm_text lending_confirm_position"/>
+                    </div>
+                    <li class="noMargin modal_li">
+                        <!-- <i class="icon_Pwd"></i> -->
+                        <div class="exitaccount_div lending_amount_div">
+                            <button class="btn btn-primary btn-sm um_psw_con" id="usermanage_con" type="button"
+                                    rel="tooltip">
+                                确定
+                            </button>
+                            <button class="btn btn-primary btn-sm um_psw_con" type="button" id="usermanage_can"
+                                    rel="tooltip">
+                                取消
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end modelBox-->
+<!-- 注销模态框 -->
+<div id="ExitModal" class="modal">
+    <div class="modal-content">
+        <div class="login_modal-header">
+            <h2 class="success_model_header success_model_header_text">注销</h2>
+            <p id="closeBtn" class="close">×</p>
+        </div>
+        <div class="modal-body">
+            <div class="confirm=tips">
+                <ul class="exitaccount_ul">
+                    <li class="noMargin">
+                        <!-- <i class="icon_Pwd"></i> -->
+                        <div class="success_text">
+                            <h3 class="successful">确定退出？</h3>
+                        </div>
+                    </li>
+                    <li class="noMargin">
+                        <!-- <i class="icon_people"></i> -->
+                        <div class="exitaccount_div">
+                            <button class="btn btn-primary exitaccount_btn" type="button" rel="tooltip"
+                                    id="exit_btn_confirm">
+                                确定
+                            </button>
+                            <button class="btn btn-primary exitaccount_btn" type="button" rel="tooltip"
+                                    id="exit_btn_cancel">
+                                取消
+                            </button>
+                        </div>
         <!--导航栏菜单-->
         <ul class="navbar-nav our_nav">
             <!--<a class="navbar-brand our_nav_menu">菜单</a>-->
@@ -190,10 +327,10 @@
     </div>
 </div>
 <!--end modelBox-->
-<div class="tpl-content-wrapper">
-    <div class="tpl-portlet-components">
-        <div class="portlet-title">
-            <div class="tpl-block">
+<div class="tpl-content-wrapper results_wrapper">
+    <div class="tpl-portlet-components all_transparent">
+        <div class="portlet-title all_transparent">
+            <div class="tpl-block all_transparent">
                 <div class="am-g">
                     <div class="am-u-sm-12 am-u-md-3">
                         <h3>员工管理</h3>
@@ -204,54 +341,54 @@
                         </button>
                     </div>
                 </div>
-            </div>
-
-            <div class="am-u-sm-12">
-                <form class="am-form">
-                    <table class="am-table am-table-striped am-table-hover table-main">
-                        <thead>
-                        <tr>
-                            <th class="table-id">序号</th>
-                            <th class="table-title table-title-id">工号</th>
-                            <th class="table-author am-hide-sm-only">姓名</th>
-                            <th calss="table-title table-title-id">手机号</th>
-                            <th class="table-type">职位</th>
-                            <th class="table-set">操作</th>
-                        </tr>
-                        </thead>
-                        <tbody id="user-info">
-                        </tbody>
-                    </table>
 
 
-                </form>
+                <div class="am-u-sm-12">
+                    <form class="am-form">
+                        <table class="am-table am-table-striped am-table-hover table-main">
+                            <thead>
+                            <tr>
+                                <th class="table-id">序号</th>
+                                <th class="table-title table-title-id">工号</th>
+                                <th class="table-author am-hide-sm-only">姓名</th>
+                                <th calss="table-title table-title-id">手机号</th>
+                                <th class="table-type">职位</th>
+                                <th class="table-set">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="user-info">
+                            </tbody>
+                        </table>
+
+
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
 
-<script src="../static/js/jquery.min.js"></script>
-<script src="../static/js/amazeui.min.js"></script>
-<script src="../static/js/app.js"></script>
-<script src="../static/js/ExitModal.js"></script>
-<script src="../static/js/user_management.js"></script>
-<script src="../static/js/userManageEnter.js"></script>
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/amazeui.min.js"></script>
+    <script src="../static/js/app.js"></script>
+    <script src="../static/js/ExitModal.js"></script>
+    <script src="../static/js/user_management.js"></script>
+    <script src="../static/js/userManageEnter.js"></script>
 
-<!--下面是导航栏需要的脚本！！！-->
-<script src="../static/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
-<script src="../static/js/core/popper.min.js" type="text/javascript"></script>
-<script src="../static/js/core/bootstrap.min.js" type="text/javascript"></script>
-<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
-<script src="../static/js/plugins/bootstrap-switch.js"></script>
-<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-<script src="../static/js/plugins/nouislider.min.js" type="text/javascript"></script>
-<!--  Plugin for the DatePicker, full documentation here: https://github.com/uxsolutions/bootstrap-datepicker -->
-<script src="../static/js/plugins/bootstrap-datepicker.js" type="text/javascript"></script>
-<!-- Share Library etc -->
-<script src="../static/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
-<!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
-<script src="../static/js/now-ui-kit.js?v=1.1.0" type="text/javascript"></script>
-<!--导航栏脚本结束-->
+    <!--下面是导航栏需要的脚本！！！-->
+    <script src="../static/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+    <script src="../static/js/core/popper.min.js" type="text/javascript"></script>
+    <script src="../static/js/core/bootstrap.min.js" type="text/javascript"></script>
+    <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+    <script src="../static/js/plugins/bootstrap-switch.js"></script>
+    <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+    <script src="../static/js/plugins/nouislider.min.js" type="text/javascript"></script>
+    <!--  Plugin for the DatePicker, full documentation here: https://github.com/uxsolutions/bootstrap-datepicker -->
+    <script src="../static/js/plugins/bootstrap-datepicker.js" type="text/javascript"></script>
+    <!-- Share Library etc -->
+    <script src="../static/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
+    <!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
+    <script src="../static/js/now-ui-kit.js?v=1.1.0" type="text/javascript"></script>
+    <!--导航栏脚本结束-->
 </body>
 </html>

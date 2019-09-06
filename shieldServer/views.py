@@ -28,7 +28,7 @@ def home(request):
 def others(request, file):
     is_login = request.session.get('is_login', False)
     if is_login:
-        print('have been login ')
+        #print('have been login ')
         if file == 'lending':
             return render(request, 'lending.html')
         if file == 'repayment':

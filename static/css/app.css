@@ -49,6 +49,7 @@ a:hover {
 .am-topbar {
     min-height: 75px;
     line-height: 75px;
+    overflow: hidden;
 }
 
 .am-topbar-inverse .am-topbar-nav>li>a {
@@ -349,6 +350,7 @@ ul.tpl-dropdown-content li>a.tpl-dropdown-content-message:last-child {
 .tpl-page-container {
     margin: 0;
     padding: 20px 20px 0;
+    overflow: hidden;
 }
 
 .tpl-page-header-fixed {

@@ -5,10 +5,10 @@ window.onload = function () {
     let xhrRegister = new XMLHttpRequest();
     ajaxResponse(xhrRegister,
         function () {
-             let jsonString = listToJSONStr(xhrRegister.responseText);
+            let jsonString = listToJSONStr(xhrRegister.responseText);
             //console.log(jsonString);
             let workerinfo = JSON.parse(jsonString);
-             hName.innerHTML = workerinfo.user_real_name;
+            hName.innerHTML = workerinfo.user_real_name;
             hId.innerHTML = workerinfo.username;
             testP.innerHTML = workerinfo.user_phone;
         }, function () {
@@ -28,7 +28,7 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
 
 function ajaxToJSONStr(str) {
     //从后端使用jsonresponce传回Ajax= serializers.serialize("json", queryset)
-    str = str.slice(2,-2);
+    str = str.slice(2, -2);
     let reg1 = new RegExp("\\\\\"", "g");
     let reg2 = new RegExp("\\\\\\\\", "g");
     let temp = str.replace(reg1, "\"");
@@ -38,6 +38,6 @@ function ajaxToJSONStr(str) {
 
 function listToJSONStr(str) {
     //从后端传来的list使用该方法转换成json字符串
-     str = str.slice(1,-1);
-     return str;
+    str = str.slice(1, -1);
+    return str;
 }

@@ -1,3 +1,41 @@
+.query_result_tpl_content{
+    padding-top: 50px;
+}
+
+.query_result_tpl_portlet{
+    padding: 12px 10px 15px;
+}
+
+.query_result_container{
+    height:100%;
+    overflow:auto;
+}
+
+.query_result_wrapper{
+    height:100%;
+}
+
+.query_result_chart{
+    height: 100%;
+}
+
+.query_result_bar{
+    float:left;
+    background: rgba(255,255,255,0.5);
+}
+
+.query_result_radar{
+    float:left;
+    background: rgba(255,255,255,0.5);
+}
+
+.query_result_row{
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    margin: auto;
+}
+
 .query_first_layer{
     margin-left: auto;
     margin-right:auto;
@@ -64,8 +102,6 @@
 
 .query_id_text{
     max-width: 20%;
-    padding-left: 15px;
-    margin-left: 8px;
 }
 
 .query_id_input{

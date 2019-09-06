@@ -82,8 +82,13 @@
 
 .results_wrapper{
     background: rgba(250, 250, 250, 0.5);
+    height: 100%;
 }
 
 .search_position{
     margin-left: 40%;
+}
+
+.all_transparent{
+    background: transparent;
 }

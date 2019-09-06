@@ -8,11 +8,13 @@ function queryFunction() {
     //要查询的贷款日期
     var loanDate = document.getElementById("query-loandate").value;
     console.log(loanDate);
-    if (isDate(loanDate) || checkCard(idNumber) || isOrderNum(loanNumber)) {
-        window.location.href = "query_result.html?idNumber=" + idNumber + '&loanNumber=' + loanNumber + '&loanDate=' + loanDate;
-    } else {
-        return alert('请正确输入信息');
-    }
+    window.location.href = "query_result.html?idNumber=" + idNumber + '&loanNumber=' + loanNumber + '&loanDate=' + loanDate;
+    // if (isDate(loanDate) || checkCard(idNumber) || isOrderNum(loanNumber)) {
+    //     window.location.href = "query_result.html?idNumber=" + idNumber + '&loanNumber=' + loanNumber + '&loanDate=' + loanDate;
+    //     window.location.href = "query_result.html?idNumber=" + idNumber + '&loanNumber=' + loanNumber + '&loanDate=' + loanDate;
+    // } else {
+    //     return alert('请正确输入信息');
+    // }
 }
 
 // 从输入框重接受手机号或单号，放到数据库中查询，再返回结果
