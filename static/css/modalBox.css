@@ -121,7 +121,7 @@
 }
 
 .success_model_header_text{
-    color: #ffffff;
+    color: #ffFFFF;
     padding: 5px;
     font-size: 24px;
     margin-left: 20px;
@@ -135,10 +135,12 @@
     /*margin-left: 40%;*/
     margin-left:auto;
     margin-right:auto;
+    list-style-type: none;
 }
 
 .successful{
-    padding-left: 20%;
+    text-align: center;
+    list-style-type: none;
 }
 
 .success_text{
@@ -221,17 +223,25 @@
 }
 
 .exitaccount_div{
+    display: flex;
+    justify-content: center;
     align-items: center;
     /*max-width: 80px;*/
     flex-direction: row; /*水平布局*/
     /*margin-left: 40%;*/
     margin-left:auto;
     margin-right:auto;
+    list-style-type: none;
 }
 
 .exitaccount_ul{
     padding-inline-start:0px;
+    list-style-type: none;
 
+}
+
+.modal_li{
+    list-style-type: none;
 }
 
 .lending_confirm_mh5{
@@ -254,7 +264,6 @@
 }
 
 .lending_confirm_text:focus{
-    border-color: black;
      border-radius: 5px;
     border-color: #7a6c63;
     background: transparent;
@@ -285,6 +294,8 @@
 }
 
 .repayment_btn_right{
-    width: 20%;
-    position: relative;
+   display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
