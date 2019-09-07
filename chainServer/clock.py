@@ -64,7 +64,6 @@ def create_genesis_block():
 
 
 chain = [create_genesis_block()]
-my_url = 'http://49.232.23.19:8001/'
 
 
 # get data from Recordnodes to chain
@@ -89,7 +88,7 @@ def next_block(last_block, data):
 # Store the records that this node has in a list
 this_nodes_records = []
 # Store the url data of every other node in the network so that we can communicate  with them
-peer_nodes = ["http://localhost:8000"]
+peer_nodes = ["http://localhost:8000", 'http://49.232.23.19:8001', 'http://139.219.2.48:8001']
 
 
 def printchain():
@@ -213,7 +212,7 @@ def consensus():
         Recordnodes.objects.all().delete()
         print("delete origin data")
         for chains in longest_chain:
-            chains['data']=json.dumps(chains['data'])
+            chains['data'] = json.dumps(chains['data'])
             chain.append(Block(chains['index'], chains['timestamp'], chains['data'], chains.previous_hash))
             Recordnodes(id=chains['index'], name=chains.data['name'], ID_card=chains.data['ID'],
                         money=chains['data']['money'], funding_terms=chains['data']['funding_terms'],
