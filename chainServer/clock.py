@@ -131,7 +131,7 @@ def record(requestrecords):
         print("New record")
         print("name: {}\n".format(new_record['borrower_name'].encode('ascii', 'replace')))
         print("ID: {}\n".format(new_record['borrower_id'].encode('ascii', 'replace')))
-        print("money: {}\n".format(new_record['borrower_sum']))
+        print("money: {}\n".format(new_record['funded_amount']))
         print("funding-terms: ()\n".format(new_record['funding_terms']))
     # Then we let the client know it worked out
     return "Record submission successful\n"
@@ -230,7 +230,7 @@ def mine(requestrecords):
         new_block_data = {
             'name': this_nodes_records[i]['borrower_name'],
             'ID': this_nodes_records[i]['borrower_id'],
-            'money': this_nodes_records[i]['borrower_sum'],
+            'money': this_nodes_records[i]['funded_amount'],
             'funding_terms': this_nodes_records[i]['funding_terms'],
         }
         new_block_index = last_block.index + 1

@@ -28,7 +28,7 @@ def home(request):
 def others(request, file):
     is_login = request.session.get('is_login', False)
     if is_login:
-        #print('have been login ')
+        # print('have been login ')
         if file == 'lending':
             return render(request, 'lending.html')
         if file == 'repayment':
@@ -324,7 +324,7 @@ def cal_dti(loan, funded, duration, income, house, delinq, status, left):
         status_weight = 0.46
 
     result = (
-                         loan - funded) / funded * 0.15 + 1 / duration * 0.11 + income_weight * 0.14 + house_weight * 0.14 + delinq * 0.18 + status_weight * 0.12 + left * 0.16
+                     loan - funded) / funded * 0.15 + 1 / duration * 0.11 + income_weight * 0.14 + house_weight * 0.14 + delinq * 0.18 + status_weight * 0.12 + left * 0.16
     return result
 
 
@@ -429,10 +429,11 @@ def alert_know(request):
 
 # 定时查询违约信息
 def task_Fun():
-    default_info = Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0) \
-        .values('pid', 'borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'funded_amount', 'borrower_time'
-                , 'funding_terms')
+    default_info = Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0).values('pid',
+        'borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'funded_amount', 'borrower_time', 'funding_terms')
     default_info = list(default_info)
+    print(now())
+    print(default_info)
     for i in range(len(default_info)):
         date_time = default_info[i]['borrower_time']
         default_info[i]['borrower_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
@@ -485,14 +486,14 @@ def alert_times():
 sched = Scheduler()
 
 
-@sched.interval_schedule(seconds=600)
+@sched.interval_schedule(seconds=10)
 def my_task1():
     print('定时任务1开始\n')
     task_Fun()
     print('定时任务1结束\n')
 
 
-@sched.interval_schedule(seconds=60*60*24)
+@sched.interval_schedule(seconds=60 * 60 * 24)
 def auto_alert():
     print('enter test2')
     alert_times()
