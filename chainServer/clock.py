@@ -244,10 +244,15 @@ def mine(requestrecords):
             last_block_hash
         )
         chain.append(mined_block)
-        print(mined_block.to_dict())
         for node_url in peer_nodes:
             # Let the other nodes know we mined a block
-            requests.post(node_url + "receive/", data=mined_block.to_dict())
+            mined_block_dict=mined_block.to_dict()
+            date_time = mined_block_dict['timestamp']
+            mined_block_dict['timestamp'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
+            mined_block_json=json.dumps(mined_block_dict)
+            print(mined_block_json)
+            requests.post(node_url + "receive/", mined_block_json)
+
         last_block = chain[len(chain) - 1]
         Recordnodes(id=mined_block.index, name=mined_block.data['name'], ID_card=mined_block.data['ID'],
                     money=mined_block.data['money'],
