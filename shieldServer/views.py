@@ -443,7 +443,8 @@ def task_Fun():
         default_info[i]['borrower_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
     jsonArray = json.dumps(default_info)
     Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0).update(is_uploaded=1)
-    mine(jsonArray)
+    if (len(default_info) != 0):
+        mine(jsonArray)
     sleep(1)
 
 
@@ -521,7 +522,7 @@ def alert_times():
 sched = Scheduler()
 
 
-@sched.interval_schedule(seconds=60000000)
+@sched.interval_schedule(seconds=6)
 def my_task1():
     print('定时任务1开始\n')
     task_Fun()

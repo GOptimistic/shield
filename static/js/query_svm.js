@@ -21,9 +21,7 @@ query_analysis.onclick = function () {
     ajaxResponse(xhrRegister,
         function () {
             re = JSON.parse(xhrRegister.responseText);
-            console.log(re);
-            console.log(re.class);
-            console.log(re.class[0]);
+            console.log(re.default_times)
             document.getElementById("predict_class").innerHTML = re.class;
             let probability = re.proba;
             let anti_proba = [];
