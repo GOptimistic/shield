@@ -451,6 +451,7 @@ def task_Fun():
 
 
 def remind():
+
     # 提前两天开始每天通知所有客户
     remind_all = Borrower.objects.filter(payback=0)
     all_notice_list = remind_all.filter(this_month_repay=0, month_payback_dt__gte=now()+timedelta(days=-2))\
