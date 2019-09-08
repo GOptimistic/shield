@@ -96,6 +96,6 @@ def query_svm(request):
     ypred = list(ypred)
     yscore = list(yscore2[:, 1])
     return JsonResponse({'status': 200, 'class': ypred, 'proba': yscore, 'trade_code': trand_code,
-                         'id': query_data[0].borrower_id, 'defaut_times': query_data[0].delinq_2yrs,
+                         'id': query_data[0].borrower_id, 'default_times': query_data[0].delinq_2yrs,
                          'home': query_data[0].home_ownership,'income': query_data[0].annual_income,
                          'work': query_data[0].emp_length})
