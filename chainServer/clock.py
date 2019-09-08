@@ -225,6 +225,7 @@ def mine(requestrecords):
     last_block = chain[len(chain) - 1]
     # the current block being mined
     # Now we can gather the data needed to create the new block
+    printchain()
     for i in range(len(this_nodes_records)):
         new_block_data = {
             'name': this_nodes_records[i]['borrower_name'],
