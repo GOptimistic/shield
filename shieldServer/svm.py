@@ -1,3 +1,4 @@
+import json
 import os
 # import pandas as pd
 import numpy as np
@@ -9,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 import seaborn as sns
 import time, datetime
 # from sklearn.svm import SVC
+from shieldServer.models import Borrower
 from shieldServer.views import trans_data
 # from sklearn import decomposition
 # from sklearn.decomposition import PCA
@@ -49,20 +51,6 @@ def query_svm(request):
     svm_input = np.array(svm_input)
     print(svm_input.shape)
 
-    # x_fit = [
-    #     [-1, 5, 3, 0.0, 0.0, 0.0, 36, 1536076800, -1, 100000.0, 0.0, 0.0, 0.0475, 8000.0, 1567068342, 1567353600, -1,
-    #      0.0],
-    #     [-1, 5, 3, 0.0, 0.0, 0.0, 60, 1536076800, -1, 100000.0, 0.0, 0.0, 0.049, 50000.0, 1567068765, 1567353600, -1,
-    #      0.0],
-    #     [-1, 5, 3, 0.0, 0.0, 0.0, 60, 1536076800, -1, 100000.0, 0.0, 0.0, 0.049, 200000.0, 1567070146, 1567353600, -1,
-    #      0.0],
-    #     [-1, 5, 3, 0.0, 0.0, 0.0, 60, 1536076800, -1, 100000.0, 0.0, 0.0, 0.049, 50000.0, 1567068765, 1567353600, -1,
-    #      0.0]]
-    # y_fit = [0, 1, 0, 1]
-    # for i in range(0, svm_input.shape[0]):
-    #     y_fit.append(np.random.randint(0, 2))
-    # print(y_fit)
-
     # 0-1
     scaler = MinMaxScaler()
     scaler.fit(svm_input)
@@ -82,9 +70,9 @@ def query_svm(request):
     print('--------------model--------------')
     print(model)
     estimator = model.best_estimator_
-    print('\n--------------estimator--------------\n'+str(estimator))
+    print('\n--------------estimator--------------\n' + str(estimator))
     para = model.best_params_
-    print('\n--------------para--------------\n'+str(para))
+    print('\n--------------para--------------\n' + str(para))
     ypred = model.predict(svm_input)
     print(ypred)
     yscore1 = model.decision_function(svm_input)
@@ -97,5 +85,80 @@ def query_svm(request):
     yscore = list(yscore2[:, 1])
     return JsonResponse({'status': 200, 'class': ypred, 'proba': yscore, 'trade_code': trand_code,
                          'id': query_data[0].borrower_id, 'default_times': query_data[0].delinq_2yrs,
-                         'home': query_data[0].home_ownership,'income': query_data[0].annual_income,
+                         'home': query_data[0].home_ownership, 'income': query_data[0].annual_income,
                          'work': query_data[0].emp_length})
+
+
+@csrf_exempt
+def lending_svm(request):
+    if request.method == 'POST':
+        req = json.loads(request.body)
+        borrower_name = req['borrowerName']
+        borrower_id = req['borrowerID']
+        local_info = Borrower.objects.filter(borrower_name=borrower_name, borrower_id=borrower_id) \
+            .values('funded_amount', 'loan_duration', 'rate', 'installment', 'grade', 'emp_length', 'home_ownership',
+                    'annual_income', 'verification_status', 'borrower_time', 'dti', 'delinq_2yrs', 'e_credit_time',
+                    'out_prncp', 'total_pymnt', 'total_rec_late_fee', 'last_pymnt_d', 'last_pymnt_amnt')
+        trade_code1 = Borrower.objects.filter(borrower_name=borrower_name, borrower_id=borrower_id).values(
+            'trade_order')
+        local_info = list(local_info)
+        trade_code1 = list(trade_code1)
+        n = len(local_info)
+        svm_input = []
+        trade_code2 = []
+        for i in range(0, n):
+            svm_input.append([local_info[i]['funded_amount'], local_info[i]['loan_duration'] * 12,
+                              local_info[i]['rate'], local_info[i]['installment'], local_info[i]['grade'],
+                              local_info[i]['emp_length'], local_info[i]['home_ownership'],
+                              local_info[i]['annual_income'], local_info[i]['verification_status'],
+                              int(time.mktime(local_info[i]['borrower_time'].timetuple())), local_info[i]['dti'],
+                              local_info[i]['delinq_2yrs'],
+                              int(time.mktime(local_info[i]['e_credit_time'].timetuple())),
+                              local_info[i]['out_prncp'], local_info[i]['total_pymnt'],
+                              local_info[i]['total_rec_late_fee'],
+                              int(time.mktime(local_info[i]['last_pymnt_d'].timetuple())),
+                              local_info[i]['last_pymnt_amnt']])
+            trade_code2.append(trade_code1[i]['trade_order'])
+
+        print('-------------local_info----------------')
+        print(local_info)
+        svm_input = np.array(svm_input)
+        print('-------------svm_input----------------')
+        print(svm_input)
+        # 0-1
+        scaler = MinMaxScaler()
+        scaler.fit(svm_input)
+        scaler.data_max_
+        data_normorlize = scaler.transform(svm_input)
+        print('--------------data_normorlize--------------')
+        print(data_normorlize)
+        # scaler=MinMaxScaler()
+        # data_transformed = scaler.fit_transform(data)
+
+        np.random.shuffle(data_normorlize)  # random layout
+        print('--------------data_normorlize after shuffle--------------')
+        print(data_normorlize)
+
+        print(os.getcwd())
+        model = joblib.load('shieldServer/shield2.model')
+        print('--------------model--------------')
+        print(model)
+        estimator = model.best_estimator_
+        print('\n--------------estimator--------------\n' + str(estimator))
+        para = model.best_params_
+        print('\n--------------para--------------\n' + str(para))
+        ypred = model.predict(svm_input)
+        print(ypred)
+        yscore1 = model.decision_function(svm_input)
+        yscore2 = model.predict_proba(svm_input)
+        print('--------------yscore1--------------')
+        print(yscore1)
+        print('--------------yscore2--------------')
+        print(yscore2)
+        ypred = list(ypred)
+        yscore = list(yscore2[:, 1])
+        print('py')
+        return JsonResponse({'status': 200, 'class': ypred, 'proba': yscore, 'trade_code': trade_code2,
+                             'id': borrower_id, 'default_times': local_info[0]['delinq_2yrs'],
+                             'home': local_info[0]['home_ownership'], 'income': local_info[0]['annual_income'],
+                             'work': local_info[0]['emp_length']})

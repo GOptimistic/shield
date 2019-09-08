@@ -1,17 +1,17 @@
-.lending_confirm_container{
+.lending_confirm_container {
     padding-top: 17%;
     padding-left: 15%;
 }
 
-.lending_confirm_h5{
-    color:black;
+.lending_confirm_h5 {
+    color: black;
 }
 
-.lending_confirm_btndiv{
+.lending_confirm_btndiv {
     padding-left: 10%;
 }
 
-.lending_confirm_btn{
+.lending_confirm_btn {
     background: #7a6c63;
     padding-top: 15px;
     padding-left: 48px;
@@ -19,7 +19,7 @@
     font-size: 20px;
 }
 
-.confirmlending_btn{
+.confirmlending_btn {
     background: #7a6c63;
     padding-top: 10px;
     padding-left: 48px;
@@ -27,17 +27,17 @@
     font-size: 20px;
 }
 
-.lending_amount_div{
+.lending_amount_div {
     padding-top: 20px;
 }
 
-.lending_confirm_left{
+.lending_confirm_left {
     width: 40%;
 
     float: left;
 }
 
-.lending_confirm_right{
+.lending_confirm_right {
     width: 60%;
     padding-left: 10%;
     float: right;

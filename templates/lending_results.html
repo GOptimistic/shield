@@ -5,6 +5,7 @@
     <meta charset="utf-8"/>
     <link rel="apple-touch-icon" sizes="76x76" href="../static/img/logo_title.png">
     <link rel="icon" type="image/png" href="../static/img/logo_title.png">
+    <script src="../static/js/echarts.min.js"></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>信息评估</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
@@ -73,7 +74,7 @@
                             查询
                         </a>
                     </li>
-                     <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" href="./alert.html">
                             预警
                         </a>
@@ -247,19 +248,27 @@
                         <hr>
                     </form>
                 </div>
+                <div class="query_result_chart query_result_row" style="width: 700px;height:550px;">
+                    <div style="width: 700px;height:500px;" class="tpl-echarts tpl-chart-mb query_result_bar"
+                         id="lending_bar">
+                    </div>
+                    <div style="width:100px;"></div>
+                    <div style="width: 700px;height:500px;" class="tpl-echarts tpl-chart-mb query_result_rader"
+                         id="lending_radar">
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="results_row">
-            <div class="results_button results_button_yes">
-                <button class="btn btn-primary results_button_submit" id="lending-result-confirm">确认贷款</button>
-            </div>
-            <div class="form-group results_button results_button_no">
-                <button class="btn btn-primary results_button_submit" id="lending-result-cancel">放弃贷款</button>
+            <div class="results_row lending_results_row">
+                <div class="results_button results_button_yes">
+                    <button class="btn btn-primary results_button_submit" id="lending-result-confirm">确认贷款</button>
+                </div>
+                <div class="form-group results_button results_button_no">
+                    <button class="btn btn-primary results_button_submit" id="lending-result-cancel">放弃贷款</button>
+                </div>
             </div>
         </div>
 
     </div>
-</div>
 </div>
 </body>
 <style>
@@ -306,6 +315,6 @@
 <script src="../static/js/jquery.min.js"></script>
 <script src="../static/js/amazeui.min.js"></script>
 <script src="../static/js/app.js"></script>
-
+<script type="text/javascript" src="../static/js/query_svm.js"></script>
 
 </html>
