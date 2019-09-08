@@ -4,6 +4,7 @@ from chainServer.models import Recordnodes
 from django.http import HttpResponse, JsonResponse
 import json
 
+
 # Create your views here.
 def broadcastreceiver(request):
     send_records = request.body

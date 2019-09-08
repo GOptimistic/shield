@@ -436,26 +436,25 @@ def alert_know(request):
 # 定时查询违约信息
 def task_Fun():
     default_info = Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0).values(
-        'borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'funded_amount', 'borrower_time',
+        'borrower_name', 'borrower_id', 'funded_amount', 'should_payback_time',
         'funding_terms')
     default_info = list(default_info)
     print(now())
     print(default_info)
     for i in range(len(default_info)):
-        date_time = default_info[i]['borrower_time']
-        default_info[i]['borrower_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
+        date_time = default_info[i]['should_payback_time']
+        default_info[i]['should_payback_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
     jsonArray = json.dumps(default_info)
     Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0).update(is_uploaded=1)
-    if (len(default_info) != 0):
+    if len(default_info) != 0:
         mine(jsonArray)
     sleep(1)
 
 
 def remind():
-
     # 提前两天开始每天通知所有客户
     remind_all = Borrower.objects.filter(payback=0)
-    all_notice_list = remind_all.filter(this_month_repay=0, month_payback_dt__gte=now()+timedelta(days=-2))\
+    all_notice_list = remind_all.filter(this_month_repay=0, month_payback_dt__gte=now() + timedelta(days=-2)) \
         .values('borrower_name', 'borrower_id', 'borrower_phone', 'borrower_time', 'installment')
     need_list = list(all_notice_list)
     for i in range(len(need_list)):
@@ -465,9 +464,11 @@ def remind():
 
     # 提前5天开始每天通知关注度大于0.3天的客户知道开始通知所有客户，直到全员通知
     need_notice_additional = Borrower.objects.filter(payback=0, collect_attention__gte=0.3)
-    additional_remind = need_notice_additional.filter(this_month_repay=0, month_payback_dt__gte=now()+timedelta(days=-5)
-        , month_payback_dt__lt=now()+timedelta(days=-2)).values('borrower_name', 'borrower_id', 'borrower_phone'
-                                                                , 'borrower_time', 'installment')
+    additional_remind = need_notice_additional.filter(this_month_repay=0,
+                                                      month_payback_dt__gte=now() + timedelta(days=-5)
+                                                      , month_payback_dt__lt=now() + timedelta(days=-2)).values(
+        'borrower_name', 'borrower_id', 'borrower_phone'
+        , 'borrower_time', 'installment')
     additional_list = list(additional_remind)
     for i in range(len(additional_list)):
         additional_list[i]['borrower_time'] = additional_list[i]['borrower_time'].strftime('%Y-%m-%d %H:%I:%S')
@@ -475,8 +476,8 @@ def remind():
     # 短信接口
 
     # 每日更新应还款日期
-    Borrower.objects.filter(this_month_repay=1, payback=0)\
-        .update(month_payback_dt=F('month_payback_dt')+timedelta(days=30), this_month_repay=0)
+    Borrower.objects.filter(this_month_repay=1, payback=0) \
+        .update(month_payback_dt=F('month_payback_dt') + timedelta(days=30), this_month_repay=0)
 
 
 remind()
@@ -524,7 +525,7 @@ def alert_times():
 sched = Scheduler()
 
 
-@sched.interval_schedule(seconds=600000000)
+@sched.interval_schedule(seconds=6)
 def my_task1():
     print('定时任务1开始\n')
     task_Fun()

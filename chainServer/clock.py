@@ -59,7 +59,7 @@ class Block:
 def create_genesis_block():
     # Manually construct a block with
     # index zero and arbitrary previous hash
-    return Block(0, 0, None, "0")
+    return Block(0, 0, None, None)
 
 
 chain = [create_genesis_block()]
@@ -69,7 +69,7 @@ chain = [create_genesis_block()]
 def getchain():
     recordlist = Recordnodes.objects.all()
     for var in recordlist:
-        chain.append(Block(var.id, var.default_date, {'name': var.name, 'ID': var.ID_card, 'money': var.money,
+        chain.append(Block(var.id, var.default_date, {'name': var.name, 'ID_card': var.ID_card, 'money': var.money,
                                                       'funding_terms': var.funding_terms}, var.hash_previous))
 
 
@@ -87,7 +87,8 @@ def next_block(last_block, data):
 # Store the records that this node has in a list
 this_nodes_records = []
 # Store the url data of every other node in the network so that we can communicate  with them
-peer_nodes = ["http://localhost:8000/","http://49.232.23.19:8001/", "http://139.219.2.48:8001/"]
+peer_nodes = [ "http://139.219.2.48:8001/","http://49.232.23.19:8001/"]
+
 
 def printchain():
     for i in range(len(chain)):
@@ -102,7 +103,6 @@ def valid_chain(tocheckchain):
 
     last_block = tocheckchain[0]
     current_index = 1
-
     while current_index < len(tocheckchain):
         block = chain[current_index]
         print(f'{last_block}')
@@ -170,16 +170,12 @@ def find_new_chains():
         # Convert the JSON object to a Python dictionary
         print(block)
         block = bytes.decode(block)
-        print(block)
         block = json.loads(block)
-        # Add it to our list
         print(block)
-        print(type(block))
+        # Add it to our list
         blocklist = str.split(block, '**')
-        print(blocklist)
         for i in blocklist:
             i = json.loads(i)
-            print(i)
         other_chains.append(blocklist)
     return other_chains
 
@@ -213,7 +209,7 @@ def consensus():
         for chains in longest_chain:
             chains['data'] = json.dumps(chains['data'])
             chain.append(Block(chains['index'], chains['timestamp'], chains['data'], chains.previous_hash))
-            Recordnodes(id=chains['index'], name=chains.data['name'], ID_card=chains.data['ID'],
+            Recordnodes(id=chains['index'], name=chains.data['name'], ID_card=chains.data['ID_card'],
                         money=chains['data']['money'], funding_terms=chains['data']['funding_terms'],
                         default_date=chains['timestamp'], hash_previous=chains['previous_hash'],
                         hash_current=chains['hash']).save()
@@ -228,14 +224,13 @@ def mine(requestrecords):
     for i in range(len(this_nodes_records)):
         new_block_data = {
             'name': this_nodes_records[i]['borrower_name'],
-            'ID': this_nodes_records[i]['borrower_id'],
+            'ID_card': this_nodes_records[i]['borrower_id'],
             'money': this_nodes_records[i]['funded_amount'],
             'funding_terms': this_nodes_records[i]['funding_terms'],
         }
         new_block_index = last_block.index + 1
-        new_block_timestamp = date.datetime.now()
+        new_block_timestamp = this_nodes_records[i]['should_payback_time']
         last_block_hash = last_block.hash
-
         # Now create the new block!
         mined_block = Block(
             new_block_index,
@@ -247,14 +242,13 @@ def mine(requestrecords):
         for node_url in peer_nodes:
             # Let the other nodes know we mined a block
             mined_block_dict=mined_block.to_dict()
-            date_time = mined_block_dict['timestamp']
-            mined_block_dict['timestamp'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
+            # date_time = mined_block_dict['timestamp']
+            # mined_block_dict['timestamp'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
             mined_block_json=json.dumps(mined_block_dict)
             print(mined_block_json)
-            requests.post(node_url + "receive/", mined_block_json)
-
+            print(requests.post(node_url + "receive/", mined_block_json).content)
         last_block = chain[len(chain) - 1]
-        Recordnodes(id=mined_block.index, name=mined_block.data['name'], ID_card=mined_block.data['ID'],
+        Recordnodes(id=mined_block.index, name=mined_block.data['name'], ID_card=mined_block.data['ID_card'],
                     money=mined_block.data['money'],
                     funding_terms=mined_block.data['funding_terms'], default_date=mined_block.timestamp,
                     hash_previous=mined_block.previous_hash, hash_current=mined_block.hash).save()
