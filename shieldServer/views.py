@@ -450,7 +450,8 @@ def remind():
                                                                                         'installment')
     need_notice_first = need_notice.filter(last_pymnt_d=None)
     need_notice_not_first = need_notice.exclude(last_pymnt_d=None)
-
+    need_notice_first.filter(borrower_time__lt=now()+timedelta(days=-28))
+    need_notice_not_first.filter(last_pymnt_d__lt=now()+timedelta(days=-28))
     print(need_notice_first)
     print(need_notice_not_first)
 

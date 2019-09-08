@@ -102,7 +102,7 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
 
 function repayment_btn_action(element) {
     modalBox.init();
-    let repayBtn = document.getElementById('repay-button');
+    let repayBtn = document.getElementById('repay_button');
     repayBtn.onclick = function () {
         let money = document.getElementById('repayment_money').value;
         if (!isMoney(money)) {
