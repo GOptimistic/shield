@@ -394,6 +394,7 @@ def repayment_repay(request):
         repay_status.last_pymnt_amnt = repay_money
         repay_status.last_pymnt_d = datetime.today().date()  # datetime.strptime(time.strftime('%Y-%m-%d', time.localtime()), "%Y-%m-%d").date()
         repay_status.loan_status = 5
+        repay_status.this_month_repay = 1;
         if repay_status.total_pymnt >= rate_money:
 
             repay_status.out_prncp = float(repay_status.out_prncp) - float(repay_money)
