@@ -31,10 +31,24 @@ window.onload = function () {
         let localInfoLength = lendingInfo['localLength'];
         blockHisInfo.innerHTML = '';
         localHisInfo.innerHTML = '';
+        if (blockInfoLength === 0) {
+            blockHisInfo.innerHTML = '<tr><th class="table-id"></th> ' +
+                '<th class="table-author am-hide-sm-only"> ' + ' </th> <th class="table-title table-title-id">' +
+                '<h3 class="results_title lending_results_title">无记录</h3>' + '</th> <th class="table-type">' +
+                '</th> <th class="table-date am-hide-sm-only">' + '</th> </tr>';
+        }
+        if (localInfoLength === 0) {
+           localHisInfo.innerHTML = '<tr> <th class="table-id">' + '</th> <th class="table-author am-hide-sm-only">' +
+               '</th><th class="table-title table-title-id">' + '</th><th class="table-title">' +
+               '</th><th class="table-type">' + '</th><th class="table-type">' +
+               '<h3 class="results_title lending_results_title">无记录</h3>' + '</th><th class="table-type">' +
+               '</th><th class="table-date am-hide-sm-only">' + '</th><th class="table-date am-hide-sm-only">' +
+               '</th><th class="table-date am-hide-sm-only">' + '</th></tr>';
+        }
         for (let i = 0; i < blockInfoLength; i++) {
             blockHisInfo.innerHTML = blockHisInfo.innerHTML + '<tr><th class="table-id">' +
                 (i + 1) + '</th> <th class="table-author am-hide-sm-only">' +
-                blockInfo[i].name + '</th> <th calss="table-title table-title-id">' +
+                blockInfo[i].name + '</th> <th class="table-title table-title-id">' +
                 blockInfo[i].ID_card + '</th> <th class="table-type">' +
                 blockInfo[i].money + '</th> <th class="table-date am-hide-sm-only">' +
                 blockInfo[i].default_date + '</th> </tr>';
@@ -42,7 +56,7 @@ window.onload = function () {
         for (let i = 0; i < localInfoLength; i++) {
             localHisInfo.innerHTML = localHisInfo.innerHTML + '<tr> <th class="table-id">' +
                 (i + 1) + '</th> <th class="table-author am-hide-sm-only">' +
-                localInfo[i].borrower_name + '</th><th calss="table-title table-title-id">' +
+                localInfo[i].borrower_name + '</th><th class="table-title table-title-id">' +
                 localInfo[i].borrower_id + '</th><th class="table-title">' +
                 localInfo[i].trade_order + '</th><th class="table-type">' +
                 localInfo[i].borrow_type + '</th><th class="table-type">' +
@@ -178,6 +192,7 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
         successFunction();
     }
 }
+
 function ajaxToJSONStr(str) {
     //从后端使用jsonresponce传回Ajax= serializers.serialize("json", queryset)
     str = str.slice(1, -1);

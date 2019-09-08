@@ -522,7 +522,7 @@ def alert_times():
 sched = Scheduler()
 
 
-@sched.interval_schedule(seconds=6)
+@sched.interval_schedule(seconds=6000000)
 def my_task1():
     print('定时任务1开始\n')
     task_Fun()
