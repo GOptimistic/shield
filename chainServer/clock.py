@@ -6,9 +6,8 @@ from django.http import JsonResponse
 from chainServer.models import Recordnodes
 import ast
 
-
 class Block:
-    def __init__(self, index, timestamp, data, previous_hash):
+    def __init__(self, index=-1, timestamp=None, data=None, previous_hash=None):
         self._index = index
         self._timestamp = timestamp
         self._data = data
@@ -16,11 +15,11 @@ class Block:
         self._hash = self.hash_block()
 
     def to_block(self, blockdict):
-        self._index = blockdict.index
-        self._timestamp = blockdict.timestamp
-        self._data = blockdict.data
-        self._previous_hash = blockdict.previous_hash
-        self._hash = blockdict.hash
+        self._index = blockdict['index']
+        self._timestamp = blockdict['timestamp']
+        self._data = blockdict['data']
+        self._previous_hash = blockdict['previous_hash']
+        self._hash = blockdict['hash']
 
     @property
     def hash(self):
@@ -88,8 +87,7 @@ def next_block(last_block, data):
 # Store the records that this node has in a list
 this_nodes_records = []
 # Store the url data of every other node in the network so that we can communicate  with them
-peer_nodes = ["http://localhost:8000/", 'http://49.232.23.19:8001/', 'http://139.219.2.48:8001/']
-
+peer_nodes = ["http://localhost:8000/","http://49.232.23.19:8001/", "http://139.219.2.48:8001/"]
 
 def printchain():
     for i in range(len(chain)):
@@ -137,7 +135,7 @@ def record(requestrecords):
 
 
 #  GET block
-def get_blocks():
+def get_blocks(request):
     chain_to_send = chain
     # Convert our blocks into dictionaries
     # so we can send them as json objects later
@@ -167,7 +165,8 @@ def find_new_chains():
     other_chains = []
     for node_url in peer_nodes:
         # Get their chains using a GET request
-        block = requests.get(node_url + "/get").content
+        block = requests.get(node_url + "get/").content
+        print(node_url)
         # Convert the JSON object to a Python dictionary
         print(block)
         block = bytes.decode(block)
@@ -245,9 +244,10 @@ def mine(requestrecords):
             last_block_hash
         )
         chain.append(mined_block)
+        print(mined_block.to_dict())
         for node_url in peer_nodes:
             # Let the other nodes know we mined a block
-            requests.post(node_url + "/receive", data=mined_block.to_dict())
+            requests.post(node_url + "receive/", data=mined_block.to_dict())
         last_block = chain[len(chain) - 1]
         Recordnodes(id=mined_block.index, name=mined_block.data['name'], ID_card=mined_block.data['ID'],
                     money=mined_block.data['money'],
