@@ -6,6 +6,10 @@
     padding: 12px 10px 15px;
 }
 
+.query_result_span{
+    color: transparent;
+}
+
 .query_result_container{
     height:100%;
     overflow:auto;

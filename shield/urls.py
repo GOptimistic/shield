@@ -39,6 +39,7 @@ urlpatterns = [
     path('new_user/', views.new_user, name='newuser'),
     re_path(r'^index/(\w+).html$', views.others),
     path('alert/', views.alert_serach, name='alertsearch'),
+    path('blacklist/',chain_views.blacklist_search, name='blacklistsearch'),
     path('alert_know/', views.alert_know, name='alertsearch'),
     path('accountinfo/', views.accountinfo, name="accountinfo"),
 ]
