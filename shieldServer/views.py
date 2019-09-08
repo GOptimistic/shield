@@ -1,3 +1,4 @@
+from django.db.models import F, Q
 from django.shortcuts import render, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -50,7 +51,7 @@ def others(request, file):
         if file == 'home_after':
             return render(request, 'home_after.html')
         if file == 'blacklist':
-            return  render(request,'blacklist.html')
+            return render(request, 'blacklist.html')
         if file == 'changePsw':
             return render(request, 'changePsw.html')
         if file == 'repayment_repay':
@@ -447,16 +448,46 @@ def task_Fun():
 
 
 def remind():
-    need_notice = Borrower.objects.filter(payback=0, collect_attention__gte=0.3).values('borrower_name', 'borrower_id',
-                                                                                        'borrower_phone',
-                                                                                        'borrower_time', 'last_pymnt_d',
-                                                                                        'installment')
-    need_notice_first = need_notice.filter(last_pymnt_d=None)
-    need_notice_not_first = need_notice.exclude(last_pymnt_d=None)
-    need_notice_first.filter(borrower_time__lt=now()+timedelta(days=-28))
-    need_notice_not_first.filter(last_pymnt_d__lt=now()+timedelta(days=-28))
-    print(need_notice_first)
-    print(need_notice_not_first)
+
+    # 提前两天开始每天通知所有客户
+    remind_all = Borrower.objects.filter(payback=0)
+    all_notice_list = remind_all.filter(
+        (Q(borrower_time__day__gte=(now() + timedelta(days=-2)).day, borrower_time__day__lte=now().day))
+        | (Q(borrower_time__day=1 & (now().day >= 29 | now().day == 1)))
+        | (Q(borrower_time__day=2 & (now().day >= 30 | now().day <= 2)))
+    ).values('borrower_name', 'borrower_id', 'borrower_phone', 'borrower_time', 'installment')
+    need_list = list(all_notice_list)
+    for i in range(len(need_list)):
+        need_list[i]['borrower_time'] = need_list[i]['borrower_time'].strftime('%Y-%m-%d %H:%I:%S')
+    needs = json.dumps(need_list)
+    # 短信接口
+
+    # 提前5天开始每天通知关注度大于0.3天的客户知道开始通知所有客户，直到全员通知
+    need_notice_additional = Borrower.objects.filter(payback=0, collect_attention__gte=0.3)
+    additional_remind = need_notice_additional.filter(
+        (Q(borrower_time__day__gte=(now() + timedelta(days=-5)).day, borrower_time__day__lte=(now() + timedelta(days=-3)).day))
+        | (Q(borrower_time__day=1 & (now().day >= 26 & now().day <= 28)))
+        | (Q(borrower_time__day=2 & (now().day >= 27 & now().day <= 29)))
+        | (Q(borrower_time__day=3 & (now().day >= 28)))
+        | (Q(borrower_time__day=4 & (now().day >= 29 | now().day < 2)))
+        | (Q(borrower_time__day=5 & (now().day >= 30 | now().day < 3)))
+    ).values('borrower_name', 'borrower_id', 'borrower_phone', 'borrower_time', 'installment')
+    additional_list = list(additional_remind)
+    for i in range(len(additional_list)):
+        additional_list[i]['borrower_time'] = additional_list[i]['borrower_time'].strftime('%Y-%m-%d %H:%I:%S')
+    additional_need = json.dumps(additional_list)
+    # 短信接口
+
+
+# 需要更改
+def auto_add_collect_attention():
+    auto_add_list = Borrower.objects.filter(payback=0)
+    auto_add_list_first = auto_add_list.filter(last_pymnt_d=None, borrower_time__lt=now()).update(
+        collect_attention=F('collect_attention') + 0.01)
+    auto_add_list_not_first = auto_add_list.exclude(last_pymnt_d=None, last_pymnt_d__gt=now()).update(
+        collect_attention=F('collect_attention') + 0.01)
+    print(auto_add_list_first)
+    print(auto_add_list_not_first)
 
 
 def alert_times():
