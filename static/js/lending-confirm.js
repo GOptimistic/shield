@@ -63,6 +63,7 @@ cirBtn.onclick = function () {
     let shouldPaybackTime = borrowDatetime;
     let tradeOrder = '000' + Date.parse(borrowDatetime.Format("yyyy-MM-dd HH:mm:ss"));
     tradeOrder = tradeOrder.slice(0, -3);
+    loanInfo.monthPybackTime = new Date(borrowDatetime.setMonth(borrowDatetime.getMonth() + 1)).Format("yyyy-MM-dd HH:mm:ss");
     loanInfo.borrowerTime = borrowDatetime.Format("yyyy-MM-dd HH:mm:ss");
     loanInfo.tradeOrder = tradeOrder;
     loanInfo.tradePlace = '中国银行江宁分行';

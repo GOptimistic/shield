@@ -49,6 +49,8 @@ class Borrower(models.Model):
     purpose = models.CharField(max_length=255, default='')
     loan_duration = models.IntegerField()
     e_credit_time = models.DateField()
+    this_month_repay = models.IntegerField(default=0)
+    month_payback_dt = models.DateTimeField()
 
     def __str__(self):
         borrow_list = {self.pid, self.borrower_name, self.borrower_id, self.trade_order, self.borrow_type,
