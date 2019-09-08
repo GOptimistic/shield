@@ -88,7 +88,7 @@ def next_block(last_block, data):
 # Store the records that this node has in a list
 this_nodes_records = []
 # Store the url data of every other node in the network so that we can communicate  with them
-peer_nodes = ["http://localhost:8000", 'http://49.232.23.19:8001', 'http://139.219.2.48:8001']
+peer_nodes = ["http://localhost:8000/", 'http://49.232.23.19:8001/', 'http://139.219.2.48:8001/']
 
 
 def printchain():

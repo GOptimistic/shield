@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from chainServer import clock
+from django.http import JsonResponse
+from chainServer.models import Recordnodes
 
 
 # Create your views here.
@@ -18,3 +20,13 @@ def broadcastreceiver(request):
         print("warning: 区块链不同步")
         clock.find_new_chains()
         clock.consensus()
+
+
+def blacklist_search(request):
+    if request.method == 'POST':
+        black_list = Recordnodes.objects.all().values()
+        black_list_list = list(black_list)
+        for i in range(len(black_list_list)):
+            black_list_list[i]['default_date'] = black_list_list[i]['default_date'].strftime('%Y-%m-%d %H:%I:%S')
+        return JsonResponse(black_list_list, safe=False)
+    return JsonResponse({'status': 200, 'msg': 'con not get the person'})

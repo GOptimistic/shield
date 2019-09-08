@@ -4,45 +4,25 @@ window.onload = function () {
     ajaxResponse(xhrRegister,
         function () {
             re = JSON.parse(xhrRegister.responseText);
-            let tbody = document.getElementById('blacklist');
+            let tbody = document.getElementById('black-list');
             tbody.innerHTML = "";
             var index = 0;
             for (; index < re.length; index++) {
 
                 console.log(re[index]);
-                tbody.innerHTML = tbody.innerHTML + '<tr id="alert_tr' + (index + 1) + '><td><input type="checkbox"></td><td>' +
-                    (index + 1) + '</td><td>' + re[index].loaner_name + '</td><td>' +
-                    re[index].loaner_id + '</td><td>' + re[index].loan_times_insvnd +
-                    '</td><td>' + re[index].insert_time + '</td><td><div class="am-btn-toolbar">' +
-                    '<div class="am-btn-groupam-btn-group-xs"><button type="button" ' + 'id="' + (index) + '" onclick="know_btn_action(this)" ' +
-                    'class="am-btn am-btn-default am-btn-xs am-text-secondary">' +
-                    '<span class="am-icon-pencil-square-o"></span>' +
-                    '知道了</button></div></div></td></tr>';
+                tbody.innerHTML = tbody.innerHTML + '<tr id="blacklist_tr' + (index + 1) + '><td><input type="checkbox"></td><td>' +
+                    (index + 1) + '</td><td>' + re[index].name + '</td><td>' +
+                    re[index].ID_card + '</td><td>' + re[index].money +
+                    '</td><td>' + re[index].default_date + '</td><td>' +re[index].funding_terms+
+                    '</td></tr>';
             }
         }, function () {
         });
 
-    xhrRegister.open('POST', '../alert/');
+    xhrRegister.open('POST', '../blacklist/');
     xhrRegister.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
     xhrRegister.send();
 };
-
-function know_btn_action(element) {
-    let info = {
-        loanerPId: re[element.id].pid
-    };
-     let xhrRegister = new XMLHttpRequest();
-      ajaxResponse(xhrRegister,
-          function () {
-              location.reload();
-          },
-          function () {
-
-          })
-     xhrRegister.open('POST', '../alert_know/');
-    xhrRegister.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
-    xhrRegister.send(JSON.stringify(info));
-}
 
 function ajaxResponse(xhr, successFunction, falseFunction) {
     xhr.onreadystatechange = function () {

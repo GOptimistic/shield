@@ -49,6 +49,8 @@ def others(request, file):
             return render(request, 'home.html')
         if file == 'home_after':
             return render(request, 'home_after.html')
+        if file == 'blacklist':
+            return  render(request,'blacklist.html')
         if file == 'changePsw':
             return render(request, 'changePsw.html')
         if file == 'repayment_repay':
@@ -429,8 +431,9 @@ def alert_know(request):
 
 # 定时查询违约信息
 def task_Fun():
-    default_info = Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0).values('pid',
-        'borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'funded_amount', 'borrower_time', 'funding_terms')
+    default_info = Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0).values(
+        'borrower_name', 'borrow_type', 'borrower_id', 'borrower_phone', 'funded_amount', 'borrower_time',
+        'funding_terms')
     default_info = list(default_info)
     print(now())
     print(default_info)
