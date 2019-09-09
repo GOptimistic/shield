@@ -7,6 +7,7 @@ import json
 
 # Create your views here.
 def broadcastreceiver(request):
+    print("受到广播")
     clock.synchronous()
     send_records = request.body
     send_records = json.loads(send_records)

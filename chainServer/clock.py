@@ -273,6 +273,7 @@ def mine(requestrecords):
             # mined_block_dict['timestamp'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
             mined_block_json = json.dumps(mined_block_dict)
             print(mined_block_json)
+            print(node_url)
             print(requests.post(node_url + "receive/", mined_block_json).content)
         last_block = chain[len(chain) - 1]
 
