@@ -9,7 +9,9 @@ import json
 def broadcastreceiver(request):
     print("受到广播")
     clock.synchronous()
+    print ('1')
     send_records = request.body
+    print ('2')
     send_records = json.loads(send_records)
     print(send_records)
     send_block = clock.Block()
