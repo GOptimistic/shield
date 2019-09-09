@@ -29,7 +29,7 @@
 }
 
 .query_result_radar {
-    float: left;
+    float: right;
     background: rgba(255, 255, 255, 0.5);
 }
 
