@@ -14,6 +14,23 @@ from apscheduler.scheduler import Scheduler
 from time import sleep
 
 from chainServer.clock import mine, findbyidname
+import urllib
+from urllib import parse
+from django.http import JsonResponse, request
+import http.client
+from django.utils.crypto import random
+from django.views.decorators.csrf import csrf_exempt
+
+from shieldServer.models import User
+
+# 请求的路径
+host = "106.ihuyi.com"
+sms_send_uri = "/webservice/sms.php?method=Submit"
+
+# 查看用户名 登录用户中心->验证码通知短信>产品总览->API接口信息->APIID
+account = "C47496960"
+# 查看密码 登录用户中心->验证码通知短信>产品总览->API接口信息->APIKEY
+password = "cb574d94c2cbcd0f039fa242e7efba1b"
 
 # Create your views here.
 global query_data
@@ -455,10 +472,30 @@ def remind():
     # 提前两天开始每天通知所有客户
     remind_all = Borrower.objects.filter(payback=0)
     all_notice_list = remind_all.filter(this_month_repay=0, month_payback_dt__gte=now() + timedelta(days=-2)) \
-        .values('borrower_name', 'borrower_id', 'borrower_phone', 'borrower_time', 'installment')
+        .values('borrower_name', 'borrower_id', 'borrower_phone', 'borrower_time', 'installment', 'month_payback_dt')
     need_list = list(all_notice_list)
     for i in range(len(need_list)):
         need_list[i]['borrower_time'] = need_list[i]['borrower_time'].strftime('%Y-%m-%d %H:%I:%S')
+        # 拼接成发出的短信
+        text = need_list[i]['borrower_name'] + "您好！您本月的贷款未还，请在" + need_list[i]['month_payback_dt'] + "前还款" + \
+               need_list[i]['installment'] + "元。谢谢！"
+        print(text)
+        # 把请求参数编码
+        params = urllib.parse.urlencode(
+            {'account': account, 'password': password, 'content': text, 'mobile': need_list[i]['borrower_phone'],
+             'format': 'json'})
+        # 请求头
+        headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+        # 通过全局的host去连接服务器
+        conn = http.client.HTTPConnection(host, port=80, timeout=30)
+        # 向连接后的服务器发送post请求,路径sms_send_uri是全局变量,参数,请求头
+        conn.request("POST", sms_send_uri, params, headers)
+        # 得到服务器的响应
+        response = conn.getresponse()
+        # 获取响应的数据
+        response_str = response.read()
+        # 关闭连接
+        conn.close()
     needs = json.dumps(need_list)
     # 短信接口
 
@@ -472,13 +509,34 @@ def remind():
     additional_list = list(additional_remind)
     for i in range(len(additional_list)):
         additional_list[i]['borrower_time'] = additional_list[i]['borrower_time'].strftime('%Y-%m-%d %H:%I:%S')
-    additional_need = json.dumps(additional_list)
-    # 短信接口
+        # 拼接成发出的短信
+        text = additional_list[i]['borrower_name'] + "您好！您本月的贷款未还，请在" + additional_list[i]['month_payback_dt'] + "前还款" + \
+               additional_list[i]['installment'] + "元。谢谢！"
+        print(text)
+        # 把请求参数编码
+        params = urllib.parse.urlencode(
+            {'account': account, 'password': password, 'content': text, 'mobile': additional_list[i]['borrower_phone'],
+             'format': 'json'})
+        # 请求头
+        headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+        # 通过全局的host去连接服务器
+        conn = http.client.HTTPConnection(host, port=80, timeout=30)
+        # 向连接后的服务器发送post请求,路径sms_send_uri是全局变量,参数,请求头
+        conn.request("POST", sms_send_uri, params, headers)
+        # 得到服务器的响应
+        response = conn.getresponse()
+        # 获取响应的数据
+        response_str = response.read()
+        # 关闭连接
+        conn.close()
 
-    # 每日更新应还款日期
-    Borrower.objects.filter(this_month_repay=1, payback=0) \
-        .update(month_payback_dt=F('month_payback_dt') + timedelta(days=30), this_month_repay=0)
 
+additional_need = json.dumps(additional_list)
+# 短信接口
+
+# 每日更新应还款日期
+Borrower.objects.filter(this_month_repay=1, payback=0) \
+    .update(month_payback_dt=F('month_payback_dt') + timedelta(days=30), this_month_repay=0)
 
 remind()
 
