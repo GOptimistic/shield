@@ -4,7 +4,9 @@ import hashlib as hasher
 import datetime as date
 from django.http import JsonResponse
 from chainServer.models import Recordnodes
+import socket
 import ast
+
 
 class Block:
     def __init__(self, index=-1, timestamp=None, data=None, previous_hash=None):
@@ -63,6 +65,9 @@ def create_genesis_block():
 
 
 chain = [create_genesis_block()]
+my_ip = ""
+hostname = socket.gethostname()
+my_ip = "http://" + socket.gethostbyname(hostname) + ":8001/"
 
 
 # get data from Recordnodes to chain
@@ -71,6 +76,28 @@ def getchain():
     for var in recordlist:
         chain.append(Block(var.id, var.default_date, {'name': var.name, 'ID_card': var.ID_card, 'money': var.money,
                                                       'funding_terms': var.funding_terms}, var.hash_previous))
+
+
+def printchain():
+    for i in range(len(chain)):
+        print("Block #{} 已经加入区块链!".format(chain[i].index))
+        print("Hash: {}".format(chain[i].hash))
+        print("Data: {}\n".format(chain[i].data))
+    print(len(chain))
+
+
+def getlastblock():
+    if Recordnodes.objects.exists():
+        querylist = Recordnodes.objects.all()
+        last_block_query = querylist[len(querylist) - 1]
+        print(last_block_query)
+        return Block(len(querylist), last_block_query.default_date,
+                     {'name': last_block_query.name, 'ID_card': last_block_query.ID_card,
+                      'money': last_block_query.money,
+                      'funding_terms': last_block_query.funding_terms}, last_block_query.hash_previous)
+    else:
+        print('区块链数据库为空')
+        return create_genesis_block()
 
 
 getchain()
@@ -87,15 +114,9 @@ def next_block(last_block, data):
 # Store the records that this node has in a list
 this_nodes_records = []
 # Store the url data of every other node in the network so that we can communicate  with them
-peer_nodes = [ "http://139.219.2.48:8001/","http://49.232.23.19:8001/"]
-
-
-def printchain():
-    for i in range(len(chain)):
-        print("Block #{} 已经加入区块链!".format(chain[i].index))
-        print("Hash: {}".format(chain[i].hash))
-        print("Data: {}\n".format(chain[i].data))
-    print(len(chain))
+peer_nodes = ["http://139.219.2.48:8001/", "http://49.232.23.19:8001/"]
+if peer_nodes.__contains__(my_ip):
+    peer_nodes.remove(my_ip)
 
 
 def valid_chain(tocheckchain):
@@ -186,14 +207,15 @@ def consensus():
     # If our chain isn't longest,
     # then we store the longest chain
     longest_chain = chain
-    # for chains in longest_chain:
-    #     chains = {
-    #         'index': str(chains.index),
-    #         'timestamp': str(chains.timestamp),
-    #         'data': str(chains.data),
-    #         'previous_hash': chains.previous_hash,
-    #         'hash': chains.hash
-    #     }
+    for i in range(len(longest_chain)):
+        chainss = {
+            'index': str(longest_chain[i].index),
+            'timestamp': str(longest_chain[i].timestamp),
+            'data': str(longest_chain[i]),
+            'previous_hash': longest_chain[i].previous_hash,
+            'hash': longest_chain[i].hash
+        }
+        longest_chain[i] = chainss
     change = False
     for chains in othernodeschains:
         if len(longest_chain) < len(chains):
@@ -204,6 +226,7 @@ def consensus():
     # our chain to the longest one
     if change:
         chain.clear()
+        chain = [create_genesis_block()]
         Recordnodes.objects.all().delete()
         print("delete origin data")
         for chains in longest_chain:
@@ -239,19 +262,19 @@ def mine(requestrecords):
             last_block_hash
         )
         chain.append(mined_block)
-        for node_url in peer_nodes:
-            # Let the other nodes know we mined a block
-            mined_block_dict=mined_block.to_dict()
-            # date_time = mined_block_dict['timestamp']
-            # mined_block_dict['timestamp'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
-            mined_block_json=json.dumps(mined_block_dict)
-            print(mined_block_json)
-            print(requests.post(node_url + "receive/", mined_block_json).content)
-        last_block = chain[len(chain) - 1]
         Recordnodes(id=mined_block.index, name=mined_block.data['name'], ID_card=mined_block.data['ID_card'],
                     money=mined_block.data['money'],
                     funding_terms=mined_block.data['funding_terms'], default_date=mined_block.timestamp,
                     hash_previous=mined_block.previous_hash, hash_current=mined_block.hash).save()
+        for node_url in peer_nodes:
+            # Let the other nodes know we mined a block
+            mined_block_dict = mined_block.to_dict()
+            # date_time = mined_block_dict['timestamp']
+            # mined_block_dict['timestamp'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
+            mined_block_json = json.dumps(mined_block_dict)
+            print(mined_block_json)
+            print(requests.post(node_url + "receive/", mined_block_json).content)
+        last_block = chain[len(chain) - 1]
 
     this_nodes_records[:] = []
 
@@ -266,3 +289,13 @@ def findbyidname(id_card, need_name):
         default_info[i]['default_date'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
     jsonArray = json.dumps(default_info)
     return jsonArray
+
+
+def synchronous():
+    print(getlastblock())
+    print(chain[len(chain)] - 1)
+    if getlastblock() != chain[len(chain) - 1]:
+        getchain()
+        print("正在和数据库同步")
+    else:
+        print("已经同步")

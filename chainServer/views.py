@@ -7,6 +7,7 @@ import json
 
 # Create your views here.
 def broadcastreceiver(request):
+    clock.synchronous()
     send_records = request.body
     send_records = json.loads(send_records)
     print(send_records)
@@ -40,3 +41,8 @@ def blacklist_search(request):
             black_list_list[i]['default_date'] = black_list_list[i]['default_date'].strftime('%Y-%m-%d %H:%I:%S')
         return JsonResponse(black_list_list, safe=False)
     return JsonResponse({'status': 200, 'msg': 'con not get the person'})
+
+
+# def geturl(request):
+#     clock.my_url = request.get_host()
+#     print(clock.my_url)
