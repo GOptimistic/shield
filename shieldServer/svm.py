@@ -108,6 +108,9 @@ def lending_svm(request):
         svm_input = []
         trade_code2 = []
         for i in range(0, n):
+            if local_info[i]['last_pymnt_d'] is None:
+                isNull = True
+                return JsonResponse({'isNull': isNull})
             svm_input.append([local_info[i]['funded_amount'], local_info[i]['loan_duration'] * 12,
                               local_info[i]['rate'], local_info[i]['installment'], local_info[i]['grade'],
                               local_info[i]['emp_length'], local_info[i]['home_ownership'],
@@ -120,8 +123,7 @@ def lending_svm(request):
                               int(time.mktime(local_info[i]['last_pymnt_d'].timetuple())),
                               local_info[i]['last_pymnt_amnt']])
             trade_code2.append(trade_code1[i]['trade_order'])
-            if local_info[i]['last_pymnt_d'] is None:
-                isNull = True
+
 
         print('-------------local_info----------------')
         print(local_info)
