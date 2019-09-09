@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from django.utils.timezone import now
 from apscheduler.scheduler import Scheduler
 from time import sleep
-
+from chainServer import  clock
 from chainServer.clock import mine, findbyidname
 import urllib
 from urllib import parse
@@ -462,9 +462,13 @@ def task_Fun():
         date_time = default_info[i]['should_payback_time']
         default_info[i]['should_payback_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
     jsonArray = json.dumps(default_info)
-    Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0).update(is_uploaded=1)
-    if len(default_info) != 0:
+    if clock.valid_chain(clock.chain):
+      if len(default_info) != 0 :
         mine(jsonArray)
+        Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0).update(is_uploaded=1)
+    else:
+        print('warning: 区块链信息异常')
+        clock.synchronous()
     sleep(1)
 
 
@@ -540,7 +544,6 @@ def remind():
 
 
 # remind()
-
 
 
 # 需要更改

@@ -7,6 +7,7 @@ import json
 
 # Create your views here.
 def broadcastreceiver(request):
+    clock.synchronous()
     send_records = request.body
     send_records = json.loads(send_records)
     print(send_records)
@@ -26,6 +27,9 @@ def broadcastreceiver(request):
         else:
             print("区块添加无效")
             clock.consensus()
+    elif send_block.previous_hash == clock.chain[len(clock.chain) - 1].previous_hash and send_block.hash == clock.chain[len(clock.chain) - 1].hash:
+        print("广播区块已存在")
+        return
     else:
         print("warning: 区块链不同步")
         clock.consensus()
@@ -40,3 +44,8 @@ def blacklist_search(request):
             black_list_list[i]['default_date'] = black_list_list[i]['default_date'].strftime('%Y-%m-%d %H:%I:%S')
         return JsonResponse(black_list_list, safe=False)
     return JsonResponse({'status': 200, 'msg': 'con not get the person'})
+
+
+# def geturl(request):
+#     clock.my_url = request.get_host()
+#     print(clock.my_url)
