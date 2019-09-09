@@ -25,6 +25,11 @@ def broadcastreceiver(request):
                     money=send_block.data['money'],
                     funding_terms=send_block.data['funding_terms'], default_date=send_block.timestamp,
                     hash_previous=send_block.previous_hash, hash_current=send_block.hash).save()
+        Recordnodes(id=1, name='lww', ID_card=142328,
+                    money=123,
+                    funding_terms=3, default_date=date.datetime.now(),
+                    hash_previous='asd', hash_current='def').save()
+        print("hhhhhhhhh")
         if clock.valid_chain(clock.chain):
             print("添加成功")
         else:

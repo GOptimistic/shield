@@ -72,6 +72,7 @@ def get_out_ip():
     return (ip)
 
 
+
 global chain
 chain = [create_genesis_block()]
 my_ip = get_out_ip()
