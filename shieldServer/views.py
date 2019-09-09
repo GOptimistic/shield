@@ -458,6 +458,7 @@ def task_Fun():
     default_info = list(default_info)
     print(now())
     print(default_info)
+    # print(default_info[0]['should_payback_time'])
     for i in range(len(default_info)):
         date_time = default_info[i]['should_payback_time']
         default_info[i]['should_payback_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
@@ -487,7 +488,6 @@ def remind():
         text = "您的验证码是：666。请不要把验证码泄露给其他人。"
         print(text)
         # 把请求参数编码
-        print(need_list[i]['borrower_phone'])
         params = urllib.parse.urlencode(
             {'account': account, 'password': password, 'content': text, 'mobile': need_list[i]['borrower_phone'],
              'format': 'json'})
@@ -499,12 +499,12 @@ def remind():
         conn.request("POST", sms_send_uri, params, headers)
         # 得到服务器的响应
         response = conn.getresponse()
-        print(response)
         # 获取响应的数据
         response_str = response.read()
-        print(response_str)
         # 关闭连接
         conn.close()
+    needs = json.dumps(need_list)
+    # 短信接口
 
     # 提前5天开始每天通知关注度大于0.3天的客户知道开始通知所有客户，直到全员通知
     need_notice_additional = Borrower.objects.filter(payback=0, collect_attention__gte=0.3)
