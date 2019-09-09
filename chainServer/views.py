@@ -27,6 +27,9 @@ def broadcastreceiver(request):
         else:
             print("区块添加无效")
             clock.consensus()
+    elif send_block.previous_hash == clock.chain[len(clock.chain) - 1].previous_hash and send_block.hash == clock.chain[len(clock.chain) - 1].hash:
+        print("广播区块已存在")
+        return
     else:
         print("warning: 区块链不同步")
         clock.consensus()
