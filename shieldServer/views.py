@@ -471,14 +471,14 @@ def task_Fun():
 def remind():
     # 提前两天开始每天通知所有客户
     remind_all = Borrower.objects.filter(payback=0)
-    all_notice_list = remind_all.filter(this_month_repay=0, month_payback_dt__gte=now() + timedelta(days=-2)) \
+    all_notice_list = remind_all.filter(this_month_repay=0, month_payback_dt__gte=now() + timedelta(days=-2), month_payback_dt__lte=now()) \
         .values('borrower_name', 'borrower_id', 'borrower_phone', 'borrower_time', 'installment', 'month_payback_dt')
     need_list = list(all_notice_list)
     for i in range(len(need_list)):
         need_list[i]['borrower_time'] = need_list[i]['borrower_time'].strftime('%Y-%m-%d %H:%I:%S')
         # 拼接成发出的短信
-        text = need_list[i]['borrower_name'] + "您好！您本月的贷款未还，请在" + need_list[i]['month_payback_dt'] + "前还款" + \
-               need_list[i]['installment'] + "元。谢谢！"
+        text = need_list[i]['borrower_name'] + "您好！您本月的贷款未还，请在" + need_list[i]['month_payback_dt'].strftime('%Y-%m-%d %H:%I:%S') + "前还款" + \
+               str(need_list[i]['installment']) + "元。谢谢！"
         print(text)
         # 把请求参数编码
         params = urllib.parse.urlencode(
@@ -492,11 +492,13 @@ def remind():
         conn.request("POST", sms_send_uri, params, headers)
         # 得到服务器的响应
         response = conn.getresponse()
+        print(response)
         # 获取响应的数据
         response_str = response.read()
+        print(response_str)
         # 关闭连接
         conn.close()
-    needs = json.dumps(need_list)
+
     # 短信接口
 
     # 提前5天开始每天通知关注度大于0.3天的客户知道开始通知所有客户，直到全员通知
@@ -510,8 +512,8 @@ def remind():
     for i in range(len(additional_list)):
         additional_list[i]['borrower_time'] = additional_list[i]['borrower_time'].strftime('%Y-%m-%d %H:%I:%S')
         # 拼接成发出的短信
-        text = additional_list[i]['borrower_name'] + "您好！您本月的贷款未还，请在" + additional_list[i]['month_payback_dt'] + "前还款" + \
-               additional_list[i]['installment'] + "元。谢谢！"
+        text = additional_list[i]['borrower_name'] + "您好！您本月的贷款未还，请在" + additional_list[i]['month_payback_dt'].strftime('%Y-%m-%d %H:%I:%S') + "前还款" + \
+               str(additional_list[i]['installment']) + "元。谢谢！"
         print(text)
         # 把请求参数编码
         params = urllib.parse.urlencode(
@@ -530,15 +532,14 @@ def remind():
         # 关闭连接
         conn.close()
 
+        # 短信接口
 
-additional_need = json.dumps(additional_list)
-# 短信接口
+    # 每日更新应还款日期
+    Borrower.objects.filter(this_month_repay=1, payback=0) \
+        .update(month_payback_dt=F('month_payback_dt') + timedelta(days=30), this_month_repay=0)
 
-# 每日更新应还款日期
-Borrower.objects.filter(this_month_repay=1, payback=0) \
-    .update(month_payback_dt=F('month_payback_dt') + timedelta(days=30), this_month_repay=0)
 
-remind()
+# remind()
 
 
 # 需要更改
@@ -580,10 +581,15 @@ def alert_times():
     Alert.objects.bulk_create(add_record_list)
 
 
+next_time = now()+timedelta(minutes=-1)
+begin_time = datetime(2019, 9, 9, 9, next_time.minute, 0)
+print('this is begin time')
+print(begin_time)
+print('this is begin time')
 sched = Scheduler()
 
 
-@sched.interval_schedule(seconds=6)
+@sched.interval_schedule(seconds=6000000)
 def my_task1():
     print('定时任务1开始\n')
     task_Fun()
@@ -596,6 +602,17 @@ def auto_alert():
     alert_times()
     print('finish test2')
 
+
+@sched.interval_schedule(seconds=1)
+def count_seconds():
+    # print(now())
+    pass
+
+
+@sched.interval_schedule(seconds=5, start_date=begin_time)
+def auto_remind():
+    # print('this is the test string for timing start')
+    pass
 
 sched.start()
 
