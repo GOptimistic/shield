@@ -469,7 +469,7 @@ def task_Fun():
     # print(default_info[0]['should_payback_time'])
     for i in range(len(default_info)):
         date_time = default_info[i]['should_payback_time']
-        default_info[i]['should_payback_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
+        default_info[i]['should_payback_time'] = date_time.strftime('%Y-%m-%d %H:%M:%S')
     jsonArray = json.dumps(default_info)
     if clock.valid_chain(clock.chain):
         if len(default_info) != 0:
@@ -603,7 +603,7 @@ begin_time = datetime(2019, next_time.month, next_time.day, 8, 0, 0)
 sched = Scheduler()
 
 
-@sched.interval_schedule(seconds=6)
+@sched.interval_schedule(seconds=6000)
 def my_task1():
     print('定时任务1开始\n')
     task_Fun()
