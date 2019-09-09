@@ -92,6 +92,7 @@ def query_svm(request):
 @csrf_exempt
 def lending_svm(request):
     if request.method == 'POST':
+        isNull = False
         req = json.loads(request.body)
         borrower_name = req['borrowerName']
         borrower_id = req['borrowerID']
@@ -119,6 +120,8 @@ def lending_svm(request):
                               int(time.mktime(local_info[i]['last_pymnt_d'].timetuple())),
                               local_info[i]['last_pymnt_amnt']])
             trade_code2.append(trade_code1[i]['trade_order'])
+            if local_info[i]['last_pymnt_d'] is None:
+                isNull = True
 
         print('-------------local_info----------------')
         print(local_info)
@@ -161,4 +164,4 @@ def lending_svm(request):
         return JsonResponse({'status': 200, 'class': ypred, 'proba': yscore, 'trade_code': trade_code2,
                              'id': borrower_id, 'default_times': local_info[0]['delinq_2yrs'],
                              'home': local_info[0]['home_ownership'], 'income': local_info[0]['annual_income'],
-                             'work': local_info[0]['emp_length']})
+                             'work': local_info[0]['emp_length'], 'isNull': isNull})
