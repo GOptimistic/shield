@@ -104,7 +104,7 @@ function repayment_btn_action(element) {
     modalBox.init();
     let repayBtn = document.getElementById('repay_button');
     repayBtn.onclick = function () {
-        let money = document.getElementById('repayment_money').value;
+        let money = document.getElementById('repayment_amount').value;
         if (!isMoney(money)) {
             return alert('请正确输入信息')
         }

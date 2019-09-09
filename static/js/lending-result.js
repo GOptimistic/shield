@@ -26,9 +26,9 @@ window.onload = function () {
         console.log(jsonString);
         let lendingInfo = JSON.parse(jsonString);
         let blockInfo = lendingInfo['block'];
-        let blockInfoLength = lendingInfo['blockLength'];
+        var blockInfoLength = lendingInfo['blockLength'];
         let localInfo = lendingInfo['local'];
-        let localInfoLength = lendingInfo['localLength'];
+        var localInfoLength = lendingInfo['localLength'];
         blockHisInfo.innerHTML = '';
         localHisInfo.innerHTML = '';
         if (blockInfoLength === 0) {

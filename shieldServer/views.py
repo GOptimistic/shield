@@ -471,16 +471,19 @@ def task_Fun():
 def remind():
     # 提前两天开始每天通知所有客户
     remind_all = Borrower.objects.filter(payback=0)
-    all_notice_list = remind_all.filter(this_month_repay=0, month_payback_dt__gte=now() + timedelta(days=-2), month_payback_dt__lte=now()) \
+    all_notice_list = remind_all.filter(this_month_repay=0, month_payback_dt__lte=now() + timedelta(days=2), month_payback_dt__gte=now()) \
         .values('borrower_name', 'borrower_id', 'borrower_phone', 'borrower_time', 'installment', 'month_payback_dt')
     need_list = list(all_notice_list)
     for i in range(len(need_list)):
         need_list[i]['borrower_time'] = need_list[i]['borrower_time'].strftime('%Y-%m-%d %H:%I:%S')
         # 拼接成发出的短信
-        text = need_list[i]['borrower_name'] + "您好！您本月的贷款未还，请在" + need_list[i]['month_payback_dt'].strftime('%Y-%m-%d %H:%I:%S') + "前还款" + \
-               str(need_list[i]['installment']) + "元。谢谢！"
+        # text = "您的验证码是：【" + need_list[i]['borrower_name'] + "您好！您本月的贷款未还，请在" + need_list[i]['month_payback_dt'].strftime('%Y-%m-%d %H:%I:%S') + "前还款" + \
+        #        str(need_list[i]['installment']) + "元。谢谢！" + "】。请不要把验证码泄露给其他人。"
+        # 短信接口
+        text = "您的验证码是：666。请不要把验证码泄露给其他人。"
         print(text)
         # 把请求参数编码
+        print(need_list[i]['borrower_phone'])
         params = urllib.parse.urlencode(
             {'account': account, 'password': password, 'content': text, 'mobile': need_list[i]['borrower_phone'],
              'format': 'json'})
@@ -499,21 +502,21 @@ def remind():
         # 关闭连接
         conn.close()
 
-    # 短信接口
-
     # 提前5天开始每天通知关注度大于0.3天的客户知道开始通知所有客户，直到全员通知
     need_notice_additional = Borrower.objects.filter(payback=0, collect_attention__gte=0.3)
     additional_remind = need_notice_additional.filter(this_month_repay=0,
-                                                      month_payback_dt__gte=now() + timedelta(days=-5)
-                                                      , month_payback_dt__lt=now() + timedelta(days=-2)).values(
+                                                      month_payback_dt__lte=now() + timedelta(days=5)
+                                                      , month_payback_dt__gt=now() + timedelta(days=2)).values(
         'borrower_name', 'borrower_id', 'borrower_phone'
         , 'borrower_time', 'installment')
     additional_list = list(additional_remind)
     for i in range(len(additional_list)):
         additional_list[i]['borrower_time'] = additional_list[i]['borrower_time'].strftime('%Y-%m-%d %H:%I:%S')
         # 拼接成发出的短信
-        text = additional_list[i]['borrower_name'] + "您好！您本月的贷款未还，请在" + additional_list[i]['month_payback_dt'].strftime('%Y-%m-%d %H:%I:%S') + "前还款" + \
-               str(additional_list[i]['installment']) + "元。谢谢！"
+        # text = additional_list[i]['borrower_name'] + "您好！您本月的贷款未还，请在" + additional_list[i]['month_payback_dt'].strftime('%Y-%m-%d %H:%I:%S') + "前还款" + \
+        #        str(additional_list[i]['installment']) + "元。谢谢！"
+        # 短信接口
+        text = "您的验证码是：666。请不要把验证码泄露给其他人。"
         print(text)
         # 把请求参数编码
         params = urllib.parse.urlencode(
@@ -531,15 +534,13 @@ def remind():
         response_str = response.read()
         # 关闭连接
         conn.close()
-
-        # 短信接口
-
     # 每日更新应还款日期
     Borrower.objects.filter(this_month_repay=1, payback=0) \
         .update(month_payback_dt=F('month_payback_dt') + timedelta(days=30), this_month_repay=0)
 
 
 # remind()
+
 
 
 # 需要更改
@@ -581,11 +582,8 @@ def alert_times():
     Alert.objects.bulk_create(add_record_list)
 
 
-next_time = now()+timedelta(minutes=-1)
-begin_time = datetime(2019, 9, 9, 9, next_time.minute, 0)
-print('this is begin time')
-print(begin_time)
-print('this is begin time')
+next_time = now()+timedelta(days=1)
+begin_time = datetime(2019, next_time.month, next_time.day, 8, 0, 0)
 sched = Scheduler()
 
 
@@ -603,16 +601,11 @@ def auto_alert():
     print('finish test2')
 
 
-@sched.interval_schedule(seconds=1)
-def count_seconds():
-    # print(now())
-    pass
-
-
 @sched.interval_schedule(seconds=5, start_date=begin_time)
 def auto_remind():
-    # print('this is the test string for timing start')
-    pass
+    print('this is auto remind function')
+    #remind()
+
 
 sched.start()
 
