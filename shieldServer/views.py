@@ -538,6 +538,10 @@ def remind():
         response_str = response.read()
         # 关闭连接
         conn.close()
+
+    additional_need = json.dumps(additional_list)
+    # 短信接口
+
     # 每日更新应还款日期
     Borrower.objects.filter(this_month_repay=1, payback=0) \
         .update(month_payback_dt=F('month_payback_dt') + timedelta(days=30), this_month_repay=0)

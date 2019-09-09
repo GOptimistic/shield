@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from chainServer.models import Recordnodes
 import socket
 import ast
-
+import
 
 class Block:
     def __init__(self, index=-1, timestamp=None, data=None, previous_hash=None):
@@ -68,7 +68,7 @@ chain = [create_genesis_block()]
 my_ip = ""
 hostname = socket.gethostname()
 my_ip = "http://" + socket.gethostbyname(hostname) + ":8001/"
-
+print (my_ip)
 
 # get data from Recordnodes to chain
 def getchain():
@@ -116,6 +116,8 @@ this_nodes_records = []
 # Store the url data of every other node in the network so that we can communicate  with them
 peer_nodes = ["http://139.219.2.48:8001/", "http://49.232.23.19:8001/"]
 if peer_nodes.__contains__(my_ip):
+    print (my_ip)
+    print ("即将remove")
     peer_nodes.remove(my_ip)
 
 
@@ -273,6 +275,7 @@ def mine(requestrecords):
             # mined_block_dict['timestamp'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
             mined_block_json = json.dumps(mined_block_dict)
             print(mined_block_json)
+            print(node_url)
             print(requests.post(node_url + "receive/", mined_block_json).content)
         last_block = chain[len(chain) - 1]
 
@@ -293,8 +296,11 @@ def findbyidname(id_card, need_name):
 
 def synchronous():
     print(getlastblock())
+    print ('3')
     print(chain[len(chain)] - 1)
+    print ('4')
     if getlastblock() != chain[len(chain) - 1]:
+        print ('5')
         getchain()
         print("正在和数据库同步")
     else:
