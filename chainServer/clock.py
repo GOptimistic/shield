@@ -7,6 +7,7 @@ from chainServer.models import Recordnodes
 import socket
 import ast
 
+
 class Block:
     def __init__(self, index=-1, timestamp=None, data=None, previous_hash=None):
         self._index = index
@@ -63,11 +64,21 @@ def create_genesis_block():
     return Block(0, 0, None, None)
 
 
+def get_out_ip():
+    url = r'http://www.trackip.net/'
+    r = requests.get(url)
+    txt = r.text
+    ip = txt[txt.find('title') + 6:txt.find('/title') - 1]
+    return (ip)
+
+
+global chain
 chain = [create_genesis_block()]
-my_ip = ""
+my_ip = get_out_ip()
 hostname = socket.gethostname()
-my_ip = "http://" + socket.gethostbyname(hostname) + ":8001/"
-print (my_ip)
+my_ip = "http://" + my_ip + ":8001/"
+print(my_ip)
+
 
 # get data from Recordnodes to chain
 def getchain():
@@ -81,8 +92,8 @@ def printchain():
     for i in range(len(chain)):
         print("Block #{} 已经加入区块链!".format(chain[i].index))
         print("Hash: {}".format(chain[i].hash))
-        print("Data: {}\n".format(chain[i].data))
-    print(len(chain))
+        print("Data: {}".format(chain[i].data))
+    print("区块链长度为：" + str(len(chain)))
 
 
 def getlastblock():
@@ -115,8 +126,8 @@ this_nodes_records = []
 # Store the url data of every other node in the network so that we can communicate  with them
 peer_nodes = ["http://139.219.2.48:8001/", "http://49.232.23.19:8001/"]
 if peer_nodes.__contains__(my_ip):
-    print (my_ip)
-    print ("即将remove")
+    print(my_ip)
+    print("即将remove")
     peer_nodes.remove(my_ip)
 
 
@@ -295,11 +306,11 @@ def findbyidname(id_card, need_name):
 
 def synchronous():
     print(getlastblock())
-    print ('3')
-    print(chain[len(chain)] - 1)
-    print ('4')
+    print('3')
+    print(chain[len(chain) - 1])
+    print('4')
     if getlastblock() != chain[len(chain) - 1]:
-        print ('5')
+        print('5')
         getchain()
         print("正在和数据库同步")
     else:
