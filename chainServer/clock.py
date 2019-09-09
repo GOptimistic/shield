@@ -6,7 +6,6 @@ from django.http import JsonResponse
 from chainServer.models import Recordnodes
 import socket
 import ast
-import
 
 class Block:
     def __init__(self, index=-1, timestamp=None, data=None, previous_hash=None):
