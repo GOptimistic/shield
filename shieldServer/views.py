@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from django.utils.timezone import now
 from apscheduler.scheduler import Scheduler
 from time import sleep
-from chainServer import  clock
+from chainServer import clock
 from chainServer.clock import mine, findbyidname
 import urllib
 from urllib import parse
@@ -167,6 +167,8 @@ def repayment(request):
     trade_money = []
     trade_date = []
     end_date = []
+    total_need_repay = []
+    already_repay = []
 
     if request.method == 'POST':
         req = json.loads(request.body)
@@ -186,6 +188,8 @@ def repayment(request):
                         trade_money.append(e.out_prncp)
                         trade_date.append(e.borrower_time)
                         end_date.append(e.should_payback_time)
+                        total_need_repay.append(e.installment * e.loan_duration * 12)
+                        already_repay.append(e.total_pymnt)
         else:
             search = Borrower.objects.all()
             for e in search:
@@ -199,6 +203,8 @@ def repayment(request):
                         trade_money.append(e.out_prncp)
                         trade_date.append(e.borrower_time)
                         end_date.append(e.should_payback_time)
+                        total_need_repay.append(e.installment * e.loan_duration * 12)
+                        already_repay.append(e.total_pymnt)
         data = ""
         for i in range(len(pid)):
             if i == len(pid) - 1:
@@ -206,6 +212,7 @@ def repayment(request):
                        + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(
                     trade_order[i]) \
                        + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
+                       + "\",\"total_money\": \"" + str(round(total_need_repay[i]*100)/100) + "\",\"repayed_money\": \"" + str(already_repay[i]) \
                        + "\",\"trade_date\": \"" + trade_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\", \"end_date\":\"" + \
                        end_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\"}"
             else:
@@ -213,8 +220,9 @@ def repayment(request):
                        + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(
                     trade_order[i]) \
                        + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
+                       + "\",\"total_money\": \"" + str(round(total_need_repay[i]*100)/100) + "\",\"repayed_money\": \"" + str(already_repay[i]) \
                        + "\",\"trade_date\": \"" + trade_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\", \"end_date\":\"" + \
-                       end_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\"}, "
+                       end_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\"},"
     jsonArr = "[" + data + "]"
     print(jsonArr)
     print(type(jsonArr))
@@ -464,9 +472,9 @@ def task_Fun():
         default_info[i]['should_payback_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
     jsonArray = json.dumps(default_info)
     if clock.valid_chain(clock.chain):
-      if len(default_info) != 0 :
-        mine(jsonArray)
-        Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0).update(is_uploaded=1)
+        if len(default_info) != 0:
+            mine(jsonArray)
+            Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0).update(is_uploaded=1)
     else:
         print('warning: 区块链信息异常')
         clock.synchronous()
@@ -476,7 +484,8 @@ def task_Fun():
 def remind():
     # 提前两天开始每天通知所有客户
     remind_all = Borrower.objects.filter(payback=0)
-    all_notice_list = remind_all.filter(this_month_repay=0, month_payback_dt__lte=now() + timedelta(days=2), month_payback_dt__gte=now()) \
+    all_notice_list = remind_all.filter(this_month_repay=0, month_payback_dt__lte=now() + timedelta(days=2),
+                                        month_payback_dt__gte=now()) \
         .values('borrower_name', 'borrower_id', 'borrower_phone', 'borrower_time', 'installment', 'month_payback_dt')
     need_list = list(all_notice_list)
     for i in range(len(need_list)):
@@ -589,7 +598,7 @@ def alert_times():
     Alert.objects.bulk_create(add_record_list)
 
 
-next_time = now()+timedelta(days=1)
+next_time = now() + timedelta(days=1)
 begin_time = datetime(2019, next_time.month, next_time.day, 8, 0, 0)
 sched = Scheduler()
 
@@ -611,7 +620,7 @@ def auto_alert():
 @sched.interval_schedule(seconds=5, start_date=begin_time)
 def auto_remind():
     print('this is auto remind function')
-    #remind()
+    # remind()
 
 
 sched.start()
