@@ -1,12 +1,11 @@
-from django.shortcuts import render
+# app chainserver的视图文件
 from chainServer import clock
 from chainServer.models import Recordnodes
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 import json
-import datetime
 
 
-# Create your views here.
+# 接收广播的接口
 def broadcastreceiver(request):
     print("受到广播")
     clock.synchronous()
@@ -49,7 +48,7 @@ def broadcastreceiver(request):
         clock.consensus()
     return
 
-
+# 从数据库中查询黑名单信息
 def blacklist_search(request):
     if request.method == 'POST':
         black_list = Recordnodes.objects.all().values()

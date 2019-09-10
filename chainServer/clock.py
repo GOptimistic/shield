@@ -1,16 +1,18 @@
+# 区块链文件
+# 作者： 李文炜    创建时间：2019.8.22
 import json
-import  re
+import re
 import requests
 import hashlib as hasher
 import datetime as date
 from django.http import JsonResponse
 from chainServer.models import Recordnodes
 from shieldServer.models import Borrower
-import socket
-import ast
 
 
+# 区块类结构定义
 class Block:
+    # 构造函数
     def __init__(self, index=-1, timestamp=None, data=None, previous_hash=None):
         self._index = index
         self._timestamp = timestamp
@@ -18,6 +20,7 @@ class Block:
         self._previous_hash = previous_hash
         self._hash = self.hash_block()
 
+    # 从字典转换为区块类
     def to_block(self, blockdict):
         self._index = blockdict['index']
         self._timestamp = blockdict['timestamp']
@@ -45,33 +48,39 @@ class Block:
     def previous_hash(self):
         return self._previous_hash
 
+    # 通过sha256加密算法得到区块的hash值
     def hash_block(self):
         sha = hasher.sha256()
         temp = str(self._index) + str(self._timestamp) + str(self._data) + str(self._previous_hash)
         sha.update(temp.encode("utf8"))
         return sha.hexdigest()
 
+    # 将str类型的data赋值给区块
     def set_data(self, strdata):
         self._data = eval(strdata)
 
+    # 将区块转换为字典
     def to_dict(self):
         blockdict = {'index': self._index, 'timestamp': self._timestamp, 'data': self._data,
                      'previous_hash': self._previous_hash, 'hash': self._hash}
         return blockdict
 
 
+# 创建创世区块
 def create_genesis_block():
     # Manually construct a block with
     # index zero and arbitrary previous hash
     return Block(0, 0, None, None)
 
 
+# 获得当前主机公网IP
 def get_out_ip():
     response = requests.get("http://txt.go.sohu.com/ip/soip")
     ip = re.search(r'\d+\.\d+\.\d+\.\d+', response.content.decode(errors='ignore')).group(0)
     return ip
 
 
+# 初始化区块链以及获得IP
 chain = [create_genesis_block()]
 my_ip = get_out_ip()
 my_ip = "http://" + my_ip + ":8001/"
@@ -86,6 +95,7 @@ def getchain():
                                                       'funding_terms': var.funding_terms}, var.hash_previous))
 
 
+# 输出区块链信息
 def printchain():
     for i in range(len(chain)):
         print("Block #{} 已经加入区块链!".format(chain[i].index))
@@ -94,6 +104,7 @@ def printchain():
     print("区块链长度为：" + str(len(chain)))
 
 
+# 获得最新区块
 def getlastblock():
     if Recordnodes.objects.exists():
         querylist = Recordnodes.objects.all()
@@ -111,6 +122,7 @@ def getlastblock():
 getchain()
 
 
+#  获得下一个区块
 def next_block(last_block, data):
     this_index = last_block.index + 1
     this_timestamp = date.datetime.now()
@@ -121,7 +133,7 @@ def next_block(last_block, data):
 
 # Store the records that this node has in a list
 this_nodes_records = []
-# Store the url data of every other node in the network so that we can communicate  with them
+# Store the url data of every other node in the network so that we can communicate with them
 peer_nodes = ["http://139.219.2.48:8001/", "http://49.232.23.19:8001/"]
 if peer_nodes.__contains__(my_ip):
     print(my_ip)
@@ -129,6 +141,7 @@ if peer_nodes.__contains__(my_ip):
     peer_nodes.remove(my_ip)
 
 
+# 检查区块链的有效性
 def valid_chain(tocheckchain):
     # Determine if a given blockchain is valid
     print(len(tocheckchain))
@@ -147,6 +160,7 @@ def valid_chain(tocheckchain):
     return True
 
 
+# 获得新记录
 def record(requestrecords):
     # extract the record data
     requestrecords = json.loads(requestrecords)
@@ -191,6 +205,7 @@ def get_blocks(request):
     return JsonResponse(blockstr, safe=False)
 
 
+# 从其他节点获得区块链
 def find_new_chains():
     # Get the blockchains of every other node
     other_chains = []
@@ -214,6 +229,7 @@ def find_new_chains():
     return other_chains
 
 
+# 共识算法
 def consensus():
     # Get the blocks from other nodes
     longest_chain = chain.copy()
@@ -239,15 +255,17 @@ def consensus():
     # our chain to the longest one
     if change:
         point = len(chain) - 1
+        # 找到分叉的节点
         for i in range(len(chain)):
             if chain[i].hash != longest_chain[i]['hash']:
                 point = i
         pointindex = point
+        # 将较短链的多余分支重新上传
         while pointindex < (len(chain) - 1):
             Borrower.objects.filter(borrower_name=chain[pointindex].data['name'],
                                     borrower_id=chain[pointindex].data['ID_card'],
                                     should_payback_time=chain[pointindex].timestamp).update(is_uploaded=0)
-
+        # 本地区块链和最长链保持同步
         chain.clear()
         Recordnodes.objects.all().delete()
         print("delete origin data")
@@ -261,7 +279,9 @@ def consensus():
     return
 
 
+# 挖矿（添加新区块并广播）
 def mine(requestrecords):
+    # 调用record（）添加新记录
     record(requestrecords)
     last_block = chain[len(chain) - 1]
     # the current block being mined
@@ -289,6 +309,7 @@ def mine(requestrecords):
                     money=mined_block.data['money'],
                     funding_terms=mined_block.data['funding_terms'], default_date=mined_block.timestamp,
                     hash_previous=mined_block.previous_hash, hash_current=mined_block.hash).save()
+        # 广播至每一个节点
         for node_url in peer_nodes:
             # Let the other nodes know we mined a block
             mined_block_dict = mined_block.to_dict()
@@ -300,6 +321,7 @@ def mine(requestrecords):
             print(requests.post(node_url + "receive/", mined_block_json).content)
         last_block = chain[len(chain) - 1]
 
+    # 需要添加的节点新记录置为空
     this_nodes_records[:] = []
 
 
@@ -315,13 +337,11 @@ def findbyidname(id_card, need_name):
     return jsonArray
 
 
+#  同步区块链数据库
 def synchronous():
     print(getlastblock())
-    print('3')
     print(chain[len(chain) - 1])
-    print('4')
     if getlastblock() != chain[len(chain) - 1]:
-        print('5')
         getchain()
         print("正在和数据库同步")
     else:
