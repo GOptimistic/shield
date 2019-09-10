@@ -5,10 +5,7 @@ function queryFunction() {
     //要查询的贷款单号
     var loanNumber = document.getElementById("query-serialnumber").value;
     console.log(loanNumber);
-    //要查询的贷款日期
-    var loanDate = document.getElementById("query-loandate").value;
-    console.log(loanDate);
-    window.location.href = "query_result.html?idNumber=" + idNumber + '&loanNumber=' + loanNumber + '&loanDate=' + loanDate;
+    window.location.href = "query_result.html?idNumber=" + idNumber + '&loanNumber=' + loanNumber;
     // if (isDate(loanDate) || checkCard(idNumber) || isOrderNum(loanNumber)) {
     //     window.location.href = "query_result.html?idNumber=" + idNumber + '&loanNumber=' + loanNumber + '&loanDate=' + loanDate;
     //     window.location.href = "query_result.html?idNumber=" + idNumber + '&loanNumber=' + loanNumber + '&loanDate=' + loanDate;
