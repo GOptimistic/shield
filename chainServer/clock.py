@@ -72,13 +72,12 @@ def get_out_ip():
     return (ip)
 
 
+
 global chain
 chain = [create_genesis_block()]
 my_ip = get_out_ip()
-hostname = socket.gethostname()
 my_ip = "http://" + my_ip + ":8001/"
 print(my_ip)
-
 
 # get data from Recordnodes to chain
 def getchain():

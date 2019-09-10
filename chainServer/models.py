@@ -10,7 +10,7 @@ class Recordnodes(models.Model):
     default_date = models.DateTimeField(max_length=50, null=False)
     hash_previous = models.CharField(max_length=255, null=False)
     hash_current = models.CharField(max_length=255, null=False)
-
+    # test = models.CharField(max_length=255,null=False)
     def __str__(self):
         return self.name
 

@@ -3,15 +3,16 @@ from chainServer import clock
 from chainServer.models import Recordnodes
 from django.http import HttpResponse, JsonResponse
 import json
+import datetime
 
 
 # Create your views here.
 def broadcastreceiver(request):
     print("受到广播")
     clock.synchronous()
-    print ('1')
+    print('1')
     send_records = request.body
-    print ('2')
+    print('2')
     send_records = json.loads(send_records)
     print(send_records)
     send_block = clock.Block()
@@ -21,16 +22,30 @@ def broadcastreceiver(request):
     if send_block.previous_hash == clock.chain[len(clock.chain) - 1].hash:
         clock.chain.append(send_block)
         print(send_block.data)
+        print(send_block.index)
+        print(send_block.data['name'])
+        print(send_block.data['ID'])
+        print(send_block.data['money'])
+        print(send_block.data['funding_terms'])
+        print(send_block.timestamp)
+        print(send_block.previous_hash)
+        print(send_block.hash)
         Recordnodes(id=send_block.index, name=send_block.data['name'], ID_card=send_block.data['ID'],
                     money=send_block.data['money'],
                     funding_terms=send_block.data['funding_terms'], default_date=send_block.timestamp,
                     hash_previous=send_block.previous_hash, hash_current=send_block.hash).save()
+        # Recordnodes(id=1, name='lww', ID_card=142328,
+        #             money=123,
+        #             funding_terms=3, default_date=datetime.datetime.now(),
+        #             hash_previous='asd', hash_current='def').save()
+        print("hhhhhhhhh")
         if clock.valid_chain(clock.chain):
             print("添加成功")
         else:
             print("区块添加无效")
             clock.consensus()
-    elif send_block.previous_hash == clock.chain[len(clock.chain) - 1].previous_hash and send_block.hash == clock.chain[len(clock.chain) - 1].hash:
+    elif send_block.previous_hash == clock.chain[len(clock.chain) - 1].previous_hash and send_block.hash == clock.chain[
+        len(clock.chain) - 1].hash:
         print("广播区块已存在")
         return
     else:
@@ -47,8 +62,3 @@ def blacklist_search(request):
             black_list_list[i]['default_date'] = black_list_list[i]['default_date'].strftime('%Y-%m-%d %H:%I:%S')
         return JsonResponse(black_list_list, safe=False)
     return JsonResponse({'status': 200, 'msg': 'con not get the person'})
-
-
-# def geturl(request):
-#     clock.my_url = request.get_host()
-#     print(clock.my_url)
