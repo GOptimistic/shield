@@ -15,7 +15,9 @@ anaBtn.onclick = function () {
     annualIncome = document.getElementById('lending_input_anlincome').value;
     empLength = document.getElementById('lending_input_emplength').value;
     let creditTime = new Date(document.getElementById('lending_input_date').value).Format("yyyy-MM-dd");
-    //console.log(creditTime);
+    console.log(borrowerName+'  borrowername');
+        //alert(isChinaOrLetter(borrowerName));
+
     let xhrRegister = new XMLHttpRequest();
 
     for (var k = 0; k < chkHosRadio.length; k++) {
@@ -124,7 +126,7 @@ anaBtn.onclick = function () {
     }
     if (!isChinaOrLetter(borrowerName)) {
         isComplete = false;
-        return ('请输入正确名字')
+        return alert('请输入正确名字')
     }
     if (!checkCard(borrowerID)) {
         isComplete = false;
