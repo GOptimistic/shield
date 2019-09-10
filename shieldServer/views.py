@@ -213,16 +213,16 @@ def repayment(request):
                     trade_order[i]) \
                        + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
                        + "\",\"total_money\": \"" + str(round(total_need_repay[i]*100)/100) + "\",\"repayed_money\": \"" + str(already_repay[i]) \
-                       + "\",\"trade_date\": \"" + trade_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\", \"end_date\":\"" + \
-                       end_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\"}"
+                       + "\",\"trade_date\": \"" + trade_date[i].strftime('%Y-%m-%d %H:%M:%S') + "\", \"end_date\":\"" + \
+                       end_date[i].strftime('%Y-%m-%d %H:%M:%S') + "\"}"
             else:
                 data = data + "{\"p_index\": " + str(pid[i]) + ", \"borrower_name\": \"" + str(borrower_name[i]) \
                        + "\", \"borrower_id\": \"" + str(borrower_id[i]) + "\",\"trade_order\": \"" + str(
                     trade_order[i]) \
                        + "\", \"trade_type\": \"" + str(trade_type[i]) + "\", \"trade_money\": \"" + str(trade_money[i]) \
                        + "\",\"total_money\": \"" + str(round(total_need_repay[i]*100)/100) + "\",\"repayed_money\": \"" + str(already_repay[i]) \
-                       + "\",\"trade_date\": \"" + trade_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\", \"end_date\":\"" + \
-                       end_date[i].strftime('%Y-%m-%d %H:%I:%S') + "\"},"
+                       + "\",\"trade_date\": \"" + trade_date[i].strftime('%Y-%m-%d %H:%M:%S') + "\", \"end_date\":\"" + \
+                       end_date[i].strftime('%Y-%m-%d %H:%M:%S') + "\"},"
     jsonArr = "[" + data + "]"
     print(jsonArr)
     print(type(jsonArr))
@@ -392,11 +392,11 @@ def lending_result(request):
         for i in range(len(local_info)):
             date_time = local_info[i]['last_pymnt_d']
             if date_time is not None:
-                local_info[i]['last_pymnt_d'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
+                local_info[i]['last_pymnt_d'] = date_time.strftime('%Y-%m-%d %H:%M:%S')
             else:
                 local_info[i]['last_pymnt_d'] = "N/A"
-            local_info[i]['borrower_time'] = local_info[i]['borrower_time'].strftime('%Y-%m-%d %H:%I:%S')
-            local_info[i]['should_payback_time'] = local_info[i]['should_payback_time'].strftime('%Y-%m-%d %H:%I:%S')
+            local_info[i]['borrower_time'] = local_info[i]['borrower_time'].strftime('%Y-%m-%d %H:%M:%S')
+            local_info[i]['should_payback_time'] = local_info[i]['should_payback_time'].strftime('%Y-%m-%d %H:%M:%S')
         local_num = len(local_info)
         local_info = json.dumps(local_info)
         block_info = findbyidname(borrower_id, borrower_name)
@@ -443,7 +443,7 @@ def alert_serach(request):
         alert_list = Alert.objects.exclude(status=1).values()
         alert_list_list = list(alert_list)
         for i in range(len(alert_list_list)):
-            alert_list_list[i]['insert_time'] = alert_list_list[i]['insert_time'].strftime('%Y-%m-%d %H:%I:%S')
+            alert_list_list[i]['insert_time'] = alert_list_list[i]['insert_time'].strftime('%Y-%m-%d %H:%M:%S')
         return JsonResponse(alert_list_list, safe=False)
     return JsonResponse({'status': 200, 'msg': 'con not get the person'})
 
@@ -469,7 +469,7 @@ def task_Fun():
     # print(default_info[0]['should_payback_time'])
     for i in range(len(default_info)):
         date_time = default_info[i]['should_payback_time']
-        default_info[i]['should_payback_time'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
+        default_info[i]['should_payback_time'] = date_time.strftime('%Y-%m-%d %H:%M:%S')
     jsonArray = json.dumps(default_info)
     if clock.valid_chain(clock.chain):
         if len(default_info) != 0:
@@ -489,9 +489,9 @@ def remind():
         .values('borrower_name', 'borrower_id', 'borrower_phone', 'borrower_time', 'installment', 'month_payback_dt')
     need_list = list(all_notice_list)
     for i in range(len(need_list)):
-        need_list[i]['borrower_time'] = need_list[i]['borrower_time'].strftime('%Y-%m-%d %H:%I:%S')
+        need_list[i]['borrower_time'] = need_list[i]['borrower_time'].strftime('%Y-%m-%d %H:%M:%S')
         # 拼接成发出的短信
-        # text = "您的验证码是：【" + need_list[i]['borrower_name'] + "您好！您本月的贷款未还，请在" + need_list[i]['month_payback_dt'].strftime('%Y-%m-%d %H:%I:%S') + "前还款" + \
+        # text = "您的验证码是：【" + need_list[i]['borrower_name'] + "您好！您本月的贷款未还，请在" + need_list[i]['month_payback_dt'].strftime('%Y-%m-%d %H:%M:%S') + "前还款" + \
         #        str(need_list[i]['installment']) + "元。谢谢！" + "】。请不要把验证码泄露给其他人。"
         # 短信接口
         text = "您的验证码是：666。请不要把验证码泄露给其他人。"
@@ -524,9 +524,9 @@ def remind():
         , 'borrower_time', 'installment')
     additional_list = list(additional_remind)
     for i in range(len(additional_list)):
-        additional_list[i]['borrower_time'] = additional_list[i]['borrower_time'].strftime('%Y-%m-%d %H:%I:%S')
+        additional_list[i]['borrower_time'] = additional_list[i]['borrower_time'].strftime('%Y-%m-%d %H:%M:%S')
         # 拼接成发出的短信
-        # text = additional_list[i]['borrower_name'] + "您好！您本月的贷款未还，请在" + additional_list[i]['month_payback_dt'].strftime('%Y-%m-%d %H:%I:%S') + "前还款" + \
+        # text = additional_list[i]['borrower_name'] + "您好！您本月的贷款未还，请在" + additional_list[i]['month_payback_dt'].strftime('%Y-%m-%d %H:%M:%S') + "前还款" + \
         #        str(additional_list[i]['installment']) + "元。谢谢！"
         # 短信接口
         text = "您的验证码是：666。请不要把验证码泄露给其他人。"
@@ -620,7 +620,7 @@ def auto_alert():
 @sched.interval_schedule(seconds=5, start_date=begin_time)
 def auto_remind():
     print('this is auto remind function')
-    # remind()
+    remind()
 
 
 sched.start()
