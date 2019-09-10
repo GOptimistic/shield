@@ -83,6 +83,12 @@ window.onload = function () {
         xhrRegister2.send(JSON.stringify(lendingResult));
     }
 
+    let bar = document.getElementById('lending_bar');
+    let radar = document.getElementById('lending_radar');
+    bar.innerHTML += "<h2 class=\"results_title\" style='line-height:500px;'>数据不足，无法生成分析图</h2>";
+    radar.innerHTML += "<h2 class=\"results_title\" style='line-height:500px;'>数据不足，无法生成分析图</h2>";
+
+
     ajaxResponse(xhrRegister2, function () {
         let re = JSON.parse(xhrRegister2.responseText);
         console.log(re.default_times);
@@ -185,11 +191,6 @@ window.onload = function () {
                 }]
             };
             radar.setOption(option2);
-        }else{
-            let bar = document.getElementById('lending_bar');
-            let radar = document.getElementById('lending_radar');
-            bar.innerHTML+="<h2 class=\"results_title\" style='line-height:500px;'>数据不足，无法生成分析图</h2>";
-            radar.innerHTML+="<h2 class=\"results_title\" style='line-height:500px;'>数据不足，无法生成分析图</h2>";
         }
     }, function () {
     })

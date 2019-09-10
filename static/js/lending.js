@@ -15,7 +15,7 @@ anaBtn.onclick = function () {
     annualIncome = document.getElementById('lending_input_anlincome').value;
     empLength = document.getElementById('lending_input_emplength').value;
     let creditTime = new Date(document.getElementById('lending_input_date').value).Format("yyyy-MM-dd");
-    console.log(creditTime);
+    //console.log(creditTime);
     let xhrRegister = new XMLHttpRequest();
 
     for (var k = 0; k < chkHosRadio.length; k++) {
@@ -24,10 +24,11 @@ anaBtn.onclick = function () {
         }
     }
     let Ownership = {
-        0: 1,
-        1: 2,
-        2: 3,
-        3: 4,
+        0: 4,
+        1: 3,
+        2: 2,
+        3: 0,
+        4: 1
     };
     homeOwnership = null;
     for (let index in Ownership) {
