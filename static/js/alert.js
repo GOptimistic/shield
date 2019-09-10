@@ -1,3 +1,8 @@
+//预警页面js文件
+//作者：李昊博
+//时间：2019-09-07
+
+//页面加载时从Alert数据库获取其中需预警内容
 var re;
 window.onload = function () {
     let xhrRegister = new XMLHttpRequest();
@@ -8,8 +13,6 @@ window.onload = function () {
             tbody.innerHTML = "";
             var index = 0;
             for (; index < re.length; index++) {
-                //for(var i in re){
-                console.log(re[index]);
                 tbody.innerHTML = tbody.innerHTML + '<tr id="alert_tr' + (index + 1) + '><td><input type="checkbox"></td><td>' +
                     (index + 1) + '</td><td>' + re[index].loaner_name + '</td><td>' +
                     re[index].loaner_id + '</td><td>' + re[index].loan_times_insvnd +
@@ -27,6 +30,8 @@ window.onload = function () {
     xhrRegister.send();
 };
 
+//网页中“知道了”按钮函数，发出请求，使alert数据库中按钮对应条目中status变为1
+//参数：“知道了”按钮元素
 function know_btn_action(element) {
     let info = {
         loanerPId: re[element.id].pid
@@ -44,6 +49,7 @@ function know_btn_action(element) {
     xhrRegister.send(JSON.stringify(info));
 }
 
+//响应函数模板
 function ajaxResponse(xhr, successFunction, falseFunction) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {

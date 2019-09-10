@@ -1,6 +1,8 @@
-
+//新用户页面js文件
+//作者：霍然
+//时间：2019-09-5
 let xhrRegister = new XMLHttpRequest();
-
+//响应函数模板
 function ajaxResponse(xhr, successFunction, falseFunction) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
@@ -15,7 +17,7 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
     }
 }
 
-
+//模态框函数，发出请求新建用户
 (function() {
 	/*建立模态框对象*/
 	var modalBox = {};
@@ -55,21 +57,19 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
         //可加模态框
         alert("shurukong");
     }
-	}
+	};
 	addcancel.onclick=function(){
 		modalBox.close();
-	}
+	};
 	/*模态框显示*/
 	modalBox.show = function() {
 		console.log(this.modal);
 		this.modal.style.display = "block";
-	}
+	};
 	/*模态框关闭*/
 	modalBox.close = function() {
 		this.modal.style.display = "none";
-		// self.location.href="./lending.html";
-
-	}
+	};
 	/*当用户点击模态框内容之外的区域，模态框也会关闭*/
 	modalBox.outsideClick = function() {
 		var modal = this.modal;
@@ -78,20 +78,18 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
             	modal.style.display = "none";
             }
 		}
-	}
+	};
     /*模态框初始化*/
 	modalBox.init = function() {
 		var that = this;
 		//alert("0000");
 		this.triggerBtn.onclick = function() {
             that.show();
-		}
+		};
 		this.closeBtn.onclick = function() {
 			that.close();
-		}
+		};
 		this.outsideClick();
-	}
+	};
 	modalBox.init();
-
-
 })();

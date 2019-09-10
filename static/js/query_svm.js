@@ -1,7 +1,10 @@
+//查询分析时ja文件
+//作者：马瑞
+//时间：2019-09-06
 let query_analysis = document.getElementById('query_analysis');
 let bar = echarts.init(document.getElementById('predict_bar'));
 let radar = echarts.init(document.getElementById('predict_radar'));
-
+//响应函数模板
 function ajaxResponse(xhr, successFunction, falseFunction) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
@@ -14,9 +17,8 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
         }
     }
 }
-
+//分析按钮功能函数，显示
 query_analysis.onclick = function () {
-
     let xhrRegister = new XMLHttpRequest();
     ajaxResponse(xhrRegister,
         function () {

@@ -1,3 +1,6 @@
+//home页面模态框
+//作者：马瑞
+//时间：2019-09-04
 (function() {
 	/*建立模态框对象*/
 	var modalBox = {};
@@ -18,26 +21,17 @@
 		self.location.href="./lending.html";
 
 	};
-	/*当用户点击模态框内容之外的区域，模态框也会关闭*/
-	// modalBox.outsideClick = function() {
-	// 	var modal = this.modal;
-	// 	window.onclick = function(event) {
-    //         if(event.target == modal) {
-    //         	modal.style.display = "none";
-    //         }
-	// 	}
-	// }
     /*模态框初始化*/
 	modalBox.init = function() {
 		var that = this;
 		this.triggerBtn.onclick = function() {
             that.show();
-		}
+		};
 		this.closeBtn.onclick = function() {
 			that.close();
-		}
+		};
 		this.outsideClick();
-	}
+	};
 	modalBox.init();
  
 })();

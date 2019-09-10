@@ -5,6 +5,7 @@
 # （2）请使用 APIID 及 APIKEY来调用接口，可在会员中心获取；
 # （3）该代码仅供接入互亿无线短信接口参考使用，客户可根据实际需要自行编写；
 
+# 发送短信接口文件
 import json
 import urllib
 from urllib import parse

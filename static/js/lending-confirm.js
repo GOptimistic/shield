@@ -1,6 +1,9 @@
+//贷款确认界面js
+//作者： 李昊博 霍然
+//时间：2019-08-24
 let loanInfo, fundedMoney;
 let xhrRegister = new XMLHttpRequest();
-
+//页面加载时加载从lending页面传来的信息
 window.onload = function () {
     if (typeof Storage == 'undefined') {
         alert('do not support storage');
@@ -51,7 +54,7 @@ window.onload = function () {
     }
 };
 
-
+//确认按钮功能函数，将贷款信息发送到后端
 let cirBtn = document.getElementById('confirm-lend');
 cirBtn.onclick = function () {
     fundedMoney = document.getElementById('funded-money').value;
@@ -72,7 +75,7 @@ cirBtn.onclick = function () {
     loanInfo.isUpload = 0;
     loanInfo.fundedAmount = fundedMoney;
     loanInfo.shouldPaybackTime = new Date(shouldPaybackTime.setMonth(shouldPaybackTime.getMonth() + loanInfo.loanDuration * 12)).Format("yyyy-MM-dd HH:mm:ss");
-    //console.log(loanInfo.shouldPaybackTime);
+
 
     var response;
     ajaxResponse(xhrRegister, function () {
@@ -105,7 +108,7 @@ modBtn.onclick = function () {
     location.assign('./lending.html');
 };
 
-
+//响应函数模板
 function ajaxResponse(xhr, successFunction, falseFunction) {
     //响应函数
     xhr.onreadystatechange = function () {
@@ -114,7 +117,6 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
             if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
                 successFunction();
             } else {
-                // alert("失败" + xhr.status);
                 falseFunction();
             }
         }
@@ -128,6 +130,7 @@ function listToJSONStr(str) {
 }
 
 //Date的prototype 属性可以向对象添加属性和方法。
+//更改Date格式
 Date.prototype.Format = function (fmt) {
     let o = {
         "M+": this.getMonth() + 1,
@@ -174,15 +177,6 @@ Date.prototype.Format = function (fmt) {
         self.location.href = "./lending.html";
 
     };
-    /*当用户点击模态框内容之外的区域，模态框也会关闭*/
-    // modalBox.outsideClick = function() {
-    // 	var modal = this.modal;
-    // 	window.onclick = function(event) {
-    //         if(event.target == modal) {
-    //         	modal.style.display = "none";
-    //         }
-    // 	}
-    // }
     /*模态框初始化*/
     modalBox.init = function () {
         var that = this;

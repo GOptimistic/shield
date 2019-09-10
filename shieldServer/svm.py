@@ -1,28 +1,14 @@
+# svm模块文件
 import json
 import os
-# import pandas as pd
 import numpy as np
-# import matplotlib.pyplot as plt
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-# from scipy import stats
-# import numpy
 import seaborn as sns
 import time, datetime
-# from sklearn.svm import SVC
 from shieldServer.models import Borrower
 from shieldServer.views import trans_data
-# from sklearn import decomposition
-# from sklearn.decomposition import PCA
-# from sklearn.datasets import load_digits
-# # from sklearn.metrics import accuracy
-# from sklearn.model_selection import GridSearchCV
-# from sklearn import svm
 from sklearn.preprocessing import MinMaxScaler
-# from sklearn.metrics import roc_auc_score
-# from sklearn.metrics import accuracy_score
-# from sklearn.model_selection import train_test_split
-# from sklearn.metrics import classification_report
 from sklearn.externals import joblib
 
 sns.set()

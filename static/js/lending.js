@@ -1,3 +1,6 @@
+//贷款页面js文件
+//作者：李昊博
+//时间：2019-08-24
 let chkPpsRadio = document.getElementsByName("lending-purpose-radio");
 let chkDurRadio = document.getElementsByName('lending-duration-radio');
 let chkGrdRadio = document.getElementsByName('lending-grade-radio');
@@ -6,6 +9,8 @@ let anaBtn = document.getElementById('analysis-button');
 let borrowerName, borrowerID, borrowerPhone, loanedMoney, loanType;
 let duration, grade, empTitle, empLength, annualIncome, homeOwnership, rate;
 
+//页面分析按钮功能，获取页面输入框信息，传入到lending-confirm和lending-result两个页面
+//并检测输入情况，页面跳转
 anaBtn.onclick = function () {
     borrowerName = document.getElementById('lending_input_name').value;
     borrowerID = document.getElementById('lending_input_ID').value;
@@ -15,10 +20,6 @@ anaBtn.onclick = function () {
     annualIncome = document.getElementById('lending_input_anlincome').value;
     empLength = document.getElementById('lending_input_emplength').value;
     let creditTime = new Date(document.getElementById('lending_input_date').value).Format("yyyy-MM-dd");
-    console.log(borrowerName+'  borrowername');
-        //alert(isChinaOrLetter(borrowerName));
-
-    let xhrRegister = new XMLHttpRequest();
 
     for (var k = 0; k < chkHosRadio.length; k++) {
         if (chkHosRadio[k].checked) {
@@ -106,7 +107,7 @@ anaBtn.onclick = function () {
         default:
             loanType = null;
     }
-
+    //判断信息是否完全填入且合法，否则弹出提示框提醒
     let isComplete = true;
     if (loanType == null) {
         isComplete = false;
@@ -156,7 +157,7 @@ anaBtn.onclick = function () {
         isComplete = false;
         return alert('请输入日期')
     }
-
+    //需传递信息
     if (isComplete) {
         let lendingInfo = {
             borrowerName: borrowerName,
@@ -209,12 +210,7 @@ Date.prototype.Format = function (fmt) {
     return fmt;
 };
 
-function toTimeString(temp) {
-    let dateAry = temp.split("/");
-    let tempStr = dateAry[2] + ' ' + dateAry[1] + ',' + dateAry[2];
-    return tempStr;
-}
-
+//检测身份证号是否合法
 function checkCard(str) {
     //15位数身份证正则表达式
     let arg1 = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$/;
@@ -257,6 +253,7 @@ function isMoney(s) {//判断是否为金额格式
     }
 }
 
+//检测是否为纯数字
 function isNumber(s) {
     var regu = "^[0-9]+$";
     var re = new RegExp(regu);
@@ -267,6 +264,7 @@ function isNumber(s) {
     }
 }
 
+//检测是否为日期字符串
 function isDate(str) {
     //适用于yyyy-mm-dd格式
     let arg = /^(\d{4})-(0[1-9]|1[012])-([012][0-9]|3[01])$/;

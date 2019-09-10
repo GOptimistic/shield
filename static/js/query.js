@@ -1,19 +1,22 @@
+//查询页面js文件
+//作者：管政 李昊博
+//时间：2019-08-28
+
+//查询按钮函数
 function queryFunction() {
     //要查询的身份证号
     var idNumber = document.getElementById("query-identitynumber").value;
-    console.log(idNumber);
     //要查询的贷款单号
     var loanNumber = document.getElementById("query-serialnumber").value;
-    console.log(loanNumber);
-    window.location.href = "query_result.html?idNumber=" + idNumber + '&loanNumber=' + loanNumber;
-    // if (isDate(loanDate) || checkCard(idNumber) || isOrderNum(loanNumber)) {
-    //     window.location.href = "query_result.html?idNumber=" + idNumber + '&loanNumber=' + loanNumber + '&loanDate=' + loanDate;
-    //     window.location.href = "query_result.html?idNumber=" + idNumber + '&loanNumber=' + loanNumber + '&loanDate=' + loanDate;
-    // } else {
-    //     return alert('请正确输入信息');
-    // }
+
+    if (isDate(loanDate) || checkCard(idNumber) || isOrderNum(loanNumber)) {
+        window.location.href = "query_result.html?idNumber=" + idNumber + '&loanNumber=' + loanNumber;
+    } else {
+        return alert('请正确输入信息');
+    }
 }
 
+//响应函数模板
 // 从输入框重接受手机号或单号，放到数据库中查询，再返回结果
 function ajaxResponse(xhr, successFunction, falseFunction) {
     xhr.onreadystatechange = function () {
@@ -28,6 +31,7 @@ function ajaxResponse(xhr, successFunction, falseFunction) {
     }
 }
 
+//检测输入是否为13位订单号
 function isOrderNum(str) {
     var reg = /^[0-9]{13}$/;   /*定义验证表达式*/
     return reg.test(str);     /*进行验证*/
@@ -45,6 +49,7 @@ function checkCard(str) {
     }
 }
 
+//检测是否为日期格式字符串
 function isDate(str) {
     //适用于mm/dd/yyyy格式
     let arg = /^(0[1-9]|1[012])\/([012][0-9]|3[01])\/(\d{4})$/;

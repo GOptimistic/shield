@@ -1,6 +1,9 @@
+//贷款分析页面js文件
+//作者：李昊博 马瑞
+//时间：2019-08-24
 let lendResConBtn = document.getElementById('lending-result-confirm');
 let lendResCelBtn = document.getElementById('lending-result-cancel');
-
+//页面加载时显示区块链数据库与本地数据库信息
 window.onload = function () {
     let blockHisInfo = document.getElementById('lend-history-block-info');
     let localHisInfo = document.getElementById('lend-history-local-info');
@@ -18,11 +21,10 @@ window.onload = function () {
         xhrRegister.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=utf-8');
         xhrRegister.send(JSON.stringify(lendingResult));
     }
-
+    //网页table中显示贷款用户已有信息
     ajaxResponse(xhrRegister, function () {
         //console.log(xhrRegister.responseText);
         let jsonString = ajaxToJSONStr(xhrRegister.responseText);
-        console.log(jsonString);
         let lendingInfo = JSON.parse(jsonString);
         let blockInfo = lendingInfo['block'];
         var blockInfoLength = lendingInfo['blockLength'];
@@ -88,11 +90,9 @@ window.onload = function () {
     bar.innerHTML += "<h2 class=\"results_title\" style='line-height:500px;'>数据不足，无法生成分析图</h2>";
     radar.innerHTML += "<h2 class=\"results_title\" style='line-height:500px;'>数据不足，无法生成分析图</h2>";
 
-
+    //网页显示贷款人分析图表
     ajaxResponse(xhrRegister2, function () {
         let re = JSON.parse(xhrRegister2.responseText);
-        console.log(re.default_times);
-        console.log(re.isNull);
         if (!re.isNull) {
             let bar = echarts.init(document.getElementById('lending_bar'));
             let radar = echarts.init(document.getElementById('lending_radar'));
@@ -197,12 +197,14 @@ window.onload = function () {
 
 };
 
+//响应函数模板
 function ajaxResponse(xhr, successFunction, falseFunction) {
     xhr.onreadystatechange = function () {
         successFunction();
     }
 }
 
+//使传回的内容变为json字符串
 function ajaxToJSONStr(str) {
     //从后端使用jsonresponce传回Ajax= serializers.serialize("json", queryset)
     str = str.slice(1, -1);
@@ -219,11 +221,15 @@ function listToJSONStr(str) {
     return str;
 }
 
+//贷款确认按钮函数
+//页面跳转
 lendResConBtn.onclick = function () {
 
     location.assign('./lending_confirm.html');
 };
 
+//返回修改按钮函数
+//页面跳转，清空localstorage
 lendResCelBtn.onclick = function () {
     if (localStorage.getItem('loanInfo') != null) {
         localStorage.removeItem('loanInfo');

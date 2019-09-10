@@ -1,3 +1,7 @@
+//修改密码功能js文件
+//作者：马瑞
+//时间：2019-08-31
+//网页加载时加载用户信息
 window.onload = function () {
     let changePwdName = document.getElementById('changingPsw-name');
     let changePwdId = document.getElementById('changingPsw-id');
@@ -18,6 +22,7 @@ window.onload = function () {
     xhrRegister.send();
 };
 
+//响应函数模板
 function ajaxResponse(xhr, successFunction, falseFunction) {
     xhr.onreadystatechange = function () {
         successFunction();

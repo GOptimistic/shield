@@ -1,3 +1,4 @@
+//网页模板对应js文件
 $(function() {
 
         var $fullText = $('.admin-fullText');

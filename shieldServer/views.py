@@ -1,13 +1,9 @@
+# 网页后端功能文件
 from django.db.models import F, Q
 from django.shortcuts import render, render_to_response
-from django.views.decorators.csrf import csrf_exempt
 import json
-import time
 import datetime
 from .models import User, Borrower, Alert
-from django.http import HttpResponse, JsonResponse
-from django.core import serializers
-
 from datetime import datetime, timedelta
 from django.utils.timezone import now
 from apscheduler.scheduler import Scheduler
@@ -18,9 +14,7 @@ import urllib
 from urllib import parse
 from django.http import JsonResponse, request
 import http.client
-from django.utils.crypto import random
 from django.views.decorators.csrf import csrf_exempt
-
 from shieldServer.models import User
 
 # 请求的路径
@@ -36,6 +30,7 @@ password = "cb574d94c2cbcd0f039fa242e7efba1b"
 global query_data
 
 
+# 检测登陆状态，选择跳转不同页面
 def home(request):
     is_login = request.session.get('is_login', False)
     if is_login:
@@ -43,6 +38,7 @@ def home(request):
     return render(request, 'home.html')
 
 
+# 其他界面的跳转
 def others(request, file):
     is_login = request.session.get('is_login', False)
     if is_login:
@@ -83,6 +79,7 @@ def others(request, file):
             return render(request, 'query_analysis.html')
         if file == 'alert':
             return render(request, 'alert.html')
+        # 查询页面查询功能
         if file == 'query_result':
             idNumber = request.GET.get('idNumber')
             loanNumber = request.GET.get('loanNumber')
@@ -124,6 +121,7 @@ def trans_data():
     return query_data
 
 
+# 登陆函数
 @csrf_exempt
 def login(request):
     if request.method == 'POST':
@@ -149,6 +147,7 @@ def login(request):
             return JsonResponse({'status': 200, 'msg': 'wrong user name or password'})
 
 
+# 注销函数
 @csrf_exempt
 def logout(request):
     if request.method == 'POST':
@@ -157,6 +156,22 @@ def logout(request):
     return JsonResponse({'status': 200, 'msg': 'logout successfully'})
 
 
+# 判断是否为管理员
+@csrf_exempt
+def is_manager(request):
+    if request.method == 'POST':
+        req = json.loads(request.body)
+        userID = req['USERID']
+        pwd = req['USERPSW']
+        manager_list = User.objects.filter(username=userID, password=pwd).values('username', 'password', 'user_rank')
+        is_manager_list = list(manager_list)
+        if len(is_manager_list) == 1:
+            if is_manager_list[0]['user_rank'] != '员工':
+                return JsonResponse({'status': 200, 'msg': True})
+    return JsonResponse({'status': 200, 'msg': False})
+
+
+# 还款界面信息
 @csrf_exempt
 def repayment(request):
     pid = []
@@ -282,7 +297,7 @@ def add_lending(request):
         block_info = findbyidname(borrower_ID, borrower_Name)
         delinq = len(json.loads(block_info))
 
-        coll_attention = cal_dti(loan_amount, funded_amount, loan_duration, annual_income, home_ownership, delinq,
+        coll_attention = cal_attention(loan_amount, funded_amount, loan_duration, annual_income, home_ownership, delinq,
                                  2, funded_amount / (installment * 12 * loan_duration))
         need_add_loan = Borrower.objects.get_or_create(
             borrower_name=borrower_Name,
@@ -321,7 +336,7 @@ def add_lending(request):
         return JsonResponse({'status': 200, 'msg': 'add failed'})
 
 
-def cal_dti(loan, funded, duration, income, house, delinq, status, left):
+def cal_attention(loan, funded, duration, income, house, delinq, status, left):
     result = 0.0
     income_weight = 0.0
     house_weight = 0.0
@@ -455,6 +470,48 @@ def alert_know(request):
         info_pid = req['loanerPId']
         Alert.objects.filter(pid=info_pid).update(status=1)
         return JsonResponse({'status': 200, 'msg': 'success'})
+    return JsonResponse({'status': 200, 'msg': 'con not get the person'})
+
+
+@csrf_exempt
+def usermanage(request):
+    if request.method == 'POST':
+        user_info_data = {}
+        usermanage_req = json.loads(request.body)
+        user_info = User.objects.filter(user_rank="员工").values('username', 'user_real_name', 'user_phone', 'user_rank')
+        user_info_data = list(user_info)
+    return JsonResponse(user_info_data, safe=False)
+
+
+def deleteuser(request):
+    if request.method == 'POST':
+        delete_req = json.loads(request.body)
+        delete_one = User.objects.get(username=delete_req['username'])
+        delete_one.delete()
+    return JsonResponse({'status': 200, 'msg': 'con not get the person'})
+
+
+@csrf_exempt
+def new_user(request):
+    if request.method == 'POST':
+        user_info = User.objects.all()
+        last_user = user_info.last()
+        username_base = last_user.username
+        username_base_int = int(username_base)
+        username_base_int = username_base_int + 1
+        username_base = str(username_base_int)
+        new_user_req = json.loads(request.body)
+        add_user = User.objects.get_or_create(
+            username=username_base,
+            password="000000",
+            user_phone=new_user_req['new_user_phone'],
+            user_rank=new_user_req['new_user_rank'],
+            user_real_name=new_user_req['new_user_name']
+        )
+        if add_user:
+            return JsonResponse({'status': 200, 'msg': 'add successfully'})
+        return JsonResponse({'status': 200, 'msg': 'add failed'})
+
     return JsonResponse({'status': 200, 'msg': 'con not get the person'})
 
 
@@ -603,7 +660,7 @@ begin_time = datetime(2019, next_time.month, next_time.day, 8, 0, 0)
 sched = Scheduler()
 
 
-@sched.interval_schedule(seconds=6)
+@sched.interval_schedule(seconds=60)
 def my_task1():
     print('定时任务1开始\n')
     task_Fun()
@@ -624,45 +681,3 @@ def auto_remind():
 
 
 sched.start()
-
-
-@csrf_exempt
-def usermanage(request):
-    if request.method == 'POST':
-        user_info_data = {}
-        usermanage_req = json.loads(request.body)
-        user_info = User.objects.filter(user_rank="员工").values('username', 'user_real_name', 'user_phone', 'user_rank')
-        user_info_data = list(user_info)
-    return JsonResponse(user_info_data, safe=False)
-
-
-def deleteuser(request):
-    if request.method == 'POST':
-        delete_req = json.loads(request.body)
-        delete_one = User.objects.get(username=delete_req['username'])
-        delete_one.delete()
-    return JsonResponse({'status': 200, 'msg': 'con not get the person'})
-
-
-@csrf_exempt
-def new_user(request):
-    if request.method == 'POST':
-        user_info = User.objects.all()
-        last_user = user_info.last()
-        username_base = last_user.username
-        username_base_int = int(username_base)
-        username_base_int = username_base_int + 1
-        username_base = str(username_base_int)
-        new_user_req = json.loads(request.body)
-        add_user = User.objects.get_or_create(
-            username=username_base,
-            password="000000",
-            user_phone=new_user_req['new_user_phone'],
-            user_rank=new_user_req['new_user_rank'],
-            user_real_name=new_user_req['new_user_name']
-        )
-        if add_user:
-            return JsonResponse({'status': 200, 'msg': 'add successfully'})
-        return JsonResponse({'status': 200, 'msg': 'add failed'})
-
-    return JsonResponse({'status': 200, 'msg': 'con not get the person'})

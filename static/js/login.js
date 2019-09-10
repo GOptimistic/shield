@@ -1,8 +1,12 @@
 //for login in the index page
+//登陆页面js文件
+//作者：李昊博 马瑞
+//时间：2019-08-22
+
+//响应函数模板
 function ajaxResponse(xhr, successFunction, falseFunction) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-            console.log(xhr.status);
             if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
                 successFunction();
             } else {
@@ -19,6 +23,7 @@ function keyLogin() {
         document.getElementById("login-button").click(); //调用登录按钮的登录事件
 }
 
+//确认按钮功能，发出请求，访问数据库
 let subBt = document.getElementById('login-button');
 subBt.onclick = function () {
     let userID = document.getElementById('login-name').value;
@@ -29,16 +34,12 @@ subBt.onclick = function () {
         function () {
             let response = JSON.parse(xhrRegister.responseText);
             document.getElementById("login_name_j").innerHTML = response.msg;
-            console.log("success")
-            console.log(response.msg)
             if (response.msg === 'login successfully') {
                 location.assign('./home_after.html');
             }
 
         }, function () {
-            let respones = JSON.parse(xhrRegister.responseText)
-            console.log("false");
-            console.log(respones.msg)
+            let respones = JSON.parse(xhrRegister.responseText);
             document.getElementById("login_name_j").innerHTML = respones.msg;
         });
     let user = {

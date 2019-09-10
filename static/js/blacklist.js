@@ -1,3 +1,7 @@
+//黑名单页面js文件
+//作者：李文炜
+//时间：2019-09-08
+//网页加载时发出请求，从区块链数据库中查询失信名单
 var re;
 window.onload = function () {
     let xhrRegister = new XMLHttpRequest();
@@ -8,7 +12,6 @@ window.onload = function () {
             tbody.innerHTML = "";
             var index = 0;
             for (; index < re.length; index++) {
-
                 console.log(re[index]);
                 tbody.innerHTML = tbody.innerHTML + '<tr id="blacklist_tr' + (index + 1) + '><td><input type="checkbox"></td><td>' +
                     (index + 1) + '</td><td>' + re[index].name + '</td><td>' +
@@ -24,6 +27,7 @@ window.onload = function () {
     xhrRegister.send();
 };
 
+//响应函数模板
 function ajaxResponse(xhr, successFunction, falseFunction) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {

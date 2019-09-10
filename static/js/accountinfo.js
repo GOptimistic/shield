@@ -1,3 +1,10 @@
+//账户信息网页js
+//作者：霍然 主要功能
+//      李昊博 输入检测
+//时间：2019-08-25
+
+// 网页加载时运行，获取当前使用者信息
+// 从输入框重接受手机号或单号，放到数据库中查询，再返回结果
 window.onload = function () {
     let hName = document.getElementById('accountinfo_name');
     let hId = document.getElementById('accountinfo_id');
@@ -6,7 +13,6 @@ window.onload = function () {
     ajaxResponse(xhrRegister,
         function () {
             let jsonString = listToJSONStr(xhrRegister.responseText);
-            //console.log(jsonString);
             let workerinfo = JSON.parse(jsonString);
             hName.innerHTML = workerinfo.user_real_name;
             hId.innerHTML = workerinfo.username;
@@ -19,7 +25,7 @@ window.onload = function () {
 
 };
 
-// 从输入框重接受手机号或单号，放到数据库中查询，再返回结果
+// 响应函数框架
 function ajaxResponse(xhr, successFunction, falseFunction) {
     xhr.onreadystatechange = function () {
         successFunction();

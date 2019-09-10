@@ -1,6 +1,8 @@
-//app.title = '折柱混合';
+//登陆后首页js文件
+//作者：李昊博
+//时间：2019-09-05
+//在登陆之后首页显示图表
 let histogram = echarts.init(document.getElementById('histogram'));
-
 option1 = {
     tooltip: {
         trigger: 'axis',

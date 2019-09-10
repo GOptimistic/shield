@@ -44,4 +44,5 @@ urlpatterns = [
     path('alert_know/', views.alert_know, name='alertsearch'),
     path('accountinfo/', views.accountinfo, name="accountinfo"),
     path('lending_svm/', svm.lending_svm, name="lending_svm"),
+    path('userManageEnter/', views.is_manager, name='is_manager'),
 ]

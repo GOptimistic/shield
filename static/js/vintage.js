@@ -1,3 +1,6 @@
+//echart图表样式
+//作者：李昊博
+//时间：2019-09-06
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
