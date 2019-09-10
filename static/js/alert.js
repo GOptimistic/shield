@@ -20,7 +20,7 @@ window.onload = function () {
                     '<div class="am-btn-groupam-btn-group-xs"><button type="button" ' + 'id="' + (index) + '" onclick="know_btn_action(this)" ' +
                     'class="am-btn am-btn-default am-btn-xs am-text-secondary">' +
                     '<span class="am-icon-pencil-square-o"></span>' +
-                    '知道了</button></div></div></td></tr>';
+                    '忽略</button></div></div></td></tr>';
             }
         }, function () {
         });
@@ -30,8 +30,8 @@ window.onload = function () {
     xhrRegister.send();
 };
 
-//网页中“知道了”按钮函数，发出请求，使alert数据库中按钮对应条目中status变为1
-//参数：“知道了”按钮元素
+//网页中“忽略”按钮函数，发出请求，使alert数据库中按钮对应条目中status变为1
+//参数：“忽略”按钮元素
 function know_btn_action(element) {
     let info = {
         loanerPId: re[element.id].pid
