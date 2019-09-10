@@ -1,3 +1,5 @@
+# 多数据库和model路由绑定文件
+# 作者：马瑞  创建时间：2019.8.22
 from django.conf import settings
 
 DATABASE_MAPPING = settings.DATABASE_APPS_MAPPING
