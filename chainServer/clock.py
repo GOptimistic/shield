@@ -69,15 +69,14 @@ def get_out_ip():
     r = requests.get(url)
     txt = r.text
     ip = txt[txt.find('title') + 6:txt.find('/title') - 1]
-    return (ip)
+    return ip
 
 
-
-global chain
 chain = [create_genesis_block()]
 my_ip = get_out_ip()
 my_ip = "http://" + my_ip + ":8001/"
 print(my_ip)
+
 
 # get data from Recordnodes to chain
 def getchain():
@@ -132,11 +131,11 @@ if peer_nodes.__contains__(my_ip):
 
 def valid_chain(tocheckchain):
     # Determine if a given blockchain is valid
-
+    print(len(tocheckchain))
     last_block = tocheckchain[0]
     current_index = 1
     while current_index < len(tocheckchain):
-        block = chain[current_index]
+        block = tocheckchain[current_index]
         print(f'{last_block}')
         print(f'{block}')
         print("\n-----------\n")
@@ -168,7 +167,7 @@ def record(requestrecords):
 
 #  GET block
 def get_blocks(request):
-    chain_to_send = chain
+    chain_to_send = chain.copy()
     # Convert our blocks into dictionaries
     # so we can send them as json objects later
     for i in range(len(chain_to_send)):
@@ -188,7 +187,7 @@ def get_blocks(request):
         chain_to_send[i] = json.dumps(chain_to_send[i])
     blockstr = chain_to_send[0]
     for i in range(len(chain_to_send) - 1):
-        blockstr = blockstr + '**' + chain_to_send[i + 1]
+        blockstr = blockstr + "**" + chain_to_send[i + 1]
     return JsonResponse(blockstr, safe=False)
 
 
@@ -208,21 +207,24 @@ def find_new_chains():
         blocklist = str.split(block, '**')
         for i in blocklist:
             i = json.loads(i)
+            print(i)
+            print(type(i))
+        print(blocklist)
         other_chains.append(blocklist)
     return other_chains
 
 
 def consensus():
     # Get the blocks from other nodes
+    longest_chain = chain.copy()
     othernodeschains = find_new_chains()
     # If our chain isn't longest,
     # then we store the longest chain
-    longest_chain = chain
     for i in range(len(longest_chain)):
         chainss = {
             'index': str(longest_chain[i].index),
             'timestamp': str(longest_chain[i].timestamp),
-            'data': str(longest_chain[i]),
+            'data': str(longest_chain[i].data),
             'previous_hash': longest_chain[i].previous_hash,
             'hash': longest_chain[i].hash
         }
@@ -231,22 +233,24 @@ def consensus():
     for chains in othernodeschains:
         if len(longest_chain) < len(chains):
             change = True
-            longest_chain = chains
+            longest_chain = chains.copy()
     # If the longest chain isn't ours,
     # then we stop mining and set
     # our chain to the longest one
     if change:
         chain.clear()
-        chain = [create_genesis_block()]
+        chain.append(create_genesis_block())
         Recordnodes.objects.all().delete()
         print("delete origin data")
         for chains in longest_chain:
             chains['data'] = json.dumps(chains['data'])
-            chain.append(Block(chains['index'], chains['timestamp'], chains['data'], chains.previous_hash))
-            Recordnodes(id=chains['index'], name=chains.data['name'], ID_card=chains.data['ID_card'],
+            chain.append(Block(chains['index'], chains['timestamp'], chains['data'], chains['previous_hash']))
+            Recordnodes(id=chains['index'], name=chains['data']['name'], ID_card=chains['data']['ID_card'],
                         money=chains['data']['money'], funding_terms=chains['data']['funding_terms'],
                         default_date=chains['timestamp'], hash_previous=chains['previous_hash'],
                         hash_current=chains['hash']).save()
+    return
+
 
 
 def mine(requestrecords):
@@ -281,7 +285,7 @@ def mine(requestrecords):
             # Let the other nodes know we mined a block
             mined_block_dict = mined_block.to_dict()
             # date_time = mined_block_dict['timestamp']
-            # mined_block_dict['timestamp'] = date_time.strftime('%Y-%m-%d %H:%I:%S')
+            # mined_block_dict['timestamp'] = date_time.strftime('%Y-%m-%d %H:%M:%S')
             mined_block_json = json.dumps(mined_block_dict)
             print(mined_block_json)
             print(node_url)
