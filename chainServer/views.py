@@ -37,17 +37,17 @@ def broadcastreceiver(request):
         print("hhhhhhhhh")
         if clock.valid_chain(clock.chain):
             print("添加成功")
-        else:
-            print("区块添加无效")
-            clock.consensus()
-    elif send_block.previous_hash == clock.chain[len(clock.chain) - 1].previous_hash and send_block.hash == clock.chain[
-        len(clock.chain) - 1].hash:
+    elif send_block.previous_hash == clock.chain[len(clock.chain) - 1].previous_hash and \
+            send_block.hash == clock.chain[len(clock.chain) - 1].hash:
         print("广播区块已存在")
         return
+    elif send_block.previous_hash == clock.chain[len(clock.chain) - 1].previous_hash and \
+            send_block.hash != clock.chain[len(clock.chain) - 1].hash:
+        print("并发，不同区块被同时上传")
     else:
-        print("warning: 区块链不同步")
+        print("warning: 区块链出现分支")
         clock.consensus()
-    return HttpResponse("收到广播")
+    return
 
 
 def blacklist_search(request):

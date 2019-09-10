@@ -603,7 +603,7 @@ begin_time = datetime(2019, next_time.month, next_time.day, 8, 0, 0)
 sched = Scheduler()
 
 
-@sched.interval_schedule(seconds=6000)
+@sched.interval_schedule(seconds=6)
 def my_task1():
     print('定时任务1开始\n')
     task_Fun()

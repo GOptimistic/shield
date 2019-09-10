@@ -1,9 +1,11 @@
 import json
+import  re
 import requests
 import hashlib as hasher
 import datetime as date
 from django.http import JsonResponse
 from chainServer.models import Recordnodes
+from shieldServer.models import Borrower
 import socket
 import ast
 
@@ -65,10 +67,8 @@ def create_genesis_block():
 
 
 def get_out_ip():
-    url = r'http://www.trackip.net/'
-    r = requests.get(url)
-    txt = r.text
-    ip = txt[txt.find('title') + 6:txt.find('/title') - 1]
+    response = requests.get("http://txt.go.sohu.com/ip/soip")
+    ip = re.search(r'\d+\.\d+\.\d+\.\d+', response.content.decode(errors='ignore')).group(0)
     return ip
 
 
@@ -238,8 +238,17 @@ def consensus():
     # then we stop mining and set
     # our chain to the longest one
     if change:
+        point = len(chain) - 1
+        for i in range(len(chain)):
+            if chain[i].hash != longest_chain[i]['hash']:
+                point = i
+        pointindex = point
+        while pointindex < (len(chain) - 1):
+            Borrower.objects.filter(borrower_name=chain[pointindex].data['name'],
+                                    borrower_id=chain[pointindex].data['ID_card'],
+                                    should_payback_time=chain[pointindex].timestamp).update(is_uploaded=0)
+
         chain.clear()
-        chain.append(create_genesis_block())
         Recordnodes.objects.all().delete()
         print("delete origin data")
         for chains in longest_chain:
@@ -250,7 +259,6 @@ def consensus():
                         default_date=chains['timestamp'], hash_previous=chains['previous_hash'],
                         hash_current=chains['hash']).save()
     return
-
 
 
 def mine(requestrecords):
