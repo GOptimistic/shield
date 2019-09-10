@@ -66,7 +66,7 @@ def query_svm(request):
     print(data_normorlize)
 
     print(os.getcwd())
-    model = joblib.load('shieldServer/shield2.model')
+    model = joblib.load('shieldServer/shield3.model')
     print('--------------model--------------')
     print(model)
     estimator = model.best_estimator_
@@ -145,7 +145,7 @@ def lending_svm(request):
         print(data_normorlize)
 
         print(os.getcwd())
-        model = joblib.load('shieldServer/shield2.model')
+        model = joblib.load('shieldServer/shield3.model')
         print('--------------model--------------')
         print(model)
         estimator = model.best_estimator_

@@ -25,9 +25,9 @@ query_analysis.onclick = function () {
             document.getElementById("predict_class").innerHTML = re.class;
             let probability = re.proba;
             let anti_proba = [];
-            for (let i = 1; i < re.proba.length; ++i) {
-                anti_proba.push((1 - probability[i]).toFixed(4));
+            for (let i = 0; i < re.proba.length; ++i) {
                 probability[i] = probability[i].toFixed(4);
+                anti_proba.push((1 - probability[i]).toFixed(4));
             }
             let option1 = {
                 tooltip: {
