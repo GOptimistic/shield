@@ -247,12 +247,12 @@ def repayment(request):
     return JsonResponse(json_data, safe=False)
 
 
+# 更改密码
 @csrf_exempt
 def changePwd(request):
     req = json.loads(request.body)
     user_id = req['id']
     new_pwd = req['pwd']
-
     try:
         user = User.objects.get(username=user_id)
         user.password = new_pwd
@@ -266,6 +266,7 @@ def repaymentPage(request):
     return render_to_response("repayment.html")
 
 
+# 添加一项贷款
 @csrf_exempt
 def add_lending(request):
     if request.method == 'POST':
@@ -336,6 +337,7 @@ def add_lending(request):
         return JsonResponse({'status': 200, 'msg': 'add failed'})
 
 
+# 计算关注度
 def cal_attention(loan, funded, duration, income, house, delinq, status, left):
     result = 0.0
     income_weight = 0.0
@@ -373,6 +375,7 @@ def cal_attention(loan, funded, duration, income, house, delinq, status, left):
     return result
 
 
+# 获取账户信息
 @csrf_exempt
 def accountinfo(request):
     if request.method == 'POST':
@@ -394,6 +397,7 @@ def query(request, idNumber, loanNumber, loanDate):
     return render(request, 'home.html')
 
 
+# 贷款时查询区块链和本地数据库返回数据
 @csrf_exempt
 def lending_result(request):
     if request.method == 'POST':
@@ -421,6 +425,7 @@ def lending_result(request):
         return JsonResponse(jsonStr, safe=False)
 
 
+# 还款
 @csrf_exempt
 def repayment_repay(request):
     if request.method == 'POST':
@@ -453,6 +458,7 @@ def repayment_repay(request):
     return JsonResponse({'status': 200, 'msg': 'con not get the person'})
 
 
+# 预警筛查
 def alert_serach(request):
     if request.method == 'POST':
         alert_list = Alert.objects.exclude(status=1).values()
@@ -463,6 +469,7 @@ def alert_serach(request):
     return JsonResponse({'status': 200, 'msg': 'con not get the person'})
 
 
+# 预警信息得知后取消通知
 @csrf_exempt
 def alert_know(request):
     if request.method == 'POST':
@@ -473,6 +480,7 @@ def alert_know(request):
     return JsonResponse({'status': 200, 'msg': 'con not get the person'})
 
 
+# 管理员登陆
 @csrf_exempt
 def usermanage(request):
     if request.method == 'POST':
@@ -483,6 +491,7 @@ def usermanage(request):
     return JsonResponse(user_info_data, safe=False)
 
 
+# 删除用户
 def deleteuser(request):
     if request.method == 'POST':
         delete_req = json.loads(request.body)
@@ -491,6 +500,7 @@ def deleteuser(request):
     return JsonResponse({'status': 200, 'msg': 'con not get the person'})
 
 
+# 添加新用户
 @csrf_exempt
 def new_user(request):
     if request.method == 'POST':
@@ -538,6 +548,7 @@ def task_Fun():
     sleep(1)
 
 
+# 短信通知
 def remind():
     # 提前两天开始每天通知所有客户
     remind_all = Borrower.objects.filter(payback=0)
@@ -613,20 +624,16 @@ def remind():
         .update(month_payback_dt=F('month_payback_dt') + timedelta(days=30), this_month_repay=0)
 
 
-# remind()
-
-
-# 需要更改
+# 关注度增加函数
 def auto_add_collect_attention():
     auto_add_list = Borrower.objects.filter(payback=0)
     auto_add_list_first = auto_add_list.filter(last_pymnt_d=None, borrower_time__lt=now()).update(
         collect_attention=F('collect_attention') + 0.001)
     auto_add_list_not_first = auto_add_list.exclude(last_pymnt_d=None, last_pymnt_d__gt=now()).update(
         collect_attention=F('collect_attention') + 0.001)
-    print(auto_add_list_first)
-    print(auto_add_list_not_first)
 
 
+# 筛选预警客户名单
 def alert_times():
     need_alert = Borrower.objects.filter(borrower_time__gte=now() + timedelta(days=-7))
     is_name_dict = {}
@@ -655,6 +662,7 @@ def alert_times():
     Alert.objects.bulk_create(add_record_list)
 
 
+# 设定功能启动时间
 next_time = now() + timedelta(days=1)
 begin_time = datetime(2019, next_time.month, next_time.day, 8, 0, 0)
 sched = Scheduler()
