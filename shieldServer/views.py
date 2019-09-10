@@ -51,12 +51,8 @@ def others(request, file):
             return render(request, 'lending_confirm.html')
         if file == 'lending_results':
             return render(request, 'lending_results.html')
-        if file == 'login':
-            return render(request, 'login.html')
         if file == 'query':
             return render(request, 'query.html')
-        if file == 'query_analysis':
-            return render(request, 'query_analysis.html')
         if file == 'accountinfo':
             return render(request, 'accountinfo.html')
         if file == 'home':
@@ -69,14 +65,10 @@ def others(request, file):
             return render(request, 'changePsw.html')
         if file == 'repayment_repay':
             return render(request, 'repayment.html')
-        if file == 'test_message':
-            return render(request, 'test_message.html')
         if file == 'user_management':
             return render(request, 'user_management.html')
         if file == 'new_user':
             return render(request, 'new_user.html')
-        if file == 'query_analysis':
-            return render(request, 'query_analysis.html')
         if file == 'alert':
             return render(request, 'alert.html')
         # 查询页面查询功能
