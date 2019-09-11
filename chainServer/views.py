@@ -48,12 +48,13 @@ def broadcastreceiver(request):
         clock.consensus()
     return
 
+
 # 从数据库中查询黑名单信息
 def blacklist_search(request):
     if request.method == 'POST':
         black_list = Recordnodes.objects.all().values()
         black_list_list = list(black_list)
         for i in range(len(black_list_list)):
-            black_list_list[i]['default_date'] = black_list_list[i]['default_date'].strftime('%Y-%m-%d %H:%I:%S')
+            black_list_list[i]['default_date'] = black_list_list[i]['default_date'].strftime('%Y-%m-%d %H:%M:%S')
         return JsonResponse(black_list_list, safe=False)
     return JsonResponse({'status': 200, 'msg': 'con not get the person'})

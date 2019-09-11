@@ -232,6 +232,7 @@ def find_new_chains():
 # 共识算法
 def consensus():
     # Get the blocks from other nodes
+    synchronous()
     longest_chain = chain.copy()
     othernodeschains = find_new_chains()
     # If our chain isn't longest,
@@ -282,6 +283,7 @@ def consensus():
 # 挖矿（添加新区块并广播）
 def mine(requestrecords):
     # 调用record（）添加新记录
+
     record(requestrecords)
     last_block = chain[len(chain) - 1]
     # the current block being mined

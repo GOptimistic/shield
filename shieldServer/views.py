@@ -16,6 +16,7 @@ from django.http import JsonResponse, request
 import http.client
 from django.views.decorators.csrf import csrf_exempt
 from shieldServer.models import User
+from chainServer.models import Recordnodes
 
 # 请求的路径
 host = "106.ihuyi.com"
@@ -519,6 +520,35 @@ def new_user(request):
 
 # 定时查询违约信息
 def task_Fun():
+    subchain = [clock.create_genesis_block()]
+    recordlist = Recordnodes.objects.all()
+    for var in recordlist:
+        subchain.append(
+            clock.Block(var.id, var.default_date, {'name': var.name, 'ID_card': var.ID_card, 'money': var.money,
+                                                   'funding_terms': var.funding_terms}, var.hash_previous))
+    clock.printchain()
+    print(clock.valid_chain(clock.chain))
+    equal = True
+    i=0
+    for i in range(min(len(subchain),len(clock.chain))):
+        if subchain[i].to_dict()!=clock.chain[i].to_dict():
+           equal=False
+    if i<len(clock.chain)-1 or i<len(subchain)-1:
+        equal=False
+    if equal == False:
+        print("数据库信息被篡改")
+        # Recordnodes.objects.all().delete()
+        # clock.consensus()
+        # for i in range(len(chain_copy)):
+        #     print(chain_copy[i].data)
+        #     print(chain_copy[i].index)
+        #     print(chain_copy[i].timestamp)
+        #     Recordnodes(id=chain_copy[i].index, name=chain_copy[i].data['name'],
+        #                 ID_card=chain_copy[i].data['ID_card'],
+        #                 money=chain_copy[i].data['money'],
+        #                 funding_terms=chain_copy[i].data['funding_terms'], default_date=chain_copy[i].timestamp,
+        #                 hash_previous=chain_copy[i].previous_hash, hash_current=chain_copy[i].hash).save()
+
     default_info = Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0).values(
         'borrower_name', 'borrower_id', 'funded_amount', 'should_payback_time',
         'funding_terms')
@@ -530,13 +560,15 @@ def task_Fun():
         date_time = default_info[i]['should_payback_time']
         default_info[i]['should_payback_time'] = date_time.strftime('%Y-%m-%d %H:%M:%S')
     jsonArray = json.dumps(default_info)
-    if clock.valid_chain(clock.chain):
-        if len(default_info) != 0:
+    if len(default_info) != 0:
+        if clock.valid_chain(clock.chain):
             mine(jsonArray)
             Borrower.objects.filter(is_uploaded=0, should_payback_time__lt=now(), payback=0).update(is_uploaded=1)
+        else:
+            print('warning: 区块链信息异常')
+            clock.synchronous()
     else:
-        print('warning: 区块链信息异常')
-        clock.synchronous()
+        sleep(1)
     sleep(1)
 
 
@@ -660,7 +692,7 @@ begin_time = datetime(2019, next_time.month, next_time.day, 8, 0, 0)
 sched = Scheduler()
 
 
-@sched.interval_schedule(seconds=60)
+@sched.interval_schedule(seconds=6)
 def my_task1():
     print('定时任务1开始\n')
     task_Fun()
