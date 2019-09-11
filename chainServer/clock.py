@@ -90,9 +90,12 @@ print(my_ip)
 # get data from Recordnodes to chain
 def getchain():
     recordlist = Recordnodes.objects.all()
+    chain.clear()
+    chain.append(create_genesis_block())
     for var in recordlist:
-        chain.append(Block(var.id, var.default_date, {'name': var.name, 'ID_card': var.ID_card, 'money': var.money,
-                                                      'funding_terms': var.funding_terms}, var.hash_previous))
+        chain.append(Block(var.id, var.default_date.strftime('%Y-%m-%d %H:%M:%S'),
+                           {'name': var.name, 'ID_card': var.ID_card, 'money': var.money,
+                            'funding_terms': var.funding_terms}, var.hash_previous))
 
 
 # 输出区块链信息
@@ -148,11 +151,14 @@ def valid_chain(tocheckchain):
     last_block = tocheckchain[0]
     current_index = 1
     while current_index < len(tocheckchain):
+        print(current_index)
         block = tocheckchain[current_index]
         print(f'{last_block}')
         print(f'{block}')
         print("\n-----------\n")
         # Check that the hash of the block is correct
+        print(block.previous_hash)
+        print(last_block.hash)
         if block.previous_hash != last_block.hash:
             return False
         last_block = block
