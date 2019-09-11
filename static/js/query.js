@@ -9,7 +9,7 @@ function queryFunction() {
     //要查询的贷款单号
     var loanNumber = document.getElementById("query-serialnumber").value;
 
-    if (isDate(loanDate) || checkCard(idNumber) || isOrderNum(loanNumber)) {
+    if (checkCard(idNumber) || isOrderNum(loanNumber)) {
         window.location.href = "query_result.html?idNumber=" + idNumber + '&loanNumber=' + loanNumber;
     } else {
         return alert('请正确输入信息');
